@@ -10,7 +10,7 @@ namespace project
     {
         static void Main(string[] args)
         {
-            Console.Write("f");
+            Console.Write("4f");
         }
     }
 }
