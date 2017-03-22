@@ -54,10 +54,6 @@
       <Project>{371e8ea8-ce7a-4ab2-85e5-eac135df4a26}</Project>
       <Name>MarketClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\project\project.csproj">
-      <Project>{6a9eb530-876d-42b0-a689-0c91297fa683}</Project>
-      <Name>project</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
