@@ -10,7 +10,7 @@ namespace DL
     {
         static void Main(string[] args)
         {
-            Console.Write("4f");
+            Console.Write("4fsd");
         }
     }
 }
