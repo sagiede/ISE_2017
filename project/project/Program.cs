@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LogicLayer;
 
 namespace project
 {
@@ -13,7 +13,9 @@ namespace project
         {
             int amount = 3;
             int price = 2;
-            string comodity = "teva";
+            int comodity = 5;
+           LogicLayer.
+              
             
             
 
