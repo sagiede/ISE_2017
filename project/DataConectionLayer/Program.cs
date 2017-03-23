@@ -194,6 +194,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new CancelBuySellRequest();
             item.type = "cancelBuySell";
+            item.id = id;
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
             var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);

@@ -13,7 +13,7 @@ namespace project
         static void Main(string[] args)
         {
 
-            PipeConnection pc = new PipeConnection(); // response depend the input
+            LogicLayer.PipeConnection pc = new LogicLayer.PipeConnection(); // response depend the input
             while (true)
             {
                 Console.WriteLine("---------------------------------------------------------------\n\nWelcome to Algo-Trading application,to go back to main manu you can press -1 at any point");
