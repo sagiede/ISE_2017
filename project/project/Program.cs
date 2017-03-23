@@ -11,7 +11,9 @@ namespace project
     {
         static void Main(string[] args)
         {
-            Console.          
+            PipeConnection pc = new PipeConnection();
+            Console.WriteLine(pc.SendBuyRequest(5, 1, 2));
+                      
         }
     }
 }

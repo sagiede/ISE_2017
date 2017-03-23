@@ -21,15 +21,15 @@ namespace LogicLayer
         public int amount { get; set; }
         public int price { get; set; }
     }
-    public class queryBuySellRequest : Request                     
+    public class QueryBuySellRequest : Request                     
     {
         public int id { get; set; }
     }
-    public class queryUserRequest : Request { }
-    public class queryMarketRequest : Request {
+    public class QueryUserRequest : Request { }
+    public class QueryMarketRequest : Request {
         public int commodity { get; set; }
     }
-    public class cancelBuySellRequest : Request
+    public class CancelBuySellRequest : Request
     {
         public int id { get; set; }
     }
@@ -55,7 +55,7 @@ namespace LogicLayer
         public List<int> requests { get; set; }
     }
 
-    class PipeConection : IMarketClient
+    public class PipeConnection : IMarketClient
     {
         private static string key = @"-----BEGIN RSA PRIVATE KEY-----
                         MIICXgIBAAKBgQDTBpVK3vFeDFOW6bGIGg3Uu7Gv6sYhLqhxAVwhyV87huH2cCg5
@@ -115,12 +115,12 @@ namespace LogicLayer
 
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new queryBuySellRequest();
+            var item = new QueryBuySellRequest();
             item.type = "queryBuySell";
             item.id = id;
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
-            MarketItemQuery output = client.SendPostRequest<queryBuySellRequest,MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest,MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
         }
@@ -129,11 +129,11 @@ namespace LogicLayer
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new queryUserRequest();
+            var item = new QueryUserRequest();
             item.type = "queryUser";
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
-            MarketUserData output = client.SendPostRequest<queryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
         }
@@ -142,12 +142,12 @@ namespace LogicLayer
 
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new queryMarketRequest();
+            var item = new QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
-            var output = client.SendPostRequest<queryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
         }
@@ -156,11 +156,11 @@ namespace LogicLayer
 
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new cancelBuySellRequest();
+            var item = new CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
-            var output = client.SendPostRequest<cancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             if (output == "Ok")
                 return true;
