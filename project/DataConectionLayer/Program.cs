@@ -44,7 +44,7 @@ namespace LogicLayer
         override
         public string ToString()
         {
-            return "\nStatus: \n" + "User: " + user +
+            return "\nTransaction status: \n" + "User: " + user +
                                   "\nType: " + type +
                                   "\nCommodity: " + commodity +
                                   "\nAmmount: " + amount +
@@ -54,15 +54,41 @@ namespace LogicLayer
 
     public class MarketUserData : IMarketUserData{
         public Dictionary <string, int> commodities { get; set; }
-        public int funds { get; set; }
-        public List<int> requests { get; set; }                               
+        public double funds { get; set; }
+        public List<int> requests { get; set; }
+
+        override
+        public string ToString()
+        {
+            string commTostring = "";
+            string reqTostring = " ";
+            foreach(var tmp in commodities)
+            {
+                commTostring += " stock " + tmp.Key.ToString()  + ":" + tmp.Value.ToString();
+            }
+            foreach (var tmp in requests)
+            {
+                reqTostring += tmp + ", ";
+            }
+
+            return "\nUser status: \n" + "User: " + "user52" +
+                                  "\ncommodities: " + commTostring +
+                                  "\nfunds: " + funds +
+                                  "\nopen requests: " + reqTostring.Substring(0,reqTostring.Length-2);
+        }
 
     }
 
     public class MarketCommodityOffer : IMarketCommodityOffer{
-        public Dictionary<string, int> commodities { get; set; }
-        public int funds { get; set; }
-        public List<int> requests { get; set; }
+        int ask { get; set; }
+        int bid { get; set; }
+
+        override
+        public string ToString()
+        {
+            return "\nMarket status: \n" + "ask: " + ask +  "\nbid: " + bid;
+        }
+
     }
 
     public class PipeConnection : IMarketClient
