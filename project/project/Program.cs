@@ -12,6 +12,7 @@ namespace project
     {
         static void Main(string[] args)
         {
+
             PipeConnection pc = new PipeConnection();
             while (true)
             {
@@ -50,6 +51,8 @@ namespace project
                         Console.WriteLine(pc.SendQueryMarketRequest(commodity));
                     }
                 }//else
+                    else
+                    Console.WriteLine("you have entered invaild number, please follow the instructions");
             }//while
         }//main
 

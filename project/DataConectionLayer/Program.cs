@@ -107,8 +107,7 @@ oxfRSdnC61rWXG2M/PcfVwOCegqwludspE5EYmBmIVgle3k/UpVIt/hwD0abAkB1
 7irA69tXM6NcAY5Ll1gyRmjSVCf/n+GljpeR4is+5iist//WtjB3C43zz3H7K6Jw
 wSavMCV0iv8QUBxldYMhAkEAkYx4UBaYXMr/byar4UYkdTYuxag+iXFifBSqIYY4
 sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
------END RSA PRIVATE KEY-----
-";
+-----END RSA PRIVATE KEY-----";
 
         public int SendBuyRequest(int price, int commodity, int amount)
         {
