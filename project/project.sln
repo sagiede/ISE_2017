@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project", "project\project.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "DataConectionLayer\LogicLayer.csproj", "{560184E5-C480-4C7A-BE8D-0020FDF4FD1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketClient", "..\..\..\אימולטור\marketClient-master\MarketClient\MarketClient.csproj", "{371E8EA8-CE7A-4AB2-85E5-EAC135DF4A26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketClient", "..\..\..\Downloads\marketClient-master (1)\marketClient-master\MarketClient\MarketClient.csproj", "{371E8EA8-CE7A-4AB2-85E5-EAC135DF4A26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,27 +13,33 @@ namespace project
         static void Main(string[] args)
         {
 
-            PipeConnection pc = new PipeConnection();
+            PipeConnection pc = new PipeConnection(); // response depend the input
             while (true)
             {
                 Console.WriteLine("---------------------------------------------------------------\n\nWelcome to Algo-Trading application,to go back to main manu you can press -1 at any point");
                 Console.WriteLine("\nwhat do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries");
-                int command = int.Parse(Console.ReadLine());
-
+                int command = int.Parse(Console.ReadLine()); // the first choose of the client
+                // want go back
                 if (command == -1) { }
+                //want to buy
                 else if (command == 1)
                     buyingProcces(pc);
+                // want to sell
                 else if (command == 2)
                     sellingProcces(pc);
+                // want to cancel
                 else if (command == 3)
                     cancelingProcces(pc);
+                // want a query
                 else if (command == 4)
                 {
                     Console.WriteLine("Which query would yo like to send?");
                     Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
                     command = int.Parse(Console.ReadLine());
+                    // want go back
                     if (command == -1) { }
+                    //Buy/Sell status
                     else if (command == 1)
                     {
                         Console.WriteLine("please enter the transaction ID");
@@ -41,8 +47,10 @@ namespace project
                         if (id != -1)
                         Console.WriteLine(pc.SendQueryBuySellRequest(id));
                     }
+                   //user status
                     else if (command == 2)
                         Console.WriteLine(pc.SendQueryUserRequest());
+                    //Market Status
                     else if (command == 3)
                     {
                         Console.WriteLine("please enter the stock number you wish to ask about");
@@ -56,8 +64,9 @@ namespace project
             }//while
         }//main
 
+        //if the client whant to buy commodity
         private static void buyingProcces(PipeConnection pc)
-        {
+        { 
             Console.WriteLine("Which commodity would yo like to buy?");
             int commodity = int.Parse(Console.ReadLine());
             if (commodity == -1)
@@ -73,7 +82,7 @@ namespace project
 
             Console.WriteLine(pc.SendBuyRequest(price , commodity , amount ));
         }
-
+        //if the client want to cancel commodity
         private static void cancelingProcces(PipeConnection pc)
         {
             Console.WriteLine("which transaction would you like to cancel?");
@@ -87,7 +96,7 @@ namespace project
             else
                 Console.WriteLine("no such transcation");
         }
-
+        //if the client want to sell commodity
         private static void sellingProcces(PipeConnection pc)
         {
             Console.WriteLine("Which commodity would yo like to sell?");

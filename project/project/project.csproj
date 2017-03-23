@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\אימולטור\marketClient-master\MarketClient\MarketClient.csproj">
+    <ProjectReference Include="..\..\..\..\Downloads\marketClient-master %281%29\marketClient-master\MarketClient\MarketClient.csproj">
       <Project>{371e8ea8-ce7a-4ab2-85e5-eac135df4a26}</Project>
       <Name>MarketClient</Name>
     </ProjectReference>
