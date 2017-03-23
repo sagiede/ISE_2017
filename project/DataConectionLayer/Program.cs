@@ -10,7 +10,7 @@ using MarketClient.DataEntries;
 
 namespace LogicLayer
 {
-    public abstract class Request                               // הפכתי לאבסטרקט
+    public abstract class Request
     {
         public object authentication { get; set; }
         public string type { get; set; }
@@ -26,7 +26,13 @@ namespace LogicLayer
         public int id { get; set; }
     }
     public class queryUserRequest : Request { }
-   
+    public class queryMarketRequest : Request {
+        public int commodity { get; set; }
+    }
+    public class cancelBuySellRequest : Request
+    {
+        public int id { get; set; }
+    }
     public class MarketItemQuery : IMarketItemQuery 
     {
         public object user { get; set; }
@@ -34,22 +40,24 @@ namespace LogicLayer
         public int commodity { get; set; }
         public int amount { get; set; }
         public int price { get; set; }
-
     }
 
-    public class MarketUserData : IMarketUserData
-    {
+    public class MarketUserData : IMarketUserData{
         public Dictionary <string, int> commodities { get; set; }
         public int funds { get; set; }
         public List<int> requests { get; set; }                               
 
     }
+
+    public class MarketCommodityOffer : IMarketCommodityOffer{
+        public Dictionary<string, int> commodities { get; set; }
+        public int funds { get; set; }
+        public List<int> requests { get; set; }
+    }
+
     class PipeConection : IMarketClient
     {
-      public static int SendBuyRequest(int price, int commodity, int amount)
-        {
-            SimpleHTTPClient client = new SimpleHTTPClient();
-            string key= @"-----BEGIN RSA PRIVATE KEY-----
+        private static string key = @"-----BEGIN RSA PRIVATE KEY-----
                         MIICXgIBAAKBgQDTBpVK3vFeDFOW6bGIGg3Uu7Gv6sYhLqhxAVwhyV87huH2cCg5
                         ZdWdHfgPB5XlwdPQuAJhgM2KtldAtzBUzUUMHj6uvSrUQ6ovPMYPmUq0CraKlBfr
                         AgTqBkzOZUL0m72acwZThDtUxWWJ9tfgej758Gx23IwQMcWdjfmi1vMkXwIDAQAB
@@ -65,6 +73,10 @@ namespace LogicLayer
                         sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w ==
                         -----END RSA PRIVATE KEY---- - ";
 
+        public int SendBuyRequest(int price, int commodity, int amount)
+        {
+            SimpleHTTPClient client = new SimpleHTTPClient();
+            
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new BuySellRequest();
             item.type = "buy";
@@ -76,13 +88,14 @@ namespace LogicLayer
             string output= client.SendPostRequest<BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token,item);
             int integerOutput; 
             int.TryParse(output,out integerOutput);
+
             return integerOutput;
 
         }
 
-       public int SendSellRequest(int price, int commodity, int amount) {
+        public int SendSellRequest(int price, int commodity, int amount) {
+
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string key = "123";
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new BuySellRequest();
             item.type = "sell";
@@ -94,15 +107,15 @@ namespace LogicLayer
             string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
             int integerOutput;
             int.TryParse(output, out integerOutput);
-            return integerOutput;
 
+            return integerOutput;
         }
+
         public IMarketItemQuery SendQueryBuySellRequest(int id) {
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string key = "123";
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new queryBuySellRequest;
+            var item = new queryBuySellRequest();
             item.type = "queryBuySell";
             item.id = id;
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
@@ -111,10 +124,10 @@ namespace LogicLayer
 
             return output;
         }
+
         public IMarketUserData SendQueryUserRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string key = "123";
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new queryUserRequest();
             item.type = "queryUser";
@@ -123,9 +136,35 @@ namespace LogicLayer
             MarketUserData output = client.SendPostRequest<queryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
-
         }
-        public IMarketCommodityOffer SendQueryMarketRequest(int commodity){ }
-        public bool SendCancelBuySellRequest(int id){ }
+
+        public IMarketCommodityOffer SendQueryMarketRequest(int commodity){
+
+            SimpleHTTPClient client = new SimpleHTTPClient();
+            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            var item = new queryMarketRequest();
+            item.type = "queryMarket";
+            item.commodity = commodity;
+            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
+
+            var output = client.SendPostRequest<queryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+
+            return output;
+        }
+
+        public bool SendCancelBuySellRequest(int id){
+
+            SimpleHTTPClient client = new SimpleHTTPClient();
+            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            var item = new cancelBuySellRequest();
+            item.type = "cancelBuySell";
+            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
+
+            var output = client.SendPostRequest<cancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+
+            if (output == "Ok")
+                return true;
+            return false;
+        }
     }
 }

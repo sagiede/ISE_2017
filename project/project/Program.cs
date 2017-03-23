@@ -11,15 +11,7 @@ namespace project
     {
         static void Main(string[] args)
         {
-            int amount = 3;
-            int price = 2;
-            int comodity = 5;
-           LogicLayer.
-              
-            
-            
-
-           
+            Console.          
         }
     }
 }
