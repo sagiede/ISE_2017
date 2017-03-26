@@ -91,7 +91,7 @@ namespace LogicLayer
 
     }
      
-    public class PipeConnection : IMarketClient
+    public class MarketClientConnection : IMarketClient
     {
         private static string key = @"-----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDTBpVK3vFeDFOW6bGIGg3Uu7Gv6sYhLqhxAVwhyV87huH2cCg5
@@ -109,19 +109,6 @@ wSavMCV0iv8QUBxldYMhAkEAkYx4UBaYXMr/byar4UYkdTYuxag+iXFifBSqIYY4
 sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
 
-        public static bool checkvalid(string s1)
-        {
-
-            if (s1 == "-1")
-                return true;
-            //   if (s1.Length > 1) return false;
-            foreach (Char c in s1)
-            {
-                if (c < '0' | c > '9')
-                    return false;
-            }
-            return true;
-        }
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
@@ -135,7 +122,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
             string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            if (!(checkvalid(output))) { 
+            if (!(checkMarketResponse(output))) { 
             Console.WriteLine(output);
             return -1;
         }
@@ -158,7 +145,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
             string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            if (!(checkvalid(output)))
+            if (!(checkMarketResponse(output)))
             {
                 Console.WriteLine(output);
                 return -1;
@@ -224,6 +211,16 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             if (output == "Ok")
                 return true;
             return false;
+        }
+
+        private static bool checkMarketResponse(string s1)
+        {
+            foreach (Char c in s1)
+            {
+                if (c < '0' | c > '9')
+                    return false;
+            }
+            return true;
         }
     }
 

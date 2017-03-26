@@ -12,129 +12,108 @@ namespace project
     {
         static void Main(string[] args)
         {
-
-            LogicLayer.PipeConnection pc = new LogicLayer.PipeConnection(); // response depend the input
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             while (true)
             {
                 Console.WriteLine("---------------------------------------------------------------\n\nWelcome to Algo-Trading application,to go back to main manu you can press -1 at any point");
                 Console.WriteLine("\nwhat do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries");
-                int command = checkvalid2(); // the first choose of the client
-      
-                if (command == -1) { }
-                    //want to buy
-                    else if (command == 1)
-                        buyingProcces(pc);
-                    // want to sell
-                    else if (command == 2)
-                        sellingProcces(pc);
-                    // want to cancel
-                    else if (command == 3)
-                        cancelingProcces(pc);
-                    // want a query
-                    else if (command == 4)
-                    {
-                        Console.WriteLine("Which query would yo like to send?");
-                        Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
-                        command = checkvalid2();
-                   
-                        // want go back
-                        if (command == -1) { }
-                        //Buy/Sell status
-                        else if (command == 1)
-                        {
-                            Console.WriteLine("please enter the transaction ID");
-                              int id = checkvalid2();
-                           
-                              if (id != -1)
-                                    Console.WriteLine(pc.SendQueryBuySellRequest(id));
+                int command = checkInputValid(); // the first choose of the client
 
-                                //user status
-                                else if (command == 2)
-                                    Console.WriteLine(pc.SendQueryUserRequest());
-                                //Market Status
-                                else if (command == 3)
-                                {
-                                    Console.WriteLine("please enter the stock number you wish to ask about");
-                                    int  commodity = checkvalid2();
-                                   
-                                        if (commodity != -1)
-                                            Console.WriteLine(pc.SendQueryMarketRequest(commodity));
-                                    }
-                                }//else
-                                else
-                                    Console.WriteLine("you have entered invaild number, please follow the instructions");
-                            }
-                        
-                            }//while
-                        }//main
+                if (command == -1) { }
+                //want to buy
+                else if (command == 1)
+                    buyingProcces(mc);
+                // want to sell
+                else if (command == 2)
+                    sellingProcces(mc);
+                // want to cancel
+                else if (command == 3)
+                    cancelingProcces(mc);
+                // want a query
+                else if (command == 4)
+                {
+                    Console.WriteLine("Which query would yo like to send?");
+                    Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
+                    command = checkInputValid();
+                    // want go back
+                    if (command == -1) { }
+                    //Buy/Sell status
+                    else if (command == 1)
+                    {
+                        Console.WriteLine("please enter the transaction ID");
+                        int id = checkInputValid();
+                        if (id != -1)
+                            Console.WriteLine(mc.SendQueryBuySellRequest(id));
+                        //user status
+                    }
+                    else if (command == 2)
+                        Console.WriteLine(mc.SendQueryUserRequest());
+                    //Market Status
+                    else if (command == 3)
+                    {
+                        Console.WriteLine("please enter the stock number you wish to ask about");
+                        int commodity = checkInputValid();
+                        if (commodity != -1)
+                            Console.WriteLine(mc.SendQueryMarketRequest(commodity));
+                        else
+                            Console.WriteLine("you have entered invaild number, please follow the instructions");
+                    }
+                }
+            }//while
+        }//main
                     
         //if the client whant to buy commodity
-        private static void buyingProcces(PipeConnection pc)
+        private static void buyingProcces(MarketClientConnection mc)
         { 
             Console.WriteLine("Which commodity would yo like to buy?");
 
-            int commodity = checkvalid2();
-
+            int commodity = checkInputValid();
             if (commodity == -1)
                 return;
             Console.WriteLine("\nHow many?");
-            int amount = checkvalid2();
+            int amount = checkInputValid();
             if (amount == -1)
                 return;
             Console.WriteLine("\nEnter your price");
-            int price = checkvalid2();
+            int price = checkInputValid();
             if (price == -1)
                 return;
 
-            pc.SendBuyRequest(price , commodity , amount );
+            mc.SendBuyRequest(price , commodity , amount );
         }
         //if the client want to cancel commodity
-        private static void cancelingProcces(PipeConnection pc)
+        private static void cancelingProcces(MarketClientConnection mc)
         {
             Console.WriteLine("which transaction would you like to cancel?");
-            int idNum = checkvalid2();
+            int idNum = checkInputValid();
             if (idNum == -1)
                 return;
-
-            bool ans = (pc.SendCancelBuySellRequest(idNum));
+            bool ans = (mc.SendCancelBuySellRequest(idNum));
             if (ans)
                 Console.WriteLine("transcation canceled succecfully");
             else
                 Console.WriteLine("no such transcation");
         }
         //if the client want to sell commodity
-        private static void sellingProcces(PipeConnection pc)
+        private static void sellingProcces(MarketClientConnection mc)
         {
             Console.WriteLine("Which commodity would yo like to sell?");
-            int commodity = checkvalid2();
+            int commodity = checkInputValid();
             if (commodity == -1)
                 return;
             Console.WriteLine("\nHow many?");
-            int amount = checkvalid2();
+            int amount = checkInputValid();
             if (amount == -1)
                 return;
             Console.WriteLine("\nEnter your price");
-            int price = checkvalid2();
+            int price = checkInputValid();
             if (price == -1)
                 return;
 
-            pc.SendBuyRequest(price, commodity, amount);
+            mc.SendBuyRequest(price, commodity, amount);
         }
-        public static bool checkvalid(string s1)
-        {
-
-            if(s1 == "-1")
-                return true;
-            //   if (s1.Length > 1) return false;
-            foreach (Char c in s1)
-            {
-                if (c < '0' | c > '9')
-                    return false;
-            }
-            return true;
-        }
-        public static int checkvalid2()
+        public static int checkInputValid()
         {
             try
             {
@@ -145,11 +124,8 @@ namespace project
             {
                 Console.WriteLine("please enter valid input");
                 return -1;
-            }
-            
-            
+            }   
         }
-
     }//class
 
 }
