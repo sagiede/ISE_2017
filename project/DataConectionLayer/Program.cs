@@ -71,7 +71,7 @@ namespace LogicLayer
                 reqTostring += tmp + ", ";
             }
 
-            return "\nUser status: \n" + "User: " + "user52" +
+            return "User status: \n" + "User: " + "user52" +
                                   "\ncommodities: " + commTostring +
                                   "\nfunds: " + funds +
                                   "\nopen requests: " + reqTostring.Substring(0,reqTostring.Length-2);

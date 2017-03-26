@@ -15,8 +15,8 @@ namespace project
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             while (true)
             {
-                Console.WriteLine("---------------------------------------------------------------\n\nWelcome to Algo-Trading application,to go back to main manu you can press -1 at any point");
-                Console.WriteLine("\nwhat do you wish to do?");
+                Console.WriteLine("---------------------------------------------------------------\nWelcome to Algo-Trading application. to go back to main menu, you can press -1 at any point");
+                Console.WriteLine("What do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries");
                 int command = checkInputValid(); // the first choose of the client
 
@@ -34,7 +34,7 @@ namespace project
                 else if (command == 4)
                 {
                     Console.WriteLine("Which query would yo like to send?");
-                    Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
+                    Console.WriteLine("1- Buy/Sell status\n2- User status\n3- Market Status");
                     command = checkInputValid();
                     // want go back
                     if (command == -1) { }
@@ -52,12 +52,12 @@ namespace project
                     //Market Status
                     else if (command == 3)
                     {
-                        Console.WriteLine("please enter the stock number you wish to ask about");
+                        Console.WriteLine("Please enter the stock number you wish to ask about");
                         int commodity = checkInputValid();
                         if (commodity != -1)
                             Console.WriteLine(mc.SendQueryMarketRequest(commodity));
                         else
-                            Console.WriteLine("you have entered invaild number, please follow the instructions");
+                            Console.WriteLine("You have entered invaild number, please follow the instructions");
                     }
                 }
             }//while
@@ -71,11 +71,11 @@ namespace project
             int commodity = checkInputValid();
             if (commodity == -1)
                 return;
-            Console.WriteLine("\nHow many?");
+            Console.WriteLine("How many?");
             int amount = checkInputValid();
             if (amount == -1)
                 return;
-            Console.WriteLine("\nEnter your price");
+            Console.WriteLine("Enter your price");
             int price = checkInputValid();
             if (price == -1)
                 return;
@@ -102,11 +102,11 @@ namespace project
             int commodity = checkInputValid();
             if (commodity == -1)
                 return;
-            Console.WriteLine("\nHow many?");
+            Console.WriteLine("How many?");
             int amount = checkInputValid();
             if (amount == -1)
                 return;
-            Console.WriteLine("\nEnter your price");
+            Console.WriteLine("Enter your price");
             int price = checkInputValid();
             if (price == -1)
                 return;
