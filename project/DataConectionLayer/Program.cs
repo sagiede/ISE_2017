@@ -90,7 +90,7 @@ namespace LogicLayer
         }
 
     }
-
+     
     public class PipeConnection : IMarketClient
     {
         private static string key = @"-----BEGIN RSA PRIVATE KEY-----
@@ -109,22 +109,39 @@ wSavMCV0iv8QUBxldYMhAkEAkYx4UBaYXMr/byar4UYkdTYuxag+iXFifBSqIYY4
 sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
 
+        public static bool checkvalid(string s1)
+        {
+
+            if (s1 == "-1")
+                return true;
+            //   if (s1.Length > 1) return false;
+            foreach (Char c in s1)
+            {
+                if (c < '0' | c > '9')
+                    return false;
+            }
+            return true;
+        }
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            
+
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new BuySellRequest();
             item.type = "buy";
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            item.authentication = new Dictionary<string,string>(){ { "token", token }, { "user", "user52" } };
+            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
-            string output= client.SendPostRequest<BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token,item);
+            string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            if (!(checkvalid(output))) { 
+            Console.WriteLine(output);
+            return -1;
+        }
             int integerOutput; 
             int.TryParse(output,out integerOutput);
-
+            Console.WriteLine(integerOutput);
             return integerOutput;
 
         }
@@ -141,6 +158,11 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
 
             string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            if (!(checkvalid(output)))
+            {
+                Console.WriteLine(output);
+                return -1;
+            }
             int integerOutput;
             int.TryParse(output, out integerOutput);
 
@@ -204,4 +226,5 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             return false;
         }
     }
+
 }

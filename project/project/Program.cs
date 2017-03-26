@@ -89,7 +89,7 @@ namespace project
             if (price == -1)
                 return;
 
-            Console.WriteLine(pc.SendBuyRequest(price , commodity , amount ));
+            pc.SendBuyRequest(price , commodity , amount );
         }
         //if the client want to cancel commodity
         private static void cancelingProcces(PipeConnection pc)
@@ -121,7 +121,9 @@ namespace project
             if (price == -1)
                 return;
 
-            Console.WriteLine(pc.SendSellRequest(price, commodity, amount));
+            int idnum = pc.SendSellRequest(price, commodity, amount);
+            if(idnum != -1)
+            Console.WriteLine(idnum);
         }
         public static bool checkvalid(string s1)
         {
