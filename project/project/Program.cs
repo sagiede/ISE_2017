@@ -121,9 +121,7 @@ namespace project
             if (price == -1)
                 return;
 
-            int idnum = pc.SendSellRequest(price, commodity, amount);
-            if(idnum != -1)
-            Console.WriteLine(idnum);
+            pc.SendBuyRequest(price, commodity, amount);
         }
         public static bool checkvalid(string s1)
         {
