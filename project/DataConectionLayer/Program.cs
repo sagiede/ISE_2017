@@ -179,10 +179,17 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new QueryUserRequest();
             item.type = "queryUser";
-            
-            MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            try
+            {
+                MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                return output;
+            }
+          catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
-            return output;
+            return null;
         }
 
         public IMarketCommodityOffer SendQueryMarketRequest(int commodity){
@@ -192,10 +199,17 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
+            try
+            {
+                var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                return output;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             
-            var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            Console.WriteLine(output.bid);
-            return output;
+            return null;
         }
 
         public bool SendCancelBuySellRequest(int id){
@@ -205,12 +219,21 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.id = id;
-            
-            var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            try
+            {
 
-            if (output == "Ok")
-                return true;
+                var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+
+                if (output == "Ok")
+                    return true;
+                return false;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             return false;
+           
         }
         
 
