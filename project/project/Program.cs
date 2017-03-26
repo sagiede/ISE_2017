@@ -19,48 +19,57 @@ namespace project
                 Console.WriteLine("---------------------------------------------------------------\n\nWelcome to Algo-Trading application,to go back to main manu you can press -1 at any point");
                 Console.WriteLine("\nwhat do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries");
-                int command = int.Parse(Console.ReadLine()); // the first choose of the client
-                // want go back
-                if (command == -1) { }
-                //want to buy
-                else if (command == 1)
-                    buyingProcces(pc);
-                // want to sell
-                else if (command == 2)
-                    sellingProcces(pc);
-                // want to cancel
-                else if (command == 3)
-                    cancelingProcces(pc);
-                // want a query
-                else if (command == 4)
+                string input = Console.ReadLine(); // the first choose of the client
+                if (checkvalid(input) == false)
+                    Console.WriteLine("please enter valid input");
+                else
                 {
-                    Console.WriteLine("Which query would yo like to send?");
-                    Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
-                    command = int.Parse(Console.ReadLine());
+                    int command;
+                    Int32.TryParse(input, out command);
+
+
                     // want go back
                     if (command == -1) { }
-                    //Buy/Sell status
+                    //want to buy
                     else if (command == 1)
-                    {
-                        Console.WriteLine("please enter the transaction ID");
-                        int id = int.Parse(Console.ReadLine());
-                        if (id != -1)
-                        Console.WriteLine(pc.SendQueryBuySellRequest(id));
-                    }
-                   //user status
+                        buyingProcces(pc);
+                    // want to sell
                     else if (command == 2)
-                        Console.WriteLine(pc.SendQueryUserRequest());
-                    //Market Status
+                        sellingProcces(pc);
+                    // want to cancel
                     else if (command == 3)
+                        cancelingProcces(pc);
+                    // want a query
+                    else if (command == 4)
                     {
-                        Console.WriteLine("please enter the stock number you wish to ask about");
-                        int commodity = int.Parse(Console.ReadLine());
-                        if (commodity != -1)
-                        Console.WriteLine(pc.SendQueryMarketRequest(commodity));
-                    }
-                }//else
+                        Console.WriteLine("Which query would yo like to send?");
+                        Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
+                        command = int.Parse(Console.ReadLine());
+                        // want go back
+                        if (command == -1) { }
+                        //Buy/Sell status
+                        else if (command == 1)
+                        {
+                            Console.WriteLine("please enter the transaction ID");
+                            int id = int.Parse(Console.ReadLine());
+                            if (id != -1)
+                                Console.WriteLine(pc.SendQueryBuySellRequest(id));
+                        }
+                        //user status
+                        else if (command == 2)
+                            Console.WriteLine(pc.SendQueryUserRequest());
+                        //Market Status
+                        else if (command == 3)
+                        {
+                            Console.WriteLine("please enter the stock number you wish to ask about");
+                            int commodity = int.Parse(Console.ReadLine());
+                            if (commodity != -1)
+                                Console.WriteLine(pc.SendQueryMarketRequest(commodity));
+                        }
+                    }//else
                     else
-                    Console.WriteLine("you have entered invaild number, please follow the instructions");
+                        Console.WriteLine("you have entered invaild number, please follow the instructions");
+                }
             }//while
         }//main
 
@@ -113,6 +122,19 @@ namespace project
                 return;
 
             Console.WriteLine(pc.SendSellRequest(price, commodity, amount));
+        }
+        public static bool checkvalid(string s1)
+        {
+
+            if(s1 == "-1")
+                return true;
+            //   if (s1.Length > 1) return false;
+            foreach (Char c in s1)
+            {
+                if (c < '0' | c > '9')
+                    return false;
+            }
+            return true;
         }
 
     }//class
