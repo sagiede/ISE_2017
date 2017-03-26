@@ -119,15 +119,24 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            
-            string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            if (!(checkMarketResponse(output))) { 
-                Console.WriteLine(output);
-                return -1;
+            try
+            {
+                string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+
+
+                if (!(checkMarketResponse(output)))
+                {
+                    Console.WriteLine(output);
+                    return -1;
+                }
+                int integerOutput;
+                int.TryParse(output, out integerOutput);
+                return integerOutput;
             }
-            int integerOutput; 
-            int.TryParse(output,out integerOutput);
-            return integerOutput;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public int SendSellRequest(int price, int commodity, int amount) {
@@ -139,16 +148,22 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            
-            string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            if (!(checkMarketResponse(output)))
+            try
             {
-                Console.WriteLine(output);
-                return -1;
+                string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                if (!(checkMarketResponse(output)))
+                {
+                    Console.WriteLine(output);
+                    return -1;
+                }
+                int integerOutput;
+                int.TryParse(output, out integerOutput);
+                return integerOutput;
             }
-            int integerOutput;
-            int.TryParse(output, out integerOutput);
-            return integerOutput;
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public IMarketItemQuery SendQueryBuySellRequest(int id)
