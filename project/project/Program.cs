@@ -37,7 +37,11 @@ namespace project
                 // want a query
                 else if(command==5)
                 {
-                    Console.WriteLine(mc.cancelAllRequests());
+                    if(mc.cancelAllRequests()==true)
+                    {
+                        Console.WriteLine("all your asks are canceled");
+                    }
+                    
                 }
                 else if (command == 4)
                 {
