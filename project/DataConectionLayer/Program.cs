@@ -226,7 +226,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 
                 if (output == "Ok")
                     return true;
-                return false;
+                Console.WriteLine("transaction id num:" + id+ ", could not canceled correctly beacuse of the following reason: " + output);
             }
             catch(Exception e)
             {
@@ -235,9 +235,20 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             return false;
            
         }
-        
+        public bool cancelAllRequests()
+        {
+            MarketUserData userD = (MarketUserData) SendQueryUserRequest();
+            bool allCanceled = true;
+            foreach( int id in userD.requests)
+            {
+                bool output = SendCancelBuySellRequest(id);
+                if (!output)
+                    allCanceled = false;
+            }
+            return allCanceled;
+        }
 
-        
+
         private static bool checkMarketResponse(string s1)
         {
             foreach (Char c in s1)
