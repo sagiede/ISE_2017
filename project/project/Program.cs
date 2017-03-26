@@ -21,7 +21,7 @@ namespace project
             {
                 Console.WriteLine("---------------------------------------------------------------\nWelcome to Algo-Trading application. to go back to main menu, you can press -1 at any point");
                 Console.WriteLine("What do you wish to do?");
-                Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries");
+                Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries\n5- delete all open requests");
                 int command = checkInputValid(); // the first choose of the client
 
                 if (command == -1) { }
@@ -35,6 +35,10 @@ namespace project
                 else if (command == 3)
                     cancelingProcces(mc);
                 // want a query
+                else if(command==5)
+                {
+                    Console.WriteLine(mc.cancelAllRequests());
+                }
                 else if (command == 4)
                 {
                     Console.WriteLine("Which query would yo like to send?");
@@ -64,6 +68,7 @@ namespace project
                             Console.WriteLine("You have entered invaild number, please follow the instructions");
                     }
                 }
+                
             }//while
         }
         //if the client whant to buy commodity

@@ -236,8 +236,6 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
            
         }
         
-
-        
         private static bool checkMarketResponse(string s1)
         {
             foreach (Char c in s1)
