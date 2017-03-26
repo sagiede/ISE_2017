@@ -13,6 +13,10 @@ namespace project
         static void Main(string[] args)
         {
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
+            runTrading(mc);
+        }//Main
+        
+        private static void runTrading(MarketClientConnection mc) { 
             while (true)
             {
                 Console.WriteLine("---------------------------------------------------------------\nWelcome to Algo-Trading application. to go back to main menu, you can press -1 at any point");
@@ -61,8 +65,7 @@ namespace project
                     }
                 }
             }//while
-        }//main
-                    
+        }
         //if the client whant to buy commodity
         private static void buyingProcces(MarketClientConnection mc)
         { 
@@ -79,8 +82,9 @@ namespace project
             int price = checkInputValid();
             if (price == -1)
                 return;
-
-            mc.SendBuyRequest(price , commodity , amount );
+            int response = mc.SendBuyRequest(price, commodity, amount);
+            if (response != -1)
+                Console.WriteLine(response);
         }
         //if the client want to cancel commodity
         private static void cancelingProcces(MarketClientConnection mc)
@@ -110,9 +114,11 @@ namespace project
             int price = checkInputValid();
             if (price == -1)
                 return;
-
-            mc.SendBuyRequest(price, commodity, amount);
+            int response = mc.SendSellRequest(price, commodity, amount);
+            if (response != -1)
+                Console.WriteLine(response);
         }
+        //
         public static int checkInputValid()
         {
             try
@@ -126,7 +132,6 @@ namespace project
                 return -1;
             }   
         }
-    }//class
-
+    }//end of Program
 }
 

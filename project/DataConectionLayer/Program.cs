@@ -119,18 +119,15 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
-
+            
             string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
             if (!(checkMarketResponse(output))) { 
-            Console.WriteLine(output);
-            return -1;
-        }
+                Console.WriteLine(output);
+                return -1;
+            }
             int integerOutput; 
             int.TryParse(output,out integerOutput);
-            Console.WriteLine(integerOutput);
             return integerOutput;
-
         }
 
         public int SendSellRequest(int price, int commodity, int amount) {
@@ -142,8 +139,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
-
+            
             string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
             if (!(checkMarketResponse(output)))
             {
@@ -152,19 +148,17 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             }
             int integerOutput;
             int.TryParse(output, out integerOutput);
-            Console.WriteLine(integerOutput);
             return integerOutput;
         }
 
-        public IMarketItemQuery SendQueryBuySellRequest(int id) {
-
+        public IMarketItemQuery SendQueryBuySellRequest(int id)
+        {
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new QueryBuySellRequest();
             item.type = "queryBuySell";
             item.id = id;
-            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
-
+            
             MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest,MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
@@ -176,8 +170,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new QueryUserRequest();
             item.type = "queryUser";
-            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
-
+            
             MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
@@ -190,8 +183,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
-            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
-
+            
             var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             return output;
@@ -204,8 +196,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.id = id;
-            item.authentication = new Dictionary<string, string>() { { "token", token }, { "user", "user52" } };
-
+            
             var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
             if (output == "Ok")
