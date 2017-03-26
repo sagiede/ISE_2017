@@ -137,6 +137,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             {
                 Console.WriteLine(e.Message);
             }
+            return -1;
         }
 
         public int SendSellRequest(int price, int commodity, int amount) {
@@ -164,6 +165,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             {
                 Console.WriteLine(e.Message);
             }
+            return -1;
         }
 
         public IMarketItemQuery SendQueryBuySellRequest(int id)
