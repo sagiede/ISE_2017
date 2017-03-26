@@ -19,17 +19,9 @@ namespace project
                 Console.WriteLine("---------------------------------------------------------------\n\nWelcome to Algo-Trading application,to go back to main manu you can press -1 at any point");
                 Console.WriteLine("\nwhat do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries");
-                string input = Console.ReadLine(); // the first choose of the client
-                if (checkvalid(input) == false)
-                    Console.WriteLine("please enter valid input");
-                else
-                {
-                    int command;
-                    Int32.TryParse(input, out command);
-
-
-                    // want go back
-                    if (command == -1) { }
+                int command = checkvalid2(); // the first choose of the client
+      
+                if (command == -1) { }
                     //want to buy
                     else if (command == 1)
                         buyingProcces(pc);
@@ -44,48 +36,54 @@ namespace project
                     {
                         Console.WriteLine("Which query would yo like to send?");
                         Console.WriteLine("\n1- Buy/Sell status\n2- User status\n3- Market Status\n");
-                        command = int.Parse(Console.ReadLine());
+                        command = checkvalid2();
+                   
                         // want go back
                         if (command == -1) { }
                         //Buy/Sell status
                         else if (command == 1)
                         {
                             Console.WriteLine("please enter the transaction ID");
-                            int id = int.Parse(Console.ReadLine());
-                            if (id != -1)
-                                Console.WriteLine(pc.SendQueryBuySellRequest(id));
-                        }
-                        //user status
-                        else if (command == 2)
-                            Console.WriteLine(pc.SendQueryUserRequest());
-                        //Market Status
-                        else if (command == 3)
-                        {
-                            Console.WriteLine("please enter the stock number you wish to ask about");
-                            int commodity = int.Parse(Console.ReadLine());
-                            if (commodity != -1)
-                                Console.WriteLine(pc.SendQueryMarketRequest(commodity));
-                        }
-                    }//else
-                    else
-                        Console.WriteLine("you have entered invaild number, please follow the instructions");
-                }
-            }//while
-        }//main
+                              int id = checkvalid2();
+                           
+                              if (id != -1)
+                                    Console.WriteLine(pc.SendQueryBuySellRequest(id));
 
+                                //user status
+                                else if (command == 2)
+                                    Console.WriteLine(pc.SendQueryUserRequest());
+                                //Market Status
+                                else if (command == 3)
+                                {
+                                    Console.WriteLine("please enter the stock number you wish to ask about");
+                                    int  commodity = checkvalid2();
+                                   
+                                        if (commodity != -1)
+                                            Console.WriteLine(pc.SendQueryMarketRequest(commodity));
+                                    }
+                                }//else
+                                else
+                                    Console.WriteLine("you have entered invaild number, please follow the instructions");
+                            }
+                        
+                            }//while
+                        }//main
+                    
         //if the client whant to buy commodity
         private static void buyingProcces(PipeConnection pc)
         { 
             Console.WriteLine("Which commodity would yo like to buy?");
-            int commodity = int.Parse(Console.ReadLine());
+
+            int commodity = checkvalid2();
+
             if (commodity == -1)
                 return;
             Console.WriteLine("\nHow many?");
-            int amount = int.Parse(Console.ReadLine());
+            int amount = checkvalid2();
             if (amount == -1)
                 return;
             Console.WriteLine("\nEnter your price");
-            int price = int.Parse(Console.ReadLine());
+            int price = checkvalid2();
             if (price == -1)
                 return;
 
@@ -95,7 +93,7 @@ namespace project
         private static void cancelingProcces(PipeConnection pc)
         {
             Console.WriteLine("which transaction would you like to cancel?");
-            int idNum = int.Parse(Console.ReadLine());
+            int idNum = checkvalid2();
             if (idNum == -1)
                 return;
 
@@ -109,15 +107,15 @@ namespace project
         private static void sellingProcces(PipeConnection pc)
         {
             Console.WriteLine("Which commodity would yo like to sell?");
-            int commodity = int.Parse(Console.ReadLine());
+            int commodity = checkvalid2();
             if (commodity == -1)
                 return;
             Console.WriteLine("\nHow many?");
-            int amount = int.Parse(Console.ReadLine());
+            int amount = checkvalid2();
             if (amount == -1)
                 return;
             Console.WriteLine("\nEnter your price");
-            int price = int.Parse(Console.ReadLine());
+            int price = checkvalid2();
             if (price == -1)
                 return;
 
@@ -135,6 +133,21 @@ namespace project
                     return false;
             }
             return true;
+        }
+        public static int checkvalid2()
+        {
+            try
+            {
+                int num = int.Parse(Console.ReadLine());
+                return num;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("please enter valid input");
+                return -1;
+            }
+            
+            
         }
 
     }//class
