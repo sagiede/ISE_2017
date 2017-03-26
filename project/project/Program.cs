@@ -105,8 +105,7 @@ namespace project
             bool ans = (mc.SendCancelBuySellRequest(idNum));
             if (ans)
                 Console.WriteLine("transcation canceled succecfully");
-            else
-                Console.WriteLine("no such transcation");
+            
         }
         //if the client want to sell commodity
         private static void sellingProcces(MarketClientConnection mc)
