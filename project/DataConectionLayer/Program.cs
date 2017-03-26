@@ -80,8 +80,8 @@ namespace LogicLayer
     }
 
     public class MarketCommodityOffer : IMarketCommodityOffer{
-        int ask { get; set; }
-        int bid { get; set; }
+       public int ask { get; set; }
+       public int bid { get; set; }
 
         override
         public string ToString()
@@ -158,10 +158,19 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new QueryBuySellRequest();
             item.type = "queryBuySell";
             item.id = id;
-            
-            MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest,MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
 
-            return output;
+            try
+            {
+                MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                return output;
+            }
+            
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return null;
         }
 
         public IMarketUserData SendQueryUserRequest()
@@ -185,7 +194,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.commodity = commodity;
             
             var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-
+            Console.WriteLine(output.bid);
             return output;
         }
 
@@ -203,7 +212,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 return true;
             return false;
         }
+        
 
+        
         private static bool checkMarketResponse(string s1)
         {
             foreach (Char c in s1)
