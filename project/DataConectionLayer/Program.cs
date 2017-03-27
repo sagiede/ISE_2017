@@ -91,8 +91,8 @@ namespace LogicLayer
 
     }
      
-    public class MarketClientConnection : IMarketClient
-    {
+    public class MarketClientConnection : IMarketClient //the class that send/get information from the server
+    {// key
         private static string key = @"-----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDTBpVK3vFeDFOW6bGIGg3Uu7Gv6sYhLqhxAVwhyV87huH2cCg5
 ZdWdHfgPB5XlwdPQuAJhgM2KtldAtzBUzUUMHj6uvSrUQ6ovPMYPmUq0CraKlBfr
@@ -265,7 +265,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             return allCanceled;
         }
 
-
+        // check the answere that the server give back. if it isnt number return false
         private static bool checkMarketResponse(string s1)
         {
             foreach (Char c in s1)

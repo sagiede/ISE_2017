@@ -34,7 +34,7 @@ namespace project
                 // want to cancel
                 else if (command == 3)
                     cancelingProcces(mc);
-                // want a query
+                // want to cancel all the request
                 else if(command==5)
                 {
                     if(mc.cancelAllRequests()==true)
@@ -126,7 +126,7 @@ namespace project
             if (response != -1)
                 Console.WriteLine(response);
         }
-        //
+        //check valid of input, just integer accept
         public static int checkInputValid()
         {
             try
