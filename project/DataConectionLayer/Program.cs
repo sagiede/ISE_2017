@@ -70,11 +70,13 @@ namespace LogicLayer
             {
                 reqTostring += tmp + ", ";
             }
+            if (reqTostring.Length > 1)
+                reqTostring = reqTostring.Substring(0, reqTostring.Length - 2);
 
             return "User status: \n" + "User: " + "user52" +
                                   "\ncommodities: " + commTostring +
                                   "\nfunds: " + funds +
-                                  "\nopen requests: " + reqTostring.Substring(0,reqTostring.Length-2);
+                                  "\nopen requests: " + reqTostring;
         }
 
     }
