@@ -7,9 +7,12 @@ using MarketClient;
 using MarketClient.Utils;
 using MarketClient.DataEntries;
 
+using System.IO;
+
 
 namespace LogicLayer
 {
+
     public abstract class Request
     {
         public object authentication { get; set; }
@@ -51,12 +54,11 @@ namespace LogicLayer
                                   "\nPrice: " + price;
         }
     }
-
+    
     public class MarketUserData : IMarketUserData{
         public Dictionary <string, int> commodities { get; set; }
         public double funds { get; set; }
         public List<int> requests { get; set; }
-
         override
         public string ToString()
         {
@@ -111,10 +113,15 @@ wSavMCV0iv8QUBxldYMhAkEAkYx4UBaYXMr/byar4UYkdTYuxag+iXFifBSqIYY4
 sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
 
+       
+        private static readonly log4net.ILog mainLog = log4net.LogManager.GetLogger("mainLog");
+
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-
+         
+            
+          
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new BuySellRequest();
             item.type = "buy";
@@ -123,12 +130,13 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.amount = amount;
             try
             {
+                mainLog.Debug("buying requset send to the server. information: " + item.ToString());
                 string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-
-
+               
+               
                 if (!(checkMarketResponse(output)))
                 {
-                    Console.WriteLine(output);
+                    //Console.WriteLine(output);
                     return -1;
                 }
                 int integerOutput;
