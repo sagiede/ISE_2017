@@ -10,12 +10,13 @@ namespace project
 {
     class Program
     {
-        
-     
+
+        private static log4net.ILog mainLog = log4net.LogManager.GetLogger("mainLog");
 
         static void Main(string[] args)
         {
-           
+            
+            mainLog.Debug("hi");
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             runTrading(mc);
  

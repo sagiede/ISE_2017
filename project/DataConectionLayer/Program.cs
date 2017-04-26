@@ -23,6 +23,7 @@ namespace LogicLayer
         public int commodity { get; set; }
         public int amount { get; set; }
         public int price { get; set; }
+        
     }
     public class QueryBuySellRequest : Request                     
     {
@@ -114,7 +115,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
 
        
-        private static readonly log4net.ILog mainLog = log4net.LogManager.GetLogger("mainLog");
+        private static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public int SendBuyRequest(int price, int commodity, int amount)
         {
@@ -132,11 +133,13 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             {
                 mainLog.Debug("buying requset send to the server. information: " + item.ToString());
                 string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-               
-               
+                mainLog.Debug("return answere from the server after buing request: " + output);
+
+
                 if (!(checkMarketResponse(output)))
                 {
-                    //Console.WriteLine(output);
+                  
+                    Console.WriteLine(output);
                     return -1;
                 }
                 int integerOutput;
@@ -145,6 +148,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             }
             catch (Exception e)
             {
+                mainLog.Error("the answere of the server has problem" + e.Message);
                 Console.WriteLine(e.Message);
             }
             return -1;
