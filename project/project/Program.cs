@@ -142,7 +142,7 @@ namespace project
                 int num = int.Parse(Console.ReadLine());
                 return num;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 Console.WriteLine("please enter valid input");
                 return -1;
