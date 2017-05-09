@@ -32,7 +32,9 @@ wSavMCV0iv8QUBxldYMhAkEAkYx4UBaYXMr/byar4UYkdTYuxag+iXFifBSqIYY4
 sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
 
-       
+        private static log4net.ILog cancelLogger = log4net.LogManager.GetLogger("cancelLogger");
+        private static log4net.ILog sellingLogger = log4net.LogManager.GetLogger("sellingLogger");
+        private static log4net.ILog buyingLogger = log4net.LogManager.GetLogger("buyingLogger");
         private static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public int SendBuyRequest(int price, int commodity, int amount)
@@ -49,13 +51,14 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.amount = amount;
                 mainLog.Debug("buying requset send to the server. information: " + item.ToString());
                 string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Debug("return answere from the server after buing request: " + output);
+                mainLog.Debug("return answer from the server after buing request: " + output);
 
 
                 if (!(checkMarketResponse(output)))
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
+                buyingLogger.Info("buying request sended succesfully, transaction number: " + integerOutput);
                 return integerOutput;
         }
 
@@ -68,14 +71,15 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            mainLog.Info("selling requset send to the server. information: " + item.ToString());
+            mainLog.Debug("selling requset send to the server. information: " + item.ToString());
                 string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after selling request: " + output);
+                mainLog.Debug("returned answer from the server after selling request: " + output);
                 if (!(checkMarketResponse(output)))
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-                return integerOutput;
+                sellingLogger.Info("selling request sended succesfully, transaction number: " + integerOutput);
+            return integerOutput;
 
         }
 
@@ -87,9 +91,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.type = "queryBuySell";
             item.id = id;
 
-             	mainLog.Info("Send Query BuySell Request to the server. information: " + item.ToString());
+             	mainLog.Debug("Send Query BuySell Request to the server. information: " + item.ToString());
                 MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after Send Query BuySell Request: " + output);
+                mainLog.Debug("returned answer from the server after Send Query BuySell Request: " + output);
                 return output;
         }
 
@@ -99,9 +103,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUser";
-               mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
+               mainLog.Debug("Send Query User Request to the server. information: " + item.ToString());
                 MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after Send Query User Request: " + output);
+                mainLog.Debug("returned answer from the server after Send Query User Request: " + output);
                 return output;
         }
 
@@ -112,9 +116,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
-               mainLog.Info("Send Query Market Request to the server. information: " + item.ToString());
+                mainLog.Debug("Send Query Market Request to the server. information: " + item.ToString());
                 var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after Send Query Market Request: " + output);
+                mainLog.Debug("returned answer from the server after Send Query Market Request: " + output);
                 return output;
         }
 
@@ -125,17 +129,20 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new MarketItems.CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.id = id;
-                mainLog.Info("Send Cancel Buy Sell Request to the server. information: " + item.ToString());
+                mainLog.Debug("Send Cancel Buy Sell Request to the server. information: " + item.ToString());
                 var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server afterSend Cancel Buy Sell Request: " + output);
+                mainLog.Debug("returned answer from the server afterSend Cancel Buy Sell Request: " + output);
 
                 if (output == "Ok")
-                    return true;
-                throw new Exception(output); 
+                   cancelLogger.Info("cancel request sended succesfully");
+                return true;
+
+                mainLog.Info("cancel request ID number: " + id + " didnt performed succesfully");
+               throw new Exception(output); 
         }
         public bool cancelAllRequests()
         {
-       		mainLog.Info("Send cancel All Requests to the server.");
+       		mainLog.Debug("Send cancel All Requests to the server.");
             MarketItems.MarketUserData userD = (MarketItems.MarketUserData) SendQueryUserRequest();
             bool allCanceled = true;
             foreach( int id in userD.requests)
@@ -146,7 +153,8 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                     allCanceled = false;
 
             }
-            mainLog.Info("All Requests canceld.");
+            if(allCanceled)
+               mainLog.Info("All Requests canceld.");
             return allCanceled;
 
         }
@@ -164,62 +172,4 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
       
     }
 
-
-    public class AutoPilot
-    {
-        private static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static Timer timer = new Timer(2000);
-        private static int commodity = 0;
-        private static int requestsLeft = 18;
-        private static Boolean keeapOnBuying = true;
-        private static MarketClientConnection mc = new MarketClientConnection();
-        private static int actions = 5;
-
-        public static void runPilot()
-        {
-            timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-            // stop term
-            while (keeapOnBuying && actions > 0)
-                if (!keeapOnBuying)
-                {
-                    System.Threading.Thread.Sleep(2000);
-                    requestsLeft += 4;
-                    keeapOnBuying = true;
-                }
-            Console.WriteLine(mc.SendQueryUserRequest());
-        }
-
-        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            if (requestsLeft <= 4)
-                return;
-
-            double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
-
-            IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
-            int ask = ((MarketCommodityOffer)stockStatus).ask;
-            int bid = ((MarketCommodityOffer)stockStatus).bid;
-            
-            if (ask < bid)
-            {
-                if (funds - 3 * ask > 0)
-                {
-                    Console.WriteLine("buying and selling " + commodity);
-                    mc.SendBuyRequest(ask, commodity, 3);
-                    requestsLeft--;
-                    mc.SendSellRequest(bid, commodity, 3);
-                    requestsLeft--;
-                    commodity = 0;
-                    actions--;
-                    if (commodity == 9)
-                        commodity = 0;
-                    else commodity++;
-                }
-                else return;
-            }
-            else commodity++;
-        }
-    }
 }
