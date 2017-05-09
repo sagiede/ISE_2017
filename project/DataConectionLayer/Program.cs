@@ -8,7 +8,7 @@ using MarketClient.Utils;
 using MarketClient.DataEntries;
 
 using System.IO;
-
+using System.Timers;
 
 namespace LogicLayer
 {
@@ -254,7 +254,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 mainLog.Info("return answere from the server after Send Query User Request: " + output);
                 return output;
             }
-          catch(Exception e)
+            catch(Exception e)
             {
                 mainLog.Error("the answere of the server has problem after Send Query User Request" + e.Message);
                 Console.WriteLine(e.Message);
@@ -341,4 +341,62 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
       
     }
 
+
+    public class AutoPilot
+    {
+        private static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static Timer timer = new Timer(2000);
+        private static int commodity = 0;
+        private static int requestsLeft = 18;
+        private static Boolean keeapOnBuying = true;
+        private static MarketClientConnection mc = new MarketClientConnection();
+        private static int actions = 5;
+
+        public static void runPilot()
+        {
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            // stop term
+            while (keeapOnBuying && actions > 0)
+                if (!keeapOnBuying)
+                {
+                    System.Threading.Thread.Sleep(2000);
+                    requestsLeft += 4;
+                    keeapOnBuying = true;
+                }
+            Console.WriteLine(mc.SendQueryUserRequest());
+        }
+
+        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (requestsLeft <= 4)
+                return;
+
+            double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
+
+            IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
+            int ask = ((MarketCommodityOffer)stockStatus).ask;
+            int bid = ((MarketCommodityOffer)stockStatus).bid;
+            
+            if (ask < bid)
+            {
+                if (funds - 3 * ask > 0)
+                {
+                    Console.WriteLine("buying and selling " + commodity);
+                    mc.SendBuyRequest(ask, commodity, 3);
+                    requestsLeft--;
+                    mc.SendSellRequest(bid, commodity, 3);
+                    requestsLeft--;
+                    commodity = 0;
+                    actions--;
+                    if (commodity == 9)
+                        commodity = 0;
+                    else commodity++;
+                }
+                else return;
+            }
+            else commodity++;
+        }
+    }
 }

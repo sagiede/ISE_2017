@@ -15,18 +15,15 @@ namespace project
 
         static void Main(string[] args)
         {
-            
+            //LogicLayer.AutoPilot.runPilot();
             mainLog.Debug("hi");
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             runTrading(mc);
- 
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 
             while (true)
-            {
-               
-               
+            {              
                 Console.WriteLine("---------------------------------------------------------------\nWelcome to Algo-Trading application. to go back to main menu, you can press -1 at any point");
                 Console.WriteLine("What do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries\n5- delete all open requests");
