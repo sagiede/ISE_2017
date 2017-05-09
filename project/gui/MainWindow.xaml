@@ -6,20 +6,13 @@
         xmlns:local="clr-namespace:gui"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <Grid Background="#FFD9D8D6">
         <Grid.OpacityMask>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
                 <GradientStop Color="#FFDE2A2A" Offset="1"/>
             </LinearGradientBrush>
         </Grid.OpacityMask>
-        <Grid.Background>
-            <RadialGradientBrush>
-                <GradientStop Color="Black" Offset="0.006"/>
-                <GradientStop Color="#FFECD21A" Offset="1"/>
-                <GradientStop Color="#FF14E585" Offset="0.77"/>
-            </RadialGradientBrush>
-        </Grid.Background>
         <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="256" BorderBrush="Black"/>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="17" Margin="37,63,0,0" VerticalAlignment="Top" Width="62" Click="button_Click"/>
     </Grid>
