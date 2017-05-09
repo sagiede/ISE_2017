@@ -136,17 +136,11 @@ namespace gui
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)
         {
-            
+            userQButton.Visibility = System.Windows.Visibility.Visible;
+
         }
         
-        private void checkBox1_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (marketQRadioButton.IsPressed)
-            {
-                marketQText.Visibility = System.Windows.Visibility.Visible;
-            }
-           
-        }
+       
         private void marketQText_TextChanged(object sender, TextChangedEventArgs e)
         {
             
@@ -155,6 +149,19 @@ namespace gui
         private void textBox1_Copy_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void MarketQButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void marketQRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+           
+            
+                marketQText.Visibility = System.Windows.Visibility.Visible;
+            
         }
     }
 }

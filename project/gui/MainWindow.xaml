@@ -56,15 +56,15 @@
             <TabItem x:Name="queries1" Header="Queries" Height="22" VerticalAlignment="Top" Margin="-2,-2,2,0">
                 <Grid Background="#FFE5E5E5">
                     <RadioButton x:Name="userQRadioButton" Content="user Query" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Checked="radioButton_Checked"/>
-                    <RadioButton x:Name="marketQRadioButton" Content="Market status" HorizontalAlignment="Left" Margin="92,18,0,0" VerticalAlignment="Top"/>
+                    <RadioButton x:Name="marketQRadioButton" Content="Market status" HorizontalAlignment="Left" Margin="92,18,0,0" VerticalAlignment="Top" Checked="marketQRadioButton_Checked"/>
                     <RadioButton x:Name="buySellQRadioButton" Content="buy/sell query" HorizontalAlignment="Left" Margin="188,18,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="marketQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Hidden"/>
+                    <TextBox x:Name="marketQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed"/>
                     <Label x:Name="label2" Content="id: " HorizontalAlignment="Left" Margin="33,63,0,0" VerticalAlignment="Top"/>
                     <Button x:Name="userQButton" Content="submit" HorizontalAlignment="Left" Margin="12,205,0,0" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="MarketQButton" Content="submit" HorizontalAlignment="Left" Margin="108,205,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="MarketQButton" Content="submit" HorizontalAlignment="Left" Margin="108,205,0,0" VerticalAlignment="Top" Width="75" Click="MarketQButton_Click"/>
                     <Button x:Name="BuySellQButton" Content="submit" HorizontalAlignment="Left" Margin="206,205,0,0" VerticalAlignment="Top" Width="75"/>
                     <Label x:Name="label2_Copy" Content="id: " HorizontalAlignment="Left" Margin="33,107,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="buySellQText" HorizontalAlignment="Left" Height="23" Margin="108,110,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Hidden"/>
+                    <TextBox x:Name="buySellQText" HorizontalAlignment="Left" Height="23" Margin="108,110,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="auto" Header="Semi Pilot" HorizontalAlignment="Left" Width="68" Margin="-2,-2,-3.333,0">
