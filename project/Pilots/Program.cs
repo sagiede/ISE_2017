@@ -17,7 +17,8 @@ namespace Pilots
         private int commodity;
         private int extremePrice;
         private int amount;
-        private bool request;               // true - buy request. false - sell request
+        private bool buyRequest;               // true - buy request. false - sell request
+        private bool keepingProcces;
         private static Timer aTimer;
 
         public SemiPilot(int id, int price, int amount, bool requestKind)
@@ -25,36 +26,36 @@ namespace Pilots
             this.commodity = id;
             this.extremePrice = price;
             this.amount = amount;
-            this.request = requestKind;
-            SetTimer();
+            this.buyRequest = requestKind;
+            this.keepingProcces = true;
 
         }
 
         public bool runAlgo()
         {
-            aTimer.Enabled = true;
+            SetTimer();
+            while (keepingProcces) { }
             return true;
         }
         private void SetTimer()
         {
-            // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(1000);
-            // Hook up the Elapsed event for the timer. 
+            aTimer = new System.Timers.Timer(1000); 
             aTimer.Elapsed += checkPrice;
             aTimer.AutoReset = true;
-            aTimer.Enabled = false;
+            aTimer.Start();
         }
         private void checkPrice(Object source, ElapsedEventArgs e)
         {
             MarketClientConnection pc = new MarketClientConnection();
             MarketCommodityOffer query = (MarketCommodityOffer)pc.SendQueryMarketRequest(commodity);
-            if (request)            //buy when price of ask of commidity id is lower then extremePrice
+            if (buyRequest)            //buy when price of ask of commidity id is lower then extremePrice
             {
                 int stockPrice = query.ask;
                 if (stockPrice <= extremePrice)
                 {
                     pc.SendBuyRequest(stockPrice, commodity, amount);
                     aTimer.Enabled = false;
+                    keepingProcces = false;
                     return;
                     // comment
                 }
@@ -66,6 +67,7 @@ namespace Pilots
                 {
                     pc.SendSellRequest(stockOffer, commodity, amount);
                     aTimer.Enabled = false;
+                    keepingProcces = false;
                     return;
                 }
             }
