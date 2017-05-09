@@ -60,13 +60,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\MarketItems.csproj">
+      <Project>{a1334d4c-ccc7-4674-9e20-d3c5dca73b93}</Project>
+      <Name>MarketItems</Name>
+    </ProjectReference>
     <ProjectReference Include="..\marketClient-master\MarketClient\MarketClient.csproj">
       <Project>{371e8ea8-ce7a-4ab2-85e5-eac135df4a26}</Project>
       <Name>MarketClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MarketItems\MarketItems.csproj">
-      <Project>{b48ab0bf-9b23-4cda-9b1d-2e97d0fd4168}</Project>
-      <Name>MarketItems</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

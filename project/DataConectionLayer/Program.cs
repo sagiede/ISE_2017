@@ -14,8 +14,6 @@ using System.Timers;
 namespace LogicLayer
 {
 
-    
-     
     public class MarketClientConnection : IMarketClient //the class that send/get information from the server
     {// key
         private static string key = @"-----BEGIN RSA PRIVATE KEY-----
