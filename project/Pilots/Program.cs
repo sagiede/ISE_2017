@@ -94,17 +94,21 @@ namespace Pilots
             timer.AutoReset = true;
             timer.Enabled = act;
             // need to add stopping term from the GUI
-            while (keeapOnBuying && act)
-                if (!keeapOnBuying)
-                {
-                    System.Threading.Thread.Sleep(2000);
-                    requestsLeft += 4;
-                    keeapOnBuying = true;
-                }
+            while (act)
+            {
+                while (keeapOnBuying) { }
+                timer.Stop();
+                System.Threading.Thread.Sleep(4000);
+                requestsLeft += 16;
+                keeapOnBuying = true;
+                timer.Start();
+            }
         }
 
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
+            requestsLeft += 2;
+
             if (requestsLeft <= 4)
                 keeapOnBuying = false;
 
@@ -118,16 +122,10 @@ namespace Pilots
             {
                 if (funds - ask > 0)
                 {
-                    try
-                    {
-                        Console.WriteLine("buying and selling " + commodity);
-                        mc.SendBuyRequest(ask, commodity, 1);
-                        requestsLeft--;
-                        mc.SendSellRequest(bid, commodity, 1);
-                        requestsLeft--;
-                        commodity = 0;
-                    }
-                    catch (Exception e1) { }
+                    mc.SendBuyRequest(ask, commodity, 1);
+                    requestsLeft--;
+                    mc.SendSellRequest(bid, commodity, 1);
+                    requestsLeft--;
                 }
                 else return;
             }
