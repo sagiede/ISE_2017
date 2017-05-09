@@ -12,7 +12,7 @@ namespace project
     {
 
         private static log4net.ILog mainLog = log4net.LogManager.GetLogger("mainLog");
-
+        
         static void Main(string[] args)
         {
             //LogicLayer.AutoPilot.runPilot();

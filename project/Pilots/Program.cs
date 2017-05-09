@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace Pilots
 {
-    class SemiPilot {
+    public class SemiPilot {
 
         private int commodity;
         private int extremePrice;
@@ -28,15 +28,19 @@ namespace Pilots
             this.amount = amount;
             this.buyRequest = requestKind;
             this.keepingProcces = true;
-
         }
 
-        public bool runAlgo()
+        public void runAlgo()
         {
-            SetTimer();
-            while (keepingProcces) { }
-            return true;
+                SetTimer();
+                while (keepingProcces) { }
+                return;
         }
+        public void stopSemiPilot()
+        {
+            this.keepingProcces = false;
+        }
+
         private void SetTimer()
         {
             aTimer = new System.Timers.Timer(1000); 
@@ -74,21 +78,23 @@ namespace Pilots
         }
             
     }
-    public class AutoPilot
+    public static class AutoPilot
     {
         private static Timer timer = new Timer(2000);
         private static int commodity = 0;
         private static int requestsLeft = 18;
         private static Boolean keeapOnBuying = true;
         private static MarketClientConnection mc = new MarketClientConnection();
+        private static Boolean act = false;
 
         public static void runPilot()
         {
+            act = !act;
             timer.Elapsed += OnTimedEvent;
             timer.AutoReset = true;
-            timer.Enabled = true;
+            timer.Enabled = act;
             // need to add stopping term from the GUI
-            while (keeapOnBuying)
+            while (keeapOnBuying && act)
                 if (!keeapOnBuying)
                 {
                     System.Threading.Thread.Sleep(2000);
