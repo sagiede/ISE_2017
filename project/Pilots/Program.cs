@@ -74,4 +74,64 @@ namespace Pilots
         }
             
     }
+    public class AutoPilot
+    {
+        private static Timer timer = new Timer(2000);
+        private static int commodity = 0;
+        private static int requestsLeft = 18;
+        private static Boolean keeapOnBuying = true;
+        private static MarketClientConnection mc = new MarketClientConnection();
+
+        public static void runPilot()
+        {
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            // need to add stopping term from the GUI
+            while (keeapOnBuying)
+                if (!keeapOnBuying)
+                {
+                    System.Threading.Thread.Sleep(2000);
+                    requestsLeft += 4;
+                    keeapOnBuying = true;
+                }
+        }
+
+        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (requestsLeft <= 4)
+                keeapOnBuying = false;
+
+            double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
+
+            IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
+            int ask = ((MarketCommodityOffer)stockStatus).ask;
+            int bid = ((MarketCommodityOffer)stockStatus).bid;
+
+            if (ask < bid)
+            {
+                if (funds - ask > 0)
+                {
+                    try
+                    {
+                        Console.WriteLine("buying and selling " + commodity);
+                        mc.SendBuyRequest(ask, commodity, 1);
+                        requestsLeft--;
+                        mc.SendSellRequest(bid, commodity, 1);
+                        requestsLeft--;
+                        commodity = 0;
+                    }
+                    catch (Exception e1) { }
+                }
+                else return;
+            }
+            else
+            {
+                // temporarly to 9
+                if (commodity == 9)
+                    commodity = 0;
+                else commodity++;
+            }
+        }
+    }
 }
