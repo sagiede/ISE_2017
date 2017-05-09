@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarketItems;
 using MarketClient;
 using MarketClient.Utils;
 using MarketClient.DataEntries;
@@ -13,119 +14,7 @@ using System.Timers;
 namespace LogicLayer
 {
 
-    public abstract class Request
-    {
-        public object authentication { get; set; }
-        public string type { get; set; }
-    }
-    public class BuySellRequest : Request
-    {
-        public int commodity { get; set; }
-        public int amount { get; set; }
-        public int price { get; set; }
-        override
-        public string ToString()
-        {
-            string str =" type: "+type+ " commodity: " + commodity+ " amount: " + amount + " price: " + price;
-            return str;
-        }
-        
-    }
-    public class QueryBuySellRequest : Request                     
-    {
-        public int id { get; set; }
-        override
-        public string ToString()
-        {
-            string str = "type: " + type + "id: " + id;
-            return str;
-        }
-    }
-    public class QueryUserRequest : Request {
-        override
-        public string ToString()
-        {
-            string str = "type: " + type;
-            return str;
-        }
-    }
-    public class QueryMarketRequest : Request {
-        public int commodity { get; set; }
-        override
-        public string ToString()
-        {
-            string str = "type: " + type+ "commodity: "+commodity;
-            return str;
-        }
-    }
-    public class CancelBuySellRequest : Request
-    {
-        public int id { get; set; }
-        override
-        public string ToString()
-        {
-            string str = "type: " + type + "id: " + id;
-            return str;
-        }
-    }
-    public class MarketItemQuery : IMarketItemQuery 
-    {
-        public object user { get; set; }
-        public string type { get; set; }
-        public int commodity { get; set; }
-        public int amount { get; set; }
-        public int price { get; set; }
-
-        override
-        public string ToString()
-        {
-            return "\nTransaction status: \n" + "User: " + user +
-                                  "\nType: " + type +
-                                  "\nCommodity: " + commodity +
-                                  "\nAmmount: " + amount +
-                                  "\nPrice: " + price;
-        }
-    }
     
-    public class MarketUserData : IMarketUserData{
-        public Dictionary <string, int> commodities { get; set; }
-        public double funds { get; set; }
-        public List<int> requests { get; set; }
-        override
-        public string ToString()
-        {
-            string commTostring = "";
-            string reqTostring = " ";
-            foreach(var tmp in commodities)
-            {
-                commTostring += " stock " + tmp.Key.ToString()  + ":" + tmp.Value.ToString();
-            }
-            foreach (var tmp in requests)
-            {
-                reqTostring += tmp + ", ";
-            }
-            if (reqTostring.Length > 1)
-                reqTostring = reqTostring.Substring(0, reqTostring.Length - 2);
-
-            return "User status: \n" + "User: " + "user52" +
-                                  "\ncommodities: " + commTostring +
-                                  "\nfunds: " + funds +
-                                  "\nopen requests: " + reqTostring;
-        }
-
-    }
-
-    public class MarketCommodityOffer : IMarketCommodityOffer{
-       public int ask { get; set; }
-       public int bid { get; set; }
-
-        override
-        public string ToString()
-        {
-            return "\nMarket status: \n" + "ask: " + ask +  "\nbid: " + bid;
-        }
-
-    }
      
     public class MarketClientConnection : IMarketClient //the class that send/get information from the server
     {// key
@@ -155,165 +44,101 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             
           
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            BuySellRequest item = new BuySellRequest();
+            var item = new MarketItems.BuySellRequest();
             item.type = "buy";
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            try
-            {
-                mainLog.Info("buying requset send to the server. information: " + item.ToString());
-                string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after buing request: " + output);
+                mainLog.Debug("buying requset send to the server. information: " + item.ToString());
+                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                mainLog.Debug("return answere from the server after buing request: " + output);
 
 
                 if (!(checkMarketResponse(output)))
-                {
-                  
-                    Console.WriteLine(output);
-                    return -1;
-                }
+                    throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
                 return integerOutput;
-            }
-            catch (Exception e)
-            {
-                mainLog.Error("the answere of the server has problem after buing request" + e.Message);
-                Console.WriteLine(e.Message);
-            }
-            return -1;
         }
 
         public int SendSellRequest(int price, int commodity, int amount) {
 
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new BuySellRequest();
+            var item = new MarketItems.BuySellRequest();
             item.type = "sell";
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            try
-            {
-                mainLog.Info("selling requset send to the server. information: " + item.ToString());
-                string output = client.SendPostRequest<BuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Info("selling requset send to the server. information: " + item.ToString());
+                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
                 mainLog.Info("return answere from the server after selling request: " + output);
                 if (!(checkMarketResponse(output)))
-                {
-                    Console.WriteLine(output);
-                    return -1;
-                }
+                    throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
                 return integerOutput;
-            }
-            catch(Exception e)
-            {
-                mainLog.Error("the answere of the server has problem after selling request" + e.Message);
-                Console.WriteLine(e.Message);
-            }
-            return -1;
+
         }
 
         public IMarketItemQuery SendQueryBuySellRequest(int id)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new QueryBuySellRequest();
+            var item = new MarketItems.QueryBuySellRequest();
             item.type = "queryBuySell";
             item.id = id;
 
-            try
-            {
-                mainLog.Info("Send Query BuySell Request to the server. information: " + item.ToString());
+             	mainLog.Info("Send Query BuySell Request to the server. information: " + item.ToString());
                 MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
                 mainLog.Info("return answere from the server after Send Query BuySell Request: " + output);
                 return output;
-            }
-            
-            catch (Exception e)
-            {
-                mainLog.Error("the answere of the server has problem after Send Query BuySell Request" + e.Message);
-                Console.WriteLine(e.Message);
-            }
-
-            return null;
         }
 
         public IMarketUserData SendQueryUserRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new QueryUserRequest();
+            var item = new MarketItems.QueryUserRequest();
             item.type = "queryUser";
-            try
-            {
-                mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
+               mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
                 MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
                 mainLog.Info("return answere from the server after Send Query User Request: " + output);
                 return output;
-            }
-            catch(Exception e)
-            {
-                mainLog.Error("the answere of the server has problem after Send Query User Request" + e.Message);
-                Console.WriteLine(e.Message);
-            }
-
-            return null;
         }
 
         public IMarketCommodityOffer SendQueryMarketRequest(int commodity){
 
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new QueryMarketRequest();
+            var item = new MarketItems.QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
-            try
-            {
-                mainLog.Info("Send Query Market Request to the server. information: " + item.ToString());
+               mainLog.Info("Send Query Market Request to the server. information: " + item.ToString());
                 var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
                 mainLog.Info("return answere from the server after Send Query Market Request: " + output);
                 return output;
-            }
-            catch(Exception e)
-            {
-                mainLog.Error("the answere of the server has problem after Send Query User Request" + e.Message);
-                Console.WriteLine(e.Message);
-            }
-            
-            return null;
         }
 
         public bool SendCancelBuySellRequest(int id){
 
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
-            var item = new CancelBuySellRequest();
+            var item = new MarketItems.CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.id = id;
-            try
-            {
                 mainLog.Info("Send Cancel Buy Sell Request to the server. information: " + item.ToString());
                 var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
                 mainLog.Info("return answere from the server afterSend Cancel Buy Sell Request: " + output);
+
                 if (output == "Ok")
                     return true;
-                Console.WriteLine("transaction id num:" + id+ ", could not canceled correctly beacuse of the following reason: " + output);
-            }
-            catch(Exception e)
-            {
-                mainLog.Error("the answere of the server has problem after Cancel Buy Sell Request" + e.Message);
-                Console.WriteLine(e.Message);
-            }
-            return false;
-           
+                throw new Exception(output); 
         }
         public bool cancelAllRequests()
         {
-            mainLog.Info("Send cancel All Requests to the server.");
-            MarketUserData userD = (MarketUserData) SendQueryUserRequest();
+       		mainLog.Info("Send cancel All Requests to the server.");
+            MarketItems.MarketUserData userD = (MarketItems.MarketUserData) SendQueryUserRequest();
             bool allCanceled = true;
             foreach( int id in userD.requests)
             {
