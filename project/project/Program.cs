@@ -10,7 +10,6 @@ namespace project
 {
     class Program
     {
-        // testing
 
         private static log4net.ILog mainLog = log4net.LogManager.GetLogger("mainLog");
 
