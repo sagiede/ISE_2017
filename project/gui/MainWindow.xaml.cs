@@ -33,5 +33,10 @@ namespace gui
         {
             
         }
+
+        private void textBox1_Copy_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

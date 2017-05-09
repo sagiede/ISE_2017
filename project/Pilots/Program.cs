@@ -56,6 +56,7 @@ namespace Pilots
                     pc.SendBuyRequest(stockPrice, commodity, amount);
                     aTimer.Enabled = false;
                     return;
+                    // comment
                 }
             }
             else
