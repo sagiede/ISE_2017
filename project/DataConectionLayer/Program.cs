@@ -150,6 +150,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             {
                 mainLog.Error("the answere of the server has problem" + e.Message);
                 Console.WriteLine(e.Message);
+                
             }
             return -1;
         }
@@ -177,6 +178,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             }
             catch(Exception e)
             {
+                
                 Console.WriteLine(e.Message);
             }
             return -1;
