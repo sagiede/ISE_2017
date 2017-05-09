@@ -14,6 +14,42 @@
             </LinearGradientBrush>
         </Grid.OpacityMask>
         <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="256" BorderBrush="Black"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="17" Margin="37,63,0,0" VerticalAlignment="Top" Width="62" Click="button_Click"/>
+        <Button x:Name="auto_pilot" Content="auto-pilot" HorizontalAlignment="Left" Height="23" Margin="453,1,-0.333,0" VerticalAlignment="Top" Width="66" Click="button_Click"/>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="304" Margin="0,24,0,-0.333">
+            <TabItem x:Name="buy" Header="Buy" Height="22" VerticalAlignment="Top" Margin="-2,-2,2,0">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="88,50,0,0"/>
+                    <Label x:Name="label_2" Content="Price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,89,0,0"/>
+                    <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="88,89,0,0" TextChanged="textBox1_Copy_TextChanged"/>
+                    <Label x:Name="label_3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,133,0,0"/>
+                    <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="88,133,0,0"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="sell" Header="Sell" HorizontalAlignment="Left" Width="58" Margin="-2,-2,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="231*"/>
+                        <ColumnDefinition Width="38*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="cancel1" Header="Cancel" HorizontalAlignment="Left" Width="58" Margin="-2,-2,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="231*"/>
+                        <ColumnDefinition Width="38*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="queries1" Header="Queries" Height="22" VerticalAlignment="Top" Margin="-2,-2,2,0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="275" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="215" Margin="304,46,-0.333,-0.333"/>
+        <Label x:Name="label1" Content="Commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0"/>
     </Grid>
 </Window>
