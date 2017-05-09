@@ -68,9 +68,9 @@ namespace gui
                 int response = mc.SendBuyRequest(price, commodity, amount);
                 output.Text = response.ToString();
             }
-            catch (Exception e)
+            catch (Exception e2)
             {
-                output.Text = e.Message;
+                output.Text = e2.Message;
             }
         }
 
@@ -102,9 +102,9 @@ namespace gui
                     int response = mc.SendSellRequest(price, commodity, amount);
                     output.Text = response.ToString();
                 }
-                catch (Exception e)
+                catch (Exception e3)
                 {
-                    output.Text = e.Message;
+                    output.Text = e3.Message;
                 }
             }
         }
@@ -127,9 +127,9 @@ namespace gui
                     Boolean response = mc.SendCancelBuySellRequest(commodity);
                     output.Text = response.ToString();
                 }
-                catch (Exception )
+                catch (Exception e1)
                 {
-                    output.Text = e.Message;
+                    output.Text = e1.Message;
                 }
             }
         }
