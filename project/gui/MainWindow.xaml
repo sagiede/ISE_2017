@@ -81,7 +81,7 @@
                     <TextBox x:Name="commodityText" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="priceText" HorizontalAlignment="Left" Height="23" Margin="96,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="amount" HorizontalAlignment="Left" Height="23" Margin="96,146,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <Label x:Name="label2" Content="Label" HorizontalAlignment="Left" Margin="33,41,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="commoditySemiP" Content="commodity:" HorizontalAlignment="Left" Margin="24,41,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label2_Copy" Content="Label" HorizontalAlignment="Left" Margin="33,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
                     <Label x:Name="label2_Copy1" Content="Label" HorizontalAlignment="Left" Margin="33,143,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
                 </Grid>
