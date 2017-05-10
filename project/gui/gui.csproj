@@ -114,6 +114,13 @@
       <Project>{560184e5-c480-4c7a-be8d-0020fdf4fd1b}</Project>
       <Name>LogicLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\marketClient-master\MarketClient\MarketClient.csproj">
+      <Project>{371e8ea8-ce7a-4ab2-85e5-eac135df4a26}</Project>
+      <Name>MarketClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pline.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
