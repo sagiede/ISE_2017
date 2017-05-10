@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LogicLayer;
 using MarketItems;
+using Pilots;
 
 
 namespace gui
@@ -48,7 +49,7 @@ namespace gui
           
             try
             {
-                LogicLayer.AutoPilot.runPilot();
+                Pilots.AutoPilot.runPilot();
             }
             catch(Exception e2)
             {
