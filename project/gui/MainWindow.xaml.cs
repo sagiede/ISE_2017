@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using LogicLayer;
 using MarketItems;
 
+
 namespace gui
 {
     /// <summary>
@@ -22,6 +23,7 @@ namespace gui
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static Boolean isVisible = true;
         private static readonly log4net.ILog cancelLogger = log4net.LogManager.GetLogger("cancelLogger");
         private static readonly log4net.ILog sellingLogger = log4net.LogManager.GetLogger("sellingLogger");
         private static readonly log4net.ILog buyingLogger = log4net.LogManager.GetLogger("buyingLogger");
@@ -33,8 +35,17 @@ namespace gui
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-           // string str = buyButton.Visibility();
-         //   tabControl.Visibility = System.Windows.Visibility.!(tabControl);
+           if(isVisible)
+            {
+                isVisible = false;
+                tabControl.Visibility = System.Windows.Visibility.Hidden;
+            }
+            else
+            {
+                isVisible = true;
+                tabControl.Visibility = System.Windows.Visibility.Visible;
+            }
+          
             try
             {
                 LogicLayer.AutoPilot.runPilot();
