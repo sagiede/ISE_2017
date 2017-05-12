@@ -12,6 +12,7 @@ using System.Timers;
 
 namespace Pilots
 {
+
     public class SemiPilot
     {
 
@@ -19,7 +20,7 @@ namespace Pilots
         private int extremePrice;
         private int amount;
         private bool buyRequest;               // true - buy request. false - sell request
-        private bool keepingProcces;
+        public bool keepingProcces=true;
         private static Timer aTimer;
 
         public SemiPilot(int id, int price, int amount, bool requestKind)
@@ -38,9 +39,9 @@ namespace Pilots
             return;
         }
         public void stopSemiPilot()
-        {
+       {
             this.keepingProcces = false;
-        }
+       }
 
         private void SetTimer()
         {
@@ -79,64 +80,84 @@ namespace Pilots
         }
 
     }
-    public static class AutoPilot
+  
+    
+    public class AutoPilot
     {
         private static Timer timer = new Timer(2000);
         private static int commodity = 0;
         private static int requestsLeft = 18;
-        private static Boolean keeapOnBuying = true;
-        private static MarketClientConnection mc = new MarketClientConnection();
+        public static MarketClientConnection mc = new MarketClientConnection();
         private static Boolean act = false;
+        public static String actions = "";
+       
+      
 
         public static void runPilot()
         {
+
+
             act = !act;
-            timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = true;
+            if (act)
+            {
+                timer.Elapsed += OnTimedEvent;
+                timer.AutoReset = true;
+            }
             timer.Enabled = act;
             // need to add stopping term from the GUI
-            while (act)
-            {
-                while (keeapOnBuying) { }
-                timer.Stop();
-                System.Threading.Thread.Sleep(4000);
-                requestsLeft += 16;
-                keeapOnBuying = true;
-                timer.Start();
-            }
         }
-
+       
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            requestsLeft += 2;
+            
+              requestsLeft += 2;
 
-            if (requestsLeft <= 4)
-                keeapOnBuying = false;
+              if (requestsLeft <= 4)
+              {
+                  timer.Stop();
+                  System.Threading.Thread.Sleep(4000);
+                  requestsLeft += 16;
+                  timer.Start();
+              }
 
-            double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
 
-            IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
-            int ask = ((MarketCommodityOffer)stockStatus).ask;
-            int bid = ((MarketCommodityOffer)stockStatus).bid;
 
-            if (ask < bid)
-            {
+                   double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
+
+                   IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
+                   int ask = ((MarketCommodityOffer)stockStatus).ask;
+                   int bid = ((MarketCommodityOffer)stockStatus).bid;
+
+              if (ask < bid)
+              {
                 if (funds - ask > 0)
                 {
                     mc.SendBuyRequest(ask, commodity, 1);
                     requestsLeft--;
+                    actions += "bought " + commodity + " in " + ask;
                     mc.SendSellRequest(bid, commodity, 1);
                     requestsLeft--;
+                    actions += ", sold for " + bid + "\n";
+
                 }
-                else return;
-            }
-            else
-            {
-                // temporarly to 9
-                if (commodity == 9)
-                    commodity = 0;
-                else commodity++;
-            }
+                else
+                {
+                    actions += "there is no more money";
+                    return;
+                }
+               }
+               else
+               {
+                   // temporarly to 9
+                   if (commodity == 9)
+                      commodity = 0;
+                  else commodity++;
+
+
+           }
+           
         }
+
     }
-}
+
+    }

@@ -76,7 +76,6 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
                 return integerOutput;
-
         }
 
         public IMarketItemQuery SendQueryBuySellRequest(int id)

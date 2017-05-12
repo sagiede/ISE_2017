@@ -15,10 +15,12 @@ namespace project
 
         static void Main(string[] args)
         {
-            //LogicLayer.AutoPilot.runPilot();
+           // Pilots.AutoPilot.runPilot();
             mainLog.Debug("hi");
-            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
-            runTrading(mc);
+            Console.WriteLine(" dd");
+            Console.ReadLine();
+            //LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
+            //runTrading(mc);
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 

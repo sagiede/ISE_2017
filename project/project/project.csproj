@@ -57,6 +57,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\aa\Pilots.csproj">
+      <Project>{0cc171cd-05ef-4597-a01f-073a8e9a58a1}</Project>
+      <Name>Pilots</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataConectionLayer\LogicLayer.csproj">
       <Project>{560184e5-c480-4c7a-be8d-0020fdf4fd1b}</Project>
       <Name>LogicLayer</Name>
