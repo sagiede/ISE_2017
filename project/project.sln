@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gui", "gui\gui.csproj", "{B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pilots", "Pilots\Pilots.csproj", "{0CC171CD-05EF-4597-A01F-073A8E9A58A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketItems", "MarketItems\MarketItems.csproj", "{A1334D4C-CCC7-4674-9E20-D3C5DCA73B93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pilots", "aa\Pilots.csproj", "{0CC171CD-05EF-4597-A01F-073A8E9A58A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NunitTest", "NunitTest\NunitTest.csproj", "{6BDB3EBD-639E-44E2-8D51-7E0AB7164CD7}"
 EndProject

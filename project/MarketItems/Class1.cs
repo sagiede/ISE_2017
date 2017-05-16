@@ -58,7 +58,7 @@ namespace MarketItems
         public Dictionary<string, int> commodities { get; set; }
         public double funds { get; set; }
         public List<int> requests { get; set; }
-        override
+        override    
         public string ToString()
         {
             string commTostring = "";
@@ -92,6 +92,27 @@ namespace MarketItems
         {
             return "\nMarket status: \n" + "ask: " + ask + "\nbid: " + bid;
         }
+    }
 
+    public class CommodityOffer
+    {
+        public MarketCommodityOffer info { get; set; }
+
+        override
+        public string ToString()
+        {
+            return info.ToString();
+        }
+    }
+
+    public class UserRequest
+    {
+        public MarketUserData request { get; set; }
+
+        override
+        public string ToString()
+        {
+            return request.ToString();
+        }
     }
 }
