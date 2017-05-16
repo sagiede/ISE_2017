@@ -20,8 +20,8 @@ namespace Pilots
         private static int extremePrice;
         private static int amount;
         private static bool requestType;               // true - buy request. false - sell request
-        private static Timer semiPilotTimer;
-        private static String eventsData;
+        public static Timer semiPilotTimer;
+        public static String eventsData;
 
         public static void runSemiPilot(int id, int price, int amount, bool requestKind)
         {
@@ -55,7 +55,7 @@ namespace Pilots
                 {
                     pc.SendBuyRequest(stockPrice, commodity, 1);
                     SemiPilot.amount--;
-                    eventsData += "buy request for 1 stock to commodidy: "+commodity+" , price: "+stockPrice+ " has sended");
+                    eventsData += "buy request has sended : \ncommodidy: "+commodity+"\nprice: "+stockPrice+ "\namount: 1 \n";
                     if (amount == 0)
                     {
                         semiPilotTimer.Stop();
@@ -70,8 +70,8 @@ namespace Pilots
                 {
                     pc.SendSellRequest(stockOffer, commodity, 1);
                     SemiPilot.amount--;
-                    eventsData += "sell request for 1 stock to commodidy: " + commodity + " , price: " + stockOffer + " has sended");
-                    if(amount ==0)
+                    eventsData += "sell request has sended : \ncommodidy: " + commodity + "\nprice: " + stockOffer + "\namount: 1 \n";
+                    if (amount ==0)
                     semiPilotTimer.Stop();
                     return;
                 }

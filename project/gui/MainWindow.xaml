@@ -92,19 +92,19 @@
                     <Label x:Name="label2BuyC" Content="commodity:" HorizontalAlignment="Left" Margin="19,38,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label2BuyP" Content="price:" HorizontalAlignment="Left" Margin="19,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
                     <Label x:Name="label2BuyA" Content="amount:" HorizontalAlignment="Left" Margin="19,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
-                    <Button x:Name="semiStopBuy" Content="stop" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopBuy_Click" Visibility="Visible"/>
+                    <Button x:Name="semiStopBuy" Content="stop" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopBuy_Click" Visibility="Collapsed"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="57,-1,-54.667,-1" Visibility="Visible">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0.333">
-                    <Button x:Name="semiStartSell" Content="start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStartSell_Click"/>
+                    <Button x:Name="semiStartSell" Content="start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStartSell_Click" Visibility="Visible"/>
                     <TextBox x:Name="commoditySPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="priceSPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="amountSPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,146,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <Label x:Name="label2SellC" Content="commodity:" HorizontalAlignment="Left" Margin="19,38,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label2SellP" Content="price:" HorizontalAlignment="Left" Margin="19,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
                     <Label x:Name="label2SellA" Content="amount:" HorizontalAlignment="Left" Margin="19,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
-                    <Button x:Name="semiStopSell" Content="stop" HorizontalAlignment="Left" Margin="109,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopSell_Click" Visibility="Visible" />
+                    <Button x:Name="semiStopSell" Content="stop" HorizontalAlignment="Left" Margin="109,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopSell_Click" Visibility="Collapsed" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="history" Header="history" HorizontalAlignment="Left" Width="68" Margin="-104.333,-1,0,-1" Visibility="Visible">

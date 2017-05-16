@@ -34,7 +34,7 @@ namespace gui
         private static Timer timerPliot = new Timer(3000); // timer of auto pilot
         private static Timer timerSemiPliot = new Timer(3000); // timer of auto pilot
         private static Timer theTimeNow = new Timer(10); // timer of show time
-        private static int buySellChangedSemiPilot = -1; //sell=4 buy=2
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -50,8 +50,16 @@ namespace gui
         private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
         {
             Dispatcher.Invoke(() => {
-
-                output.Text = Pilots.SemiPilot.eventsdata;
+                if(!(Pilots.SemiPilot.semiPilotTimer.Enabled))
+                {
+                    returnAllForSemiBuy();
+                    returnAllForSemiSell();
+                    semiStartBuy.Visibility = System.Windows.Visibility.Visible;
+                    semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
+                    semiStartSell.Visibility = System.Windows.Visibility.Visible;
+                    semiStopSell.Visibility = System.Windows.Visibility.Hidden;
+                }
+                output.Text = Pilots.SemiPilot.eventsData;
             });
             
         }
@@ -349,12 +357,12 @@ namespace gui
                 try
                 {
                     clearAllForSemiBuy();
-                    Pilots.SemiPilot.runAlgo(commodity, price, amount, true);
+                    Pilots.SemiPilot.runSemiPilot(commodity, price, amount, true);
                     timerSemiPliot.Start();
                  }
                 catch (Exception e3)
                 {
-                    timerSemiPliot.stop();
+                    timerSemiPliot.Stop();
                     returnAllForSemiBuy();
                     semiStartBuy.Visibility = System.Windows.Visibility.Visible;
                     semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
@@ -459,7 +467,7 @@ namespace gui
                 {
                     timerSemiPliot.Start();
                     clearAllForSemiSell();
-                    Pilots.SemiPilot.runAlgo(commodity, price, amount, false);
+                    Pilots.SemiPilot.runSemiPilot(commodity, price, amount, false);
                 }
                 catch (Exception e3)
                 {
@@ -479,8 +487,8 @@ namespace gui
                 timerSemiPliot.Stop();
                 Pilots.SemiPilot.stopSemiPilot();
                 returnAllForSemiSell();
-                semiStartBuy.Visibility = System.Windows.Visibility.Visible;
-                semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
+                semiStartSell.Visibility = System.Windows.Visibility.Visible;
+                semiStopSell.Visibility = System.Windows.Visibility.Hidden;
 
             }
             catch (Exception e2)
