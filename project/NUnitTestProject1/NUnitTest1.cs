@@ -1,14 +1,15 @@
 ﻿using System;
-//using NUnit.Framework;
+using NUnit.Framework;
 
 namespace NUnitTestProject1
 {
-    //[TestFixture]
+    [TestFixture]
     public class NUnitTest1
     {
-        //[Test]
+        [Test]
         public void TestMethod1()
         {
+            Assert.Equals(1, 1);
         }
     }
 }

@@ -30,11 +30,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NUnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataConectionLayer\LogicLayer.csproj">
+      <Project>{560184e5-c480-4c7a-be8d-0020fdf4fd1b}</Project>
+      <Name>LogicLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\gui\gui.csproj">
+      <Project>{bbc2c432-922f-4316-b9a5-9738d33e0ca8}</Project>
+      <Name>gui</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\marketClient-master\MarketClient\MarketClient.csproj">
+      <Project>{371e8ea8-ce7a-4ab2-85e5-eac135df4a26}</Project>
+      <Name>MarketClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarketItems\MarketItems.csproj">
+      <Project>{a1334d4c-ccc7-4674-9e20-d3c5dca73b93}</Project>
+      <Name>MarketItems</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pilots\Pilots.csproj">
+      <Project>{0cc171cd-05ef-4597-a01f-073a8e9a58a1}</Project>
+      <Name>Pilots</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\project\project.csproj">
+      <Project>{6a9eb530-876d-42b0-a689-0c91297fa683}</Project>
+      <Name>project</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
