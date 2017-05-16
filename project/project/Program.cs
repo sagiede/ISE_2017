@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogicLayer;
 using MarketClient;
+using Pilots;
 
 namespace project
 {
@@ -15,12 +16,13 @@ namespace project
 
         static void Main(string[] args)
         {
-           // Pilots.AutoPilot.runPilot();
-            mainLog.Debug("hi");
-            Console.WriteLine(" dd");
+           
+          SemiPilot.runSemiPilot(4,5,1,false);
             Console.ReadLine();
-            //LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
-            //runTrading(mc);
+            
+
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
+            runTrading(mc);
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 
@@ -146,6 +148,7 @@ namespace project
                 Console.WriteLine("please enter valid input");
                 return -1;
             }   
+            
         }
     }//end of Program
 }
