@@ -51,12 +51,12 @@ namespace Pilots
             if (requestType)            //buy when price of ask of commidity id is lower then extremePrice
             {
                 int stockPrice = query.ask;
-                if (stockPrice <= extremePrice)
+                if (stockPrice <= extremePrice & amount>0)
                 {
-                    pc.SendBuyRequest(stockPrice, commodity, 1);
-                    SemiPilot.amount--;
-                    eventsData += "buy request has sended : \ncommodidy: "+commodity+"\nprice: "+stockPrice+ "\namount: 1 \n";
-                    if (amount == 0)
+                        pc.SendBuyRequest(stockPrice, commodity, 1);
+                        SemiPilot.amount = amount - 1;
+                        eventsData += "buy request has sended : \ncommodidy: " + commodity + "\nprice: " + stockPrice + "\namount: 1 \n";
+                        if (amount == 0)
                     {
                         semiPilotTimer.Stop();
                     }
@@ -66,7 +66,7 @@ namespace Pilots
             else
             {
                 int stockOffer = query.bid;
-                if (stockOffer >= extremePrice)
+                if (stockOffer >= extremePrice & amount>0)
                 {
                     pc.SendSellRequest(stockOffer, commodity, 1);
                     SemiPilot.amount--;
