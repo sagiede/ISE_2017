@@ -31,7 +31,8 @@ namespace gui
         private static readonly log4net.ILog sellingLogger = log4net.LogManager.GetLogger("sellingLogger");
         private static readonly log4net.ILog buyingLogger = log4net.LogManager.GetLogger("buyingLogger");
         private static readonly log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static Timer timer = new Timer(3000); // timer of auto pilot
+        private static Timer timerPliot = new Timer(3000); // timer of auto pilot
+        private static Timer timerSemiPliot = new Timer(3000); // timer of auto pilot
         private static Timer theTimeNow = new Timer(10); // timer of show time
         private static int buySellChangedSemiPilot = -1; //sell=4 buy=2
         public MainWindow()
@@ -39,8 +40,19 @@ namespace gui
             InitializeComponent();
             theTimeNow.Enabled = true; // show the time
             theTimeNow.Elapsed += HandleTimerElapsedTime; 
-            timer.Enabled = false;  // timer of pilot is off now                    
-            timer.Elapsed += HandleTimerElapsed;
+            timerPliot.Enabled = false;  // timer of pilot is off now                    
+            timerPliot.Elapsed += HandleTimerElapsed;
+            timerSemiPliot.Enabled = false;  // timer of pilot is off now                    
+            timerSemiPliot.Elapsed += HandleTimerElapsedSemiPilot;
+
+        }
+
+        private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() => {
+
+                output.Text = Pilots.SemiPilot.eventsdata;
+            });
             
         }
 
@@ -54,7 +66,7 @@ namespace gui
             {
                 isVisible = false;
 
-                timer.Enabled = true;
+                timerPliot.Enabled = true;
                 tabControl.Visibility = System.Windows.Visibility.Hidden;
                 moneypic.Visibility= System.Windows.Visibility.Visible;
                 player.Play();
@@ -62,7 +74,7 @@ namespace gui
             }
             else // seconed click
             {
-                timer.Enabled = false;
+                timerPliot.Enabled = false;
                 moneypic.Visibility = System.Windows.Visibility.Hidden;
                 player.Stop();
                 isVisible = true;
@@ -77,7 +89,7 @@ namespace gui
             catch (Exception e2)
             {
                 output.Text = e2.Message;
-          
+               
             }
         }
         //timer of clock event
@@ -311,10 +323,10 @@ namespace gui
 
         }
         // semi-pilot
-        private void semiPilotSubmmit(object sender, RoutedEventArgs e)
+        private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
-            semiStart.Visibility = System.Windows.Visibility.Hidden;
-            semiStop.Visibility = System.Windows.Visibility.Visible;
+            semiStartBuy.Visibility = System.Windows.Visibility.Hidden;
+            semiStopBuy.Visibility = System.Windows.Visibility.Visible;
             {
                 int commodity = -1;
                 int price = -1;
@@ -322,42 +334,87 @@ namespace gui
                 try
                 {
 
-                    commodity = int.Parse(commoditySPText.Text);
-                    price = int.Parse(priceSPText.Text);
-                    amount = int.Parse(amountSPText.Text);
+                    commodity = int.Parse(commoditySPTextBuy.Text);
+                    price = int.Parse(priceSPTextBuy.Text);
+                    amount = int.Parse(amountSPTextBuy.Text);
                     
                 }
                 catch (Exception)
                 {
-                    semiStart.Visibility = System.Windows.Visibility.Visible;
-                    semiStop.Visibility = System.Windows.Visibility.Hidden;
+                    semiStartBuy.Visibility = System.Windows.Visibility.Visible;
+                    semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
                     output.Text = "invalid input";
                     return;
                 }
                 try
                 {
-                    if (buySellChangedSemiPilot == 2)
-                    {
-                        Pilots.SemiPilot p1 = new Pilots.SemiPilot(commodity, price, amount, true);
-                        p1.runAlgo();
-                    }
-                    else if (buySellChangedSemiPilot == 4)
-                    {
-                        Pilots.SemiPilot p1 = new Pilots.SemiPilot(commodity, price, amount, false);
-                        p1.runAlgo();
-                    }
-
-                    }
+                    clearAllForSemiBuy();
+                    Pilots.SemiPilot.runAlgo(commodity, price, amount, true);
+                    timerSemiPliot.Start();
+                 }
                 catch (Exception e3)
                 {
-                    semiStart.Visibility = System.Windows.Visibility.Visible;
-                    semiStop.Visibility = System.Windows.Visibility.Hidden;
+                    timerSemiPliot.stop();
+                    returnAllForSemiBuy();
+                    semiStartBuy.Visibility = System.Windows.Visibility.Visible;
+                    semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
                     output.Text = e3.Message;
                     return;
                 }
             }
         }
+        // click stop semi pilot
+        private void semiStopBuy_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                timerSemiPliot.Stop();
+                Pilots.SemiPilot.stopSemiPilot();
+                returnAllForSemiBuy();
+                semiStartBuy.Visibility = System.Windows.Visibility.Visible;
+                semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
 
+            }
+            catch (Exception e2)
+            {
+                timerSemiPliot.Stop();
+                output.Text = e2.Message;
+                return;
+            }
+        }
+        //clear all windows when semi pilot start 
+        public void clearAllForSemiBuy()
+        {
+            queries.Visibility= System.Windows.Visibility.Hidden;
+            cancel.Visibility = System.Windows.Visibility.Hidden;
+            buy.Visibility = System.Windows.Visibility.Hidden;
+            history.Visibility = System.Windows.Visibility.Hidden;
+            SemiAutoSell.Visibility = System.Windows.Visibility.Hidden;
+        }
+        public void returnAllForSemiBuy()
+        {
+            queries.Visibility = System.Windows.Visibility.Visible;
+            cancel.Visibility = System.Windows.Visibility.Visible;
+            buy.Visibility = System.Windows.Visibility.Visible;
+            history.Visibility = System.Windows.Visibility.Visible;
+            SemiAutoSell.Visibility = System.Windows.Visibility.Visible;
+        }
+        public void clearAllForSemiSell()
+        {
+            queries.Visibility = System.Windows.Visibility.Hidden;
+            cancel.Visibility = System.Windows.Visibility.Hidden;
+            buy.Visibility = System.Windows.Visibility.Hidden;
+            history.Visibility = System.Windows.Visibility.Hidden;
+            SemiAutoBuy.Visibility = System.Windows.Visibility.Hidden;
+        }
+        public void returnAllForSemiSell()
+        {
+            queries.Visibility = System.Windows.Visibility.Visible;
+            cancel.Visibility = System.Windows.Visibility.Visible;
+            buy.Visibility = System.Windows.Visibility.Visible;
+            history.Visibility = System.Windows.Visibility.Visible;
+            SemiAutoBuy.Visibility = System.Windows.Visibility.Visible;
+        }
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
             
@@ -373,26 +430,65 @@ namespace gui
 
             output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\project\\bin\\Debug\\mainLog.log");
         }
-        // click stop semi pilot
-        private void semiStop_Click(object sender, RoutedEventArgs e)
+        
+ 
+        private void semiStartSell_Click(object sender, RoutedEventArgs e)
+        {
+            semiStartSell.Visibility = System.Windows.Visibility.Hidden;
+            semiStopSell.Visibility = System.Windows.Visibility.Visible;
+            {
+                int commodity = -1;
+                int price = -1;
+                int amount = -1;
+                try
+                {
+
+                    commodity = int.Parse(commoditySPTextSell.Text);
+                    price = int.Parse(priceSPTextSell.Text);
+                    amount = int.Parse(amountSPTextSell.Text);
+
+                }
+                catch (Exception)
+                {
+                    semiStartSell.Visibility = System.Windows.Visibility.Visible;
+                    semiStopSell.Visibility = System.Windows.Visibility.Hidden;
+                    output.Text = "invalid input";
+                    return;
+                }
+                try
+                {
+                    timerSemiPliot.Start();
+                    clearAllForSemiSell();
+                    Pilots.SemiPilot.runAlgo(commodity, price, amount, false);
+                }
+                catch (Exception e3)
+                {
+                    timerSemiPliot.Stop();
+                    returnAllForSemiSell();
+                    semiStartBuy.Visibility = System.Windows.Visibility.Visible;
+                    semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
+                    output.Text = e3.Message;
+                    return;
+                }
+            }
+        }
+        private void semiStopSell_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                
-                semiStart.Visibility = System.Windows.Visibility.Visible;
-                semiStop.Visibility = System.Windows.Visibility.Hidden;
-               
+                timerSemiPliot.Stop();
+                Pilots.SemiPilot.stopSemiPilot();
+                returnAllForSemiSell();
+                semiStartBuy.Visibility = System.Windows.Visibility.Visible;
+                semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
+
             }
-            catch(Exception e2)
+            catch (Exception e2)
             {
+                timerSemiPliot.Stop();
                 output.Text = e2.Message;
                 return;
             }
-        }
-
-        private void sellRequestRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

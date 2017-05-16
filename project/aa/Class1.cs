@@ -90,13 +90,11 @@ namespace Pilots
         public static MarketClientConnection mc = new MarketClientConnection();
         private static Boolean act = false;
         public static String actions = "";
-       
+        
       
 
         public static void runPilot()
         {
-
-
             act = !act;
             if (act)
             {
