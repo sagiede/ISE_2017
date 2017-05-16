@@ -21,6 +21,7 @@ namespace Pilots
         private static int amount;
         private static bool requestType;               // true - buy request. false - sell request
         private static Timer semiPilotTimer;
+        private static String eventsData;
 
         public static void runSemiPilot(int id, int price, int amount, bool requestKind)
         {
@@ -28,6 +29,7 @@ namespace Pilots
             SemiPilot.extremePrice = price;
             SemiPilot.amount = amount;
             SemiPilot.requestType = requestKind;
+            SemiPilot.eventsData = "";
             SetTimer();
         }
         public static void stopSemiPilot()
@@ -51,11 +53,14 @@ namespace Pilots
                 int stockPrice = query.ask;
                 if (stockPrice <= extremePrice)
                 {
-                    pc.SendBuyRequest(stockPrice, commodity, amount);
-                    semiPilotTimer.Enabled = false;
-                    semiPilotTimer.Stop();
+                    pc.SendBuyRequest(stockPrice, commodity, 1);
+                    SemiPilot.amount--;
+                    eventsData += "buy request for 1 stock to commodidy: "+commodity+" , price: "+stockPrice+ " has sended");
+                    if (amount == 0)
+                    {
+                        semiPilotTimer.Stop();
+                    }
                     return;
-                    // comment
                 }
             }
             else
@@ -63,8 +68,10 @@ namespace Pilots
                 int stockOffer = query.bid;
                 if (stockOffer >= extremePrice)
                 {
-                    pc.SendSellRequest(stockOffer, commodity, amount);
-                    semiPilotTimer.Enabled = false;
+                    pc.SendSellRequest(stockOffer, commodity, 1);
+                    SemiPilot.amount--;
+                    eventsData += "sell request for 1 stock to commodidy: " + commodity + " , price: " + stockOffer + " has sended");
+                    if(amount ==0)
                     semiPilotTimer.Stop();
                     return;
                 }
