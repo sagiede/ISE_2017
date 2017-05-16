@@ -13,55 +13,47 @@ using System.Timers;
 namespace Pilots
 {
 
-    public class SemiPilot
+    public static class SemiPilot
     {
 
-        private int commodity;
-        private int extremePrice;
-        private int amount;
-        private bool buyRequest;               // true - buy request. false - sell request
-        public bool keepingProcces=true;
-        private static Timer aTimer;
+        private static int commodity;
+        private static int extremePrice;
+        private static int amount;
+        private static bool requestType;               // true - buy request. false - sell request
+        private static Timer semiPilotTimer;
 
-        public SemiPilot(int id, int price, int amount, bool requestKind)
+        public static void runSemiPilot(int id, int price, int amount, bool requestKind)
         {
-            this.commodity = id;
-            this.extremePrice = price;
-            this.amount = amount;
-            this.buyRequest = requestKind;
-            this.keepingProcces = true;
-        }
-
-        public void runAlgo()
-        {
+            SemiPilot.commodity = id;
+            SemiPilot.extremePrice = price;
+            SemiPilot.amount = amount;
+            SemiPilot.requestType = requestKind;
             SetTimer();
-            while (keepingProcces) { }
-            return;
         }
-        public void stopSemiPilot()
+        public static void stopSemiPilot()
        {
-            this.keepingProcces = false;
+            semiPilotTimer.Stop();
        }
 
-        private void SetTimer()
+        private static void SetTimer()
         {
-            aTimer = new System.Timers.Timer(1000);
-            aTimer.Elapsed += checkPrice;
-            aTimer.AutoReset = true;
-            aTimer.Start();
+            semiPilotTimer = new System.Timers.Timer(1000);
+            semiPilotTimer.Elapsed += checkPrice;
+            semiPilotTimer.AutoReset = true;
+            semiPilotTimer.Start();
         }
-        private void checkPrice(Object source, ElapsedEventArgs e)
+        private static void checkPrice(Object source, ElapsedEventArgs e)
         {
             MarketClientConnection pc = new MarketClientConnection();
             MarketCommodityOffer query = (MarketCommodityOffer)pc.SendQueryMarketRequest(commodity);
-            if (buyRequest)            //buy when price of ask of commidity id is lower then extremePrice
+            if (requestType)            //buy when price of ask of commidity id is lower then extremePrice
             {
                 int stockPrice = query.ask;
                 if (stockPrice <= extremePrice)
                 {
                     pc.SendBuyRequest(stockPrice, commodity, amount);
-                    aTimer.Enabled = false;
-                    keepingProcces = false;
+                    semiPilotTimer.Enabled = false;
+                    semiPilotTimer.Stop();
                     return;
                     // comment
                 }
@@ -72,8 +64,8 @@ namespace Pilots
                 if (stockOffer >= extremePrice)
                 {
                     pc.SendSellRequest(stockOffer, commodity, amount);
-                    aTimer.Enabled = false;
-                    keepingProcces = false;
+                    semiPilotTimer.Enabled = false;
+                    semiPilotTimer.Stop();
                     return;
                 }
             }
@@ -95,8 +87,6 @@ namespace Pilots
 
         public static void runPilot()
         {
-
-
             act = !act;
             if (act)
             {
