@@ -7,9 +7,10 @@ using MarketItems;
 using MarketClient;
 using MarketClient.Utils;
 using MarketClient.DataEntries;
-
+using log4net;
 using System.IO;
 using System.Timers;
+using log4net.Appender;
 
 namespace LogicLayer
 {
@@ -33,8 +34,10 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
 
        
-        private static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        public static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public static  log4net.ILog buyingLog = log4net.LogManager.GetLogger("buyingLogger");
+        public static log4net.ILog sellingLog = log4net.LogManager.GetLogger("sellingLogger");
+        public static log4net.ILog cancelLog = log4net.LogManager.GetLogger("cancelLogger");
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
@@ -56,7 +59,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-                return integerOutput;
+            buyingLog.Info("Request for buying " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent" + "id: "+ output);
+            
+            return integerOutput;
         }
 
         public int SendSellRequest(int price, int commodity, int amount) {
@@ -75,7 +80,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-                return integerOutput;
+           sellingLog.Info("Request for selling " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent" + "id: " + output);
+            sellingLog.Logger.Repository.Shutdown();
+            return integerOutput;
         }
 
         public IMarketItemQuery SendQueryBuySellRequest(int id)
@@ -128,8 +135,12 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
                 mainLog.Info("return answere from the server afterSend Cancel Buy Sell Request: " + output);
 
-                if (output == "Ok")
-                    return true;
+            if (output == "Ok")
+            {
+                cancelLog.Info("cancel request for transaction: " + id + " sent");
+                cancelLog.Logger.Repository.Shutdown();
+                return true;
+            }
                 throw new Exception(output); 
         }
         public bool cancelAllRequests()

@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Log" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="log4net.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />

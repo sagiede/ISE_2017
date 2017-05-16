@@ -17,6 +17,7 @@ using MarketItems;
 using Pilots;
 using System.Timers;
 using System.IO;
+using log4net.Appender;
 
 namespace gui
 {
@@ -26,13 +27,8 @@ namespace gui
     public partial class MainWindow : Window
     {
         private static Boolean isVisible = true; // cahnge when press auto pilot
-        private static readonly log4net.ILog pilotLogger = log4net.LogManager.GetLogger("pilotLogger");
-        private static readonly log4net.ILog cancelLogger = log4net.LogManager.GetLogger("cancelLogger");
-        private static readonly log4net.ILog sellingLogger = log4net.LogManager.GetLogger("sellingLogger");
-        private static readonly log4net.ILog buyingLogger = log4net.LogManager.GetLogger("buyingLogger");
-        private static readonly log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static Timer timerPliot = new Timer(3000); // timer of auto pilot
-        private static Timer timerSemiPliot = new Timer(3000); // timer of auto pilot
+        private static Timer timerPliot = new Timer(1000); // timer of auto pilot
+        private static Timer timerSemiPliot = new Timer(1000); // timer of auto pilot
         private static Timer theTimeNow = new Timer(10); // timer of show time
         
         public MainWindow()
@@ -58,6 +54,7 @@ namespace gui
                     semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
                     semiStartSell.Visibility = System.Windows.Visibility.Visible;
                     semiStopSell.Visibility = System.Windows.Visibility.Hidden;
+                    timerSemiPliot.Stop();
                 }
                 output.Text = Pilots.SemiPilot.eventsData;
             });
@@ -118,6 +115,7 @@ namespace gui
                 output.Text = Pilots.AutoPilot.actions;
             });
         }
+       
         // close all active threads when close the program
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         { 
@@ -425,18 +423,19 @@ namespace gui
         }
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
-            
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\project\\bin\\Debug\\mainLog.log");
+           // LogicLayer.MarketClientConnection.buyingLog.
+            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\buyingLog.log");
+           
         }
         private void sellHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\project\\bin\\Debug\\mainLog.log");
+            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\sellingLog.log");
         }
         private void cancelHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\project\\bin\\Debug\\mainLog.log");
+            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\cancelLog.log");
         }
         
  

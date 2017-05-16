@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="525">
-    <Grid Background="#FFD9D8D6">
+        Title="MainWindow" Height="466" Width="717">
+    <Grid Background="#FFD9D8D6" Margin="0,0,-6.333,-0.333">
         <Grid.OpacityMask>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
@@ -14,7 +14,7 @@
             </LinearGradientBrush>
         </Grid.OpacityMask>
         <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="256" BorderBrush="Black"/>
-        <Button x:Name="auto_pilot" Content="auto-pilot" HorizontalAlignment="Left" Height="39" Margin="441,1,-0.333,0" VerticalAlignment="Top" Width="78" Click="autoPilotButton_Click">
+        <Button x:Name="auto_pilot" Content="auto-pilot" HorizontalAlignment="Left" Height="39" Margin="580,10,0,0" VerticalAlignment="Top" Width="78" Click="autoPilotButton_Click">
             <Button.Background>
                 <ImageBrush ImageSource="pline.jpg"/>
             </Button.Background>
@@ -111,12 +111,12 @@
                 <Grid Background="#FFE5E5E5" Margin="0,-3,0,3.333">
                     <Label x:Name="label3" Content="witch history do you like to see?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <RadioButton x:Name="buyHistoryRadio" Content="buy History" HorizontalAlignment="Left" Margin="33,49,0,0" VerticalAlignment="Top" Checked="buyHistoryRadio_Checked"/>
-                    <RadioButton x:Name="sellHistoryRadio" Content="sellHistory" HorizontalAlignment="Left" Margin="33,109,0,0" VerticalAlignment="Top" Checked="cancelHistoryRadio_Checked"/>
-                    <RadioButton x:Name="CancelhistoryRadio" Content="Cancelhistory" HorizontalAlignment="Left" Margin="33,79,0,0" VerticalAlignment="Top" Checked="sellHistoryRadio_Checked"/>
+                    <RadioButton x:Name="sellHistoryRadio" Content="sell History" HorizontalAlignment="Left" Margin="33,109,0,0" VerticalAlignment="Top" Checked="cancelHistoryRadio_Checked"/>
+                    <RadioButton x:Name="CancelhistoryRadio" Content="Cancel history" HorizontalAlignment="Left" Margin="33,79,0,0" VerticalAlignment="Top" Checked="sellHistoryRadio_Checked"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <TextBox x:Name="output" HorizontalAlignment="Left" Height="337" Margin="309,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200"/>
+        <TextBox x:Name="output" HorizontalAlignment="Left" Height="337" Margin="309,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="382"/>
         <TextBox x:Name="time" HorizontalAlignment="Left" Height="23" Margin="321,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" BorderBrush="#FFD9D8D6" Background="#FFD9D8D6" SelectionBrush="#FFD9D8D6"/>
         <Image x:Name="image" HorizontalAlignment="Left" Height="67" Margin="10,322,0,0" VerticalAlignment="Top" Width="102">
 

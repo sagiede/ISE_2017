@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LogicLayer;
 using MarketClient;
 using Pilots;
+using log4net;
 
 namespace project
 {
