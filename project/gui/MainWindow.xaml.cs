@@ -58,6 +58,7 @@ namespace gui
                     semiStopBuy.Visibility = System.Windows.Visibility.Hidden;
                     semiStartSell.Visibility = System.Windows.Visibility.Visible;
                     semiStopSell.Visibility = System.Windows.Visibility.Hidden;
+                    timerSemiPliot.Stop();
                 }
                 output.Text = Pilots.SemiPilot.eventsData;
             });
