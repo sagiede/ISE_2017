@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogicLayer;
 using MarketClient;
-using Pilots;
+using MarketItems;
 
 namespace project
 {
@@ -16,13 +16,13 @@ namespace project
 
         static void Main(string[] args)
         {
-           
-          SemiPilot.runSemiPilot(4,5,1,false);
-            Console.ReadLine();
-            
-
+            // Pilots.AutoPilot.runPilot();
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
-            runTrading(mc);
+            String a = mc.SendQueryUserRequestsRequest();
+            //foreach (var tmp in a)
+            //    Console.WriteLine(tmp);
+            Console.ReadLine();
+            //runTrading(mc);
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 

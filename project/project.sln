@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project", "project\project.csproj", "{6A9EB530-876D-42B0-A689-0C91297FA683}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0CC171CD-05EF-4597-A01F-073A8E9A58A1} = {0CC171CD-05EF-4597-A01F-073A8E9A58A1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "DataConectionLayer\LogicLayer.csproj", "{560184E5-C480-4C7A-BE8D-0020FDF4FD1B}"
 EndProject

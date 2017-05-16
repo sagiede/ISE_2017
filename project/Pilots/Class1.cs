@@ -88,73 +88,68 @@ namespace Pilots
         private static int requestsLeft = 18;
         public static MarketClientConnection mc = new MarketClientConnection();
         private static Boolean act = false;
+        private static Boolean activated = false;
         public static String actions = "";
-        
-      
-
+     
         public static void runPilot()
         {
-            act = !act;
-            if (act)
+            if (!activated)
             {
+                activated = true;
                 timer.Elapsed += OnTimedEvent;
                 timer.AutoReset = true;
             }
+            act = !act;
             timer.Enabled = act;
-            // need to add stopping term from the GUI
         }
        
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            
-              requestsLeft += 2;
+            increaseRequests(2);
 
-              if (requestsLeft <= 4)
-              {
-                  timer.Stop();
-                  System.Threading.Thread.Sleep(4000);
-                  requestsLeft += 16;
-                  timer.Start();
-              }
+            double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
 
+            IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
+            int ask = ((MarketCommodityOffer)stockStatus).ask;
+            int bid = ((MarketCommodityOffer)stockStatus).bid;
 
-
-                   double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
-
-                   IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
-                   int ask = ((MarketCommodityOffer)stockStatus).ask;
-                   int bid = ((MarketCommodityOffer)stockStatus).bid;
-
-              if (ask < bid)
-              {
+            if (ask < bid)
+            {
                 if (funds - ask > 0)
                 {
                     mc.SendBuyRequest(ask, commodity, 1);
-                    requestsLeft--;
                     actions += "bought " + commodity + " in " + ask;
                     mc.SendSellRequest(bid, commodity, 1);
-                    requestsLeft--;
                     actions += ", sold for " + bid + "\n";
-
+                    increaseRequests(-2);
                 }
                 else
                 {
-                    actions += "there is no more money";
+                    actions += "there is no more money\n";
                     return;
                 }
-               }
-               else
-               {
-                   // temporarly to 9
-                   if (commodity == 9)
-                      commodity = 0;
-                  else commodity++;
-
-
-           }
-           
+            }
+            else
+            {
+                if (commodity == 9)
+                    commodity = 0;
+                else commodity++;
+            }
         }
 
+        private static void increaseRequests(int i)
+        {
+            if (requestsLeft + i <= 4)
+            {
+                timer.Stop();
+                System.Threading.Thread.Sleep(2000);
+                increaseRequests(4);
+                timer.Start();
+            }
+            else if (requestsLeft + i > 20)
+                requestsLeft = 20;
+            else
+                requestsLeft += i;
+        }
     }
-
-    }
+}
