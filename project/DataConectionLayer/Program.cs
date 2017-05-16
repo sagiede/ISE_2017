@@ -144,26 +144,26 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             return allCanceled;
         }
 
-        public List<CommodityOffer> SendQueryAllMarketRequest()
+        public LinkedList<Commodities> SendQueryAllMarketRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryAllMarket";
             mainLog.Info("Send Query All Market Request to the server. information: " + item.ToString());
-            var output = client.SendPostRequest<QueryMarketRequest, List<CommodityOffer>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<QueryMarketRequest, LinkedList<Commodities>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
             mainLog.Info("returned answer from the server after sending Query Market Request: " + output);
             return output;
         }
 
-        public String SendQueryUserRequestsRequest()
+        public LinkedList<UserRequests> SendQueryUserRequestsRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUserRequests";
             mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
-            var output = client.SendPostRequest<QueryUserRequest, Dictionary<UserRequest>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<QueryUserRequest, LinkedList<UserRequests>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
             mainLog.Info("return answere from the server after Send Query User Request: " + output);
             return output;
         }

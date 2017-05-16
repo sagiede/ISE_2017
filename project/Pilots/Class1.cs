@@ -84,7 +84,6 @@ namespace Pilots
     public class AutoPilot
     {
         private static Timer timer = new Timer(2000);
-        private static int commodity = 0;
         private static int requestsLeft = 18;
         public static MarketClientConnection mc = new MarketClientConnection();
         private static Boolean act = false;
@@ -109,9 +108,19 @@ namespace Pilots
 
             double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
 
-            IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
-            int ask = ((MarketCommodityOffer)stockStatus).ask;
-            int bid = ((MarketCommodityOffer)stockStatus).bid;
+            LinkedList<Commodities> stockStatus = mc.SendQueryAllMarketRequest();
+
+            int ask = 0;
+            int bid = 0;
+            int commodity = 0;
+
+            for (commodity = 0; commodity <= 9; commodity++)
+            {
+                ask = stockStatus.ElementAt<Commodities>(commodity).info.ask;
+                bid = stockStatus.ElementAt<Commodities>(commodity).info.bid;
+                if (ask < bid)
+                    break;
+            }
 
             if (ask < bid)
             {
@@ -121,6 +130,7 @@ namespace Pilots
                     actions += "bought " + commodity + " in " + ask;
                     mc.SendSellRequest(bid, commodity, 1);
                     actions += ", sold for " + bid + "\n";
+                    Console.WriteLine(commodity + " " + ask + " " + bid);
                     increaseRequests(-2);
                 }
                 else

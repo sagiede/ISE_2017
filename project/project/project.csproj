@@ -61,11 +61,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\aa\Pilots.csproj">
+    <ProjectReference Include="..\Pilots\Pilots.csproj">
       <Project>{0cc171cd-05ef-4597-a01f-073a8e9a58a1}</Project>
       <Name>Pilots</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClassLibrary1\MarketItems.csproj">
+    <ProjectReference Include="..\MarketItems\MarketItems.csproj">
       <Project>{a1334d4c-ccc7-4674-9e20-d3c5dca73b93}</Project>
       <Name>MarketItems</Name>
     </ProjectReference>

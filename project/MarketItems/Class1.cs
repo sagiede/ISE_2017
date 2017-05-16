@@ -34,6 +34,7 @@ namespace MarketItems
     {
         public int id { get; set; }
     }
+
     public class MarketItemQuery : IMarketItemQuery
     {
         public object user { get; set; }
@@ -105,14 +106,27 @@ namespace MarketItems
         }
     }
 
-    public class UserRequest
+    public class UserRequests
     {
-        public MarketUserData request { get; set; }
+        public int id { get; set; }
+        public MarketItemQuery request { get; set; }
 
         override
         public string ToString()
         {
-            return request.ToString();
+            return id + ": " + request;
+        }
+    }
+
+    public class Commodities
+    {
+        public int id { get; set; }
+        public MarketCommodityOffer info { get; set; }
+
+        override
+        public string ToString()
+        {
+            return "Commodity " + id + " " + info;
         }
     }
 }

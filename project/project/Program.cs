@@ -16,11 +16,14 @@ namespace project
 
         static void Main(string[] args)
         {
-            // Pilots.AutoPilot.runPilot();
+            Pilots.AutoPilot.runPilot();
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
-            String a = mc.SendQueryUserRequestsRequest();
+            //LinkedList<UserRequests> a = mc.SendQueryUserRequestsRequest();
             //foreach (var tmp in a)
-            //    Console.WriteLine(tmp);
+             //   Console.WriteLine(tmp);
+            
+            Console.ReadLine();
+            Console.WriteLine(mc.SendQueryUserRequest());
             Console.ReadLine();
             //runTrading(mc);
         }//Main
