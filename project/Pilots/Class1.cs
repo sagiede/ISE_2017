@@ -55,7 +55,8 @@ namespace Pilots
                 {
                         pc.SendBuyRequest(stockPrice, commodity, 1);
                         SemiPilot.amount = amount - 1;
-                        eventsData += "buy request has sended : \ncommodidy: " + commodity + "\nprice: " + stockPrice + "\namount: 1 \n";
+                        eventsData += "Sent a request to buy " + amount + " shares of commodity number " 
+                                        + commodity + " for " + stockPrice + " per share";
                         if (amount == 0)
                     {
                         semiPilotTimer.Stop();
@@ -70,7 +71,8 @@ namespace Pilots
                 {
                     pc.SendSellRequest(stockOffer, commodity, 1);
                     SemiPilot.amount--;
-                    eventsData += "sell request has sended : \ncommodidy: " + commodity + "\nprice: " + stockOffer + "\namount: 1 \n";
+                    eventsData += "Sent a request to sell " + amount + " shares of commodity number "
+                                        + commodity + " for " + stockOffer + " per share";
                     if (amount ==0)
                     semiPilotTimer.Stop();
                     return;
@@ -89,6 +91,7 @@ namespace Pilots
         private static Boolean act = false;
         private static Boolean activated = false;
         public static String actions = "";
+        public static int lastCommodity;
      
         public static void runPilot()
         {
@@ -126,16 +129,19 @@ namespace Pilots
             {
                 if (funds - ask > 0)
                 {
+                    String current = "";
                     mc.SendBuyRequest(ask, commodity, 1);
-                    actions += "bought " + commodity + " in " + ask;
+                    current += "Sent a request to buy commodity number " + commodity + " for " 
+                        + ask + " per share";
                     mc.SendSellRequest(bid, commodity, 1);
-                    actions += ", sold for " + bid + "\n";
-                    Console.WriteLine(commodity + " " + ask + " " + bid);
+                    current += " and requested to sell it for " + bid + "\n";
+                    lastCommodity = commodity;
+                    actions += current;
                     increaseRequests(-2);
                 }
                 else
                 {
-                    actions += "there is no more money\n";
+                    actions += "There is no more money\n";
                     return;
                 }
             }

@@ -17,7 +17,7 @@ namespace project
         static void Main(string[] args)
         {
            
-            SemiPilot.runSemiPilot(4,12,1,true);
+            //SemiPilot.runSemiPilot(4,12,1,true);
             
 
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input

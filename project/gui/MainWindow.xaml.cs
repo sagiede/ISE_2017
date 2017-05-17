@@ -396,6 +396,7 @@ namespace gui
             buy.Visibility = System.Windows.Visibility.Hidden;
             history.Visibility = System.Windows.Visibility.Hidden;
             SemiAutoSell.Visibility = System.Windows.Visibility.Hidden;
+            sell.Visibility = System.Windows.Visibility.Hidden;
         }
         public void returnAllForSemiBuy()
         {
@@ -404,6 +405,7 @@ namespace gui
             buy.Visibility = System.Windows.Visibility.Visible;
             history.Visibility = System.Windows.Visibility.Visible;
             SemiAutoSell.Visibility = System.Windows.Visibility.Visible;
+            sell.Visibility = System.Windows.Visibility.Hidden;
         }
         public void clearAllForSemiSell()
         {
@@ -412,6 +414,7 @@ namespace gui
             buy.Visibility = System.Windows.Visibility.Hidden;
             history.Visibility = System.Windows.Visibility.Hidden;
             SemiAutoBuy.Visibility = System.Windows.Visibility.Hidden;
+            sell.Visibility = System.Windows.Visibility.Hidden;
         }
         public void returnAllForSemiSell()
         {
@@ -420,6 +423,7 @@ namespace gui
             buy.Visibility = System.Windows.Visibility.Visible;
             history.Visibility = System.Windows.Visibility.Visible;
             SemiAutoBuy.Visibility = System.Windows.Visibility.Visible;
+            sell.Visibility = System.Windows.Visibility.Hidden;
         }
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {

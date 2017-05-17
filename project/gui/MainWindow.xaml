@@ -6,21 +6,21 @@
         xmlns:local="clr-namespace:gui"
         mc:Ignorable="d"
         Title="MainWindow" Height="466" Width="717">
-    <Grid Background="#FFD9D8D6" Margin="0,0,-6.333,-0.333">
+    <Grid Background="#FFD9D8D6" Margin="0,1,-6,-1">
         <Grid.OpacityMask>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
                 <GradientStop Color="#FFDE2A2A" Offset="1"/>
             </LinearGradientBrush>
         </Grid.OpacityMask>
-        <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="256" BorderBrush="Black"/>
-        <Button x:Name="auto_pilot" Content="auto-pilot" HorizontalAlignment="Left" Height="39" Margin="580,10,0,0" VerticalAlignment="Top" Width="78" Click="autoPilotButton_Click">
+        <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="41" Width="143" BorderBrush="Black" Margin="276,0,0,0"/>
+        <Button x:Name="auto_pilot" Content="auto-pilot" HorizontalAlignment="Left" Height="39" Margin="611,2,0,0" VerticalAlignment="Top" Width="78" Click="autoPilotButton_Click" FontWeight="Bold">
             <Button.Background>
                 <ImageBrush ImageSource="pline.jpg"/>
             </Button.Background>
         </Button>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="386" VerticalAlignment="Top" Width="304" Margin="5,25,0,0"  RenderTransformOrigin="0.49,0.539" Visibility="Visible">
-            <TabItem x:Name="buy" Header="Buy" Height="22" VerticalAlignment="Top" Margin="-2,-2,2,0" Visibility="Visible">
+            <TabItem x:Name="buy" Header="Buy" Height="25" VerticalAlignment="Top" Margin="-2,2,2,-2" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30*"/>
@@ -33,28 +33,33 @@
 
                     <Label x:Name="label_3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,133,0,0" Grid.ColumnSpan="2"/>
                     <TextBox x:Name="amountBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,133,0,0" Grid.Column="1" Grid.ColumnSpan="3" />
-                    <Label x:Name="label_2_Copy" Content="commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Grid.ColumnSpan="2" Width="73"/>
+                    <Label x:Name="label_2_Copy" Content="Commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Grid.ColumnSpan="2" Width="73"/>
 
                     <TextBox x:Name="PriceBuy" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="28,89,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3"/>
-                    <Button x:Name="buyButton" Content="commit" Grid.Column="2" HorizontalAlignment="Left" Margin="47,202,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2"/>
+                    <Button x:Name="buyButton" Content="Commit" Grid.Column="1" HorizontalAlignment="Left" Margin="29,190,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="sell" Header="Sell"  Width="58" Margin="129.333,1,-110,-4" Visibility="Visible">
+            <TabItem x:Name="sell" Header="Sell"  Width="58" Margin="-3,2,28,-2" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5">
                     <TextBox x:Name="commodityT" HorizontalAlignment="Left" Height="23" Margin="114,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.231,0.42"/>
                     <TextBox x:Name="priceT" HorizontalAlignment="Left" Height="23" Margin="114,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.725,-0.246"/>
-                    <Label x:Name="label_2_Copy1" Content="price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,92,0,0"/>
-                    <Label x:Name="label_2_Copy2" Content="commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,55,0,0"/>
-                    <Label x:Name="label_2_Copy3" Content="amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,132,0,0"/>
+                    <Label x:Name="label_2_Copy1" Content="Price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,92,0,0"/>
+                    <Label x:Name="label_2_Copy2" Content="Commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,55,0,0"/>
+                    <Label x:Name="label_2_Copy3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,132,0,0"/>
                     <TextBox x:Name="amountT" HorizontalAlignment="Left" Height="23" Margin="114,132,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="SellButton" Content="submit" HorizontalAlignment="Left" Margin="138,202,0,0" VerticalAlignment="Top" Width="80" Click="SellButton_Click"/>
+                    <Button x:Name="SellButton" Content="Submit" HorizontalAlignment="Left" Margin="116,193,0,0" VerticalAlignment="Top" Width="80" Click="SellButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="cancel" Header="cancel" HorizontalAlignment="Left" Width="58" Margin="-81.333,-0.667,0,-1.667" Visibility="Visible">
+            <TabItem x:Name="cancel" Header="Cancel" HorizontalAlignment="Left" Width="58" Margin="-30,2,0,-2" Visibility="Visible" Height="25" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-17,3.333">
-                    <Label x:Name="label1" Content="commodity:" HorizontalAlignment="Left" Margin="32,58,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="cancelCommodity" HorizontalAlignment="Left" Height="23" Margin="118,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="cancelButton" Content="commit" HorizontalAlignment="Left" Margin="141,168,0,0" VerticalAlignment="Top" Width="76" Click="cancelButton_Click" Height="21">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="24*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label1" Content="Commodity:" HorizontalAlignment="Left" Margin="32,58,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="cancelCommodity" HorizontalAlignment="Left" Height="23" Margin="118,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3"/>
+                    <Button x:Name="cancelButton" Content="Commit" HorizontalAlignment="Left" Margin="119,126,0,0" VerticalAlignment="Top" Width="76" Click="cancelButton_Click" Height="21" Grid.ColumnSpan="2">
                         <Button.Background>
                             <ImageBrush/>
                         </Button.Background>
@@ -62,15 +67,15 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="queries" Header="Queries" Height="22" VerticalAlignment="Top" Margin="-123,1.333,122,-0.667" Visibility="Visible">
+            <TabItem x:Name="queries" Header="Queries" Height="25" VerticalAlignment="Top" Margin="-57,2,56,-2" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="127*"/>
                         <ColumnDefinition Width="171*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton x:Name="userQRadioButton" Content="user Query" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Checked="userQRadioButton_Checked"/>
+                    <RadioButton x:Name="userQRadioButton" Content="User query" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Checked="userQRadioButton_Checked"/>
                     <RadioButton x:Name="marketQRadioButton" Content="Market status" HorizontalAlignment="Left" Margin="92,18,0,0" VerticalAlignment="Top" Checked="marketQRadioButton_Checked" Grid.ColumnSpan="2"/>
-                    <RadioButton x:Name="buySellQRadioButton" Content="buy/sell query" HorizontalAlignment="Left" Margin="61.333,18,0,0" VerticalAlignment="Top" Checked="buySellQRadioButton_Checked" Grid.Column="1"/>
+                    <RadioButton x:Name="buySellQRadioButton" Content="Buy/Sell query" HorizontalAlignment="Left" Margin="61.333,18,0,0" VerticalAlignment="Top" Checked="buySellQRadioButton_Checked" Grid.Column="1"/>
                     <TextBox x:Name="marketQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed" Grid.ColumnSpan="2"/>
                     <Label x:Name="labeId2" Content="commodity: " HorizontalAlignment="Left" Margin="33,63,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
                     <Button x:Name="userQButton"  Content="submit" HorizontalAlignment="Left" Margin="108,167,0,0" VerticalAlignment="Top" Width="75" Visibility="Collapsed" Click="userQButton_Click" Height="21" Grid.ColumnSpan="2"/>
@@ -83,41 +88,45 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SemiAutoBuy" Header="Semi Pilot-Buy" HorizontalAlignment="Left" Width="96" Margin="-2,-2,0,0" Visibility="Visible">
-                <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0.333">
-                    <Button x:Name="semiStartBuy" Content="start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiPilotSubmmitBuy"/>
+            <TabItem x:Name="SemiAutoBuy" Header="Semi Pilot-Buy" HorizontalAlignment="Left" Width="96" Margin="-2,1,0,-1" Visibility="Visible" Height="25">
+                <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0">
+                    <Button x:Name="semiStartBuy" Content="Start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiPilotSubmmitBuy"/>
                     <TextBox x:Name="commoditySPTextBuy" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="priceSPTextBuy" HorizontalAlignment="Left" Height="23" Margin="96,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="amountSPTextBuy" HorizontalAlignment="Left" Height="23" Margin="96,146,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <Label x:Name="label2BuyC" Content="commodity:" HorizontalAlignment="Left" Margin="19,38,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label2BuyP" Content="price:" HorizontalAlignment="Left" Margin="19,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
-                    <Label x:Name="label2BuyA" Content="amount:" HorizontalAlignment="Left" Margin="19,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
+                    <Label x:Name="label2BuyC" Content="Commodity:" HorizontalAlignment="Left" Margin="19,38,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label2BuyP" Content="Price:" HorizontalAlignment="Left" Margin="19,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
+                    <Label x:Name="label2BuyA" Content="Amount:" HorizontalAlignment="Left" Margin="19,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
                     <Button x:Name="semiStopBuy" Content="stop" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopBuy_Click" Visibility="Collapsed"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="57,-1,-54.667,-1" Visibility="Visible">
+            <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="-18,1,0,-1" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0.333">
-                    <Button x:Name="semiStartSell" Content="start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStartSell_Click" Visibility="Visible"/>
+                    <Button x:Name="semiStartSell" Content="Start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStartSell_Click" Visibility="Visible"/>
                     <TextBox x:Name="commoditySPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="priceSPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="amountSPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,146,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <Label x:Name="label2SellC" Content="commodity:" HorizontalAlignment="Left" Margin="19,38,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label2SellP" Content="price:" HorizontalAlignment="Left" Margin="19,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
-                    <Label x:Name="label2SellA" Content="amount:" HorizontalAlignment="Left" Margin="19,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
+                    <Label x:Name="label2SellC" Content="Commodity:" HorizontalAlignment="Left" Margin="19,38,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label2SellP" Content="Price:" HorizontalAlignment="Left" Margin="19,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.439,2.41"/>
+                    <Label x:Name="label2SellA" Content="Amount:" HorizontalAlignment="Left" Margin="19,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.579,2.308"/>
                     <Button x:Name="semiStopSell" Content="stop" HorizontalAlignment="Left" Margin="109,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopSell_Click" Visibility="Collapsed" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="history" Header="history" HorizontalAlignment="Left" Width="68" Margin="-104.333,-1,0,-1" Visibility="Visible">
+            <TabItem x:Name="history" Header="History" HorizontalAlignment="Right" Width="68" Margin="-37,1,51,-1" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,0,3.333">
-                    <Label x:Name="label3" Content="witch history do you like to see?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <RadioButton x:Name="buyHistoryRadio" Content="buy History" HorizontalAlignment="Left" Margin="33,49,0,0" VerticalAlignment="Top" Checked="buyHistoryRadio_Checked"/>
-                    <RadioButton x:Name="sellHistoryRadio" Content="sell History" HorizontalAlignment="Left" Margin="33,109,0,0" VerticalAlignment="Top" Checked="sellHistoryRadio_Checked"/>
-                    <RadioButton x:Name="CancelhistoryRadio" Content="Cancel history" HorizontalAlignment="Left" Margin="33,79,0,0" VerticalAlignment="Top" Checked="cancelHistoryRadio_Checked"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="91*"/>
+                        <ColumnDefinition Width="58*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label3" Content="Which history do you like to see?" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="192"/>
+                    <RadioButton x:Name="buyHistoryRadio" Content="Buying history" HorizontalAlignment="Left" Margin="33,49,0,0" VerticalAlignment="Top" Checked="buyHistoryRadio_Checked"/>
+                    <RadioButton x:Name="sellHistoryRadio" Content="Selling history" HorizontalAlignment="Left" Margin="33,109,0,0" VerticalAlignment="Top" Checked="sellHistoryRadio_Checked"/>
+                    <RadioButton x:Name="CancelhistoryRadio" Content="Canceling history" HorizontalAlignment="Left" Margin="33,79,0,0" VerticalAlignment="Top" Checked="cancelHistoryRadio_Checked"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <TextBox x:Name="output" HorizontalAlignment="Left" Height="337" Margin="309,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="382"/>
-        <TextBox x:Name="time" HorizontalAlignment="Left" Height="23" Margin="321,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" BorderBrush="#FFD9D8D6" Background="#FFD9D8D6" SelectionBrush="#FFD9D8D6"/>
+        <TextBox x:Name="time" HorizontalAlignment="Left" Height="23" Margin="5,2,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" BorderBrush="#FFD9D8D6" Background="#FFD9D8D6" SelectionBrush="#FFD9D8D6"/>
         <Image x:Name="image" HorizontalAlignment="Left" Height="67" Margin="10,322,0,0" VerticalAlignment="Top" Width="102">
 
         </Image>

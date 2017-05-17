@@ -87,7 +87,7 @@ namespace NunitTest
             AutoPilot.runPilot();           //stop auto pilot
 
             MarketUserData userDataAfter = (MarketUserData)mc.SendQueryUserRequest();
-            if (true)//userDataAfter.commodities[AutoPilot.commodity + ""] > userDataBefore.commodities[AutoPilot.commodity + ""])    //we bought and havent sell the item
+            if (userDataAfter.commodities[AutoPilot.lastCommodity + ""] > userDataBefore.commodities[AutoPilot.lastCommodity + ""])    //we bought and havent sell the item
             {
                 Assert.AreEqual(userDataAfter.requests.Count > userDataBefore.requests.Count, true);
             }

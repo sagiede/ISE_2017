@@ -47,16 +47,18 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-                mainLog.Debug("buying requset send to the server. information: " + item.ToString());
+                mainLog.Debug("Buying requset sent to the server. information: " + item.ToString());
                 string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Debug("return answere from the server after buing request: " + output);
+                mainLog.Debug("Returned answer from the server after buying request: " + output);
 
 
                 if (!(checkMarketResponse(output)))
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-            buyingLog.Info("Request for buying " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent " + "id: "+ output);
+            buyingLog.Info("Request for buying " + amount + " shares of commodity number " 
+                            + commodity + " for " + price + " dollars per share has sent, " 
+                            + " transaction id: " + output);
             
             return integerOutput;
         }
@@ -70,15 +72,17 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-            mainLog.Info("selling requset send to the server. information: " + item.ToString());
+            mainLog.Info("Selling requset sent to the server. information: " + item.ToString());
                 string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after selling request: " + output);
+                mainLog.Info("Returned answer from the server after selling request: " + output);
                 if (!(checkMarketResponse(output)))
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-           sellingLog.Info("Request for selling " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent" + "id: " + output);
-         
+            sellingLog.Info("Request for selling " + amount + " shares of commodity number "
+                               + commodity + " for " + price + " dollars per share has sent, "
+                               + " transaction id: " + output);
+
             return integerOutput;
         }
 
@@ -90,9 +94,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.type = "queryBuySell";
             item.id = id;
 
-            mainLog.Info("Send Query BuySell Request to the server. information: " + item.ToString());
+            mainLog.Info("Sent Query BuySell request to the server. information: " + item.ToString());
             MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            mainLog.Info("return answere from the server after Send Query BuySell Request: " + output);
+            mainLog.Info("Returned answer from the server after Send Query BuySell Request: " + output);
             return output;
         }
 
@@ -102,9 +106,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUser";
-            mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
+            mainLog.Info("Sent Query User request to the server. information: " + item.ToString());
             MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            mainLog.Info("return answere from the server after Send Query User Request: " + output);
+            mainLog.Info("Returned answer from the server after sent Query User request: " + output);
             return output;
         }
 
@@ -115,9 +119,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
-            mainLog.Info("Send Query Market Request to the server. information: " + item.ToString());
+            mainLog.Info("Sent Query Market request to the server. information: " + item.ToString());
             var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            mainLog.Info("return answere from the server after Send Query Market Request: " + output);
+            mainLog.Info("returned answer from the server after sent Query Market request: " + output);
             return output;
         }
 
@@ -128,13 +132,13 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new MarketItems.CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.id = id;
-                mainLog.Info("Send Cancel Buy Sell Request to the server. information: " + item.ToString());
+                mainLog.Info("Sent Cancel Buy Sell request to the server. information: " + item.ToString());
                 var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server afterSend Cancel Buy Sell Request: " + output);
+                mainLog.Info("Returned answer from the server after sent Cancel Buy Sell request: " + output);
 
             if (output == "Ok")
             {
-                cancelLog.Info("cancel request for transaction: " + id + " sent");
+                cancelLog.Info("Canceling request for transaction: " + id + " has sent");
                
                 return true;
             }
@@ -143,7 +147,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 
         public bool cancelAllRequests()
         {
-       		mainLog.Info("Send cancel All Requests to the server.");
+       		mainLog.Info("Sent cancel All Requests request to the server.");
             MarketItems.MarketUserData userD = (MarketItems.MarketUserData) SendQueryUserRequest();
             bool allCanceled = true;
             foreach( int id in userD.requests)
@@ -153,7 +157,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 if (!output)
                     allCanceled = false;
             }
-            mainLog.Info("All Requests canceld.");
+            mainLog.Info("All Requests have been canceled.");
             return allCanceled;
         }
 
@@ -163,9 +167,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryAllMarket";
-            mainLog.Info("Send Query All Market Request to the server. information: " + item.ToString());
+            mainLog.Info("Sent Query All Market request to the server. information: " + item.ToString());
             var output = client.SendPostRequest<QueryMarketRequest, LinkedList<Commodities>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            mainLog.Info("returned answer from the server after sending Query Market Request: " + output);
+            mainLog.Info("Returned answer from the server after sent Query Market request: " + output);
             return output;
         }
 
@@ -175,9 +179,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUserRequests";
-            mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
+            mainLog.Info("Sent Query User Request to the server. information: " + item.ToString());
             var output = client.SendPostRequest<QueryUserRequest, LinkedList<UserRequests>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-            mainLog.Info("return answere from the server after Send Query User Request: " + output);
+            mainLog.Info("Returned answer from the server after sent Query User request: " + output);
             return output;
         }
 
