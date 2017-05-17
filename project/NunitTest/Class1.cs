@@ -8,6 +8,7 @@ using LogicLayer;
 using Pilots;
 using MarketClient;
 using MarketItems;
+using System.IO;
 
 namespace NunitTest
 {
@@ -21,28 +22,37 @@ namespace NunitTest
         [Test]
         public void buyRequestTest()
         {
-            mc.cancelAllRequests();
             requestId = mc.SendBuyRequest(1, 2, 10);
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreEqual(user.requests.Contains(requestId), true);
         }
         [Test]
-        public void cancelRequestTest()
-        {
-            mc.SendCancelBuySellRequest(requestId);
-            MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(0, user.requests.Count);
-        }
-        [Test]
         public void sellRequestTest()
         {
-            mc.cancelAllRequests();
-            mc.SendSellRequest(5, 5, 1);
+            mc.SendSellRequest(200, 5, 1);
             requestId = mc.SendSellRequest(100, 5, 1);
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreEqual(user.requests.Contains(requestId), true);
         }
 
+       [Test]
+        public void cancelRequestTest()
+        {
+            requestId = mc.SendBuyRequest(1, 3, 10);
+            mc.SendCancelBuySellRequest(requestId);
+            MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
+            Assert.AreEqual(user.requests.Contains(requestId), false);
+        }
+        [Test]
+        public void cancelAllRequestTest()
+        {
+            mc.SendBuyRequest(1, 3, 10);
+            mc.SendBuyRequest(1, 4, 10);
+            mc.SendSellRequest(200, 5, 1);
+            mc.cancelAllRequests();
+            MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
+            Assert.AreEqual(user.requests.Count, 0);
+        }
         [Test]
         public void test1SemiPilot()
         {
@@ -51,13 +61,13 @@ namespace NunitTest
             Assert.AreEqual(SemiPilot.semiPilotTimer.Enabled, true);
             SemiPilot.stopSemiPilot();
             Assert.AreEqual(SemiPilot.semiPilotTimer.Enabled, false);
-
         }
+        
         [Test]
         public void test2SemiPilot()
         {
             MarketUserData userBefore = (MarketUserData)mc.SendQueryUserRequest();
-            SemiPilot.runSemiPilot(5, 10, 1, true);
+            SemiPilot.runSemiPilot(5, 17, 1, true);
             while (SemiPilot.eventsData.Equals("")) { }
             MarketUserData userAfter = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreNotEqual(userBefore.ToString(), userAfter.ToString());
@@ -93,11 +103,10 @@ namespace NunitTest
             }
             else        //we managed to sell the stock when we bought it - then check we earned money
             {
-                Assert.AreEqual(userDataAfter.funds > userDataBefore.funds, true);
+                Assert.AreEqual(true , userDataAfter.funds > userDataBefore.funds);
             }
             
         }
-
 
     }
 
