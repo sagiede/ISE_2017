@@ -56,7 +56,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-            buyingLog.Info("Request for buying " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent" + "id: "+ output);
+            buyingLog.Info("Request for buying " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent " + "id: "+ output);
             
             return integerOutput;
         }

@@ -430,7 +430,7 @@ namespace gui
         private void sellHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\cancelLog.log");
+            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\sellingLog.log");
         }
         private void cancelHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
