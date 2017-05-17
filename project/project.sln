@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project", "project\project.csproj", "{6A9EB530-876D-42B0-A689-0C91297FA683}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "DataConectionLayer\LogicLayer.csproj", "{560184E5-C480-4C7A-BE8D-0020FDF4FD1B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A1334D4C-CCC7-4674-9E20-D3C5DCA73B93} = {A1334D4C-CCC7-4674-9E20-D3C5DCA73B93}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketClient", "marketClient-master\MarketClient\MarketClient.csproj", "{371E8EA8-CE7A-4AB2-85E5-EAC135DF4A26}"
 EndProject

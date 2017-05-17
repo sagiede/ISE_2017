@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogicLayer;
 using MarketClient;
-using Pilots;
-using log4net;
+using MarketItems;
 
 namespace project
 {
@@ -18,17 +17,19 @@ namespace project
         static void Main(string[] args)
         {
            
-          SemiPilot.runSemiPilot(4,5,1,false);
-            Console.ReadLine();
+            SemiPilot.runSemiPilot(4,12,1,true);
             
 
             LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
+            //Console.WriteLine(Pilots.AutoPilot.act);
+            Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
             runTrading(mc);
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 
             while (true)
-            {              
+            {
+                Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
                 Console.WriteLine("---------------------------------------------------------------\nWelcome to Algo-Trading application. to go back to main menu, you can press -1 at any point");
                 Console.WriteLine("What do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries\n5- delete all open requests");

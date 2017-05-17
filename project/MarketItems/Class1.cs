@@ -34,6 +34,7 @@ namespace MarketItems
     {
         public int id { get; set; }
     }
+
     public class MarketItemQuery : IMarketItemQuery
     {
         public object user { get; set; }
@@ -58,7 +59,7 @@ namespace MarketItems
         public Dictionary<string, int> commodities { get; set; }
         public double funds { get; set; }
         public List<int> requests { get; set; }
-        override
+        override    
         public string ToString()
         {
             string commTostring = "";
@@ -92,6 +93,40 @@ namespace MarketItems
         {
             return "\nMarket status: \n" + "ask: " + ask + "\nbid: " + bid;
         }
+    }
 
+    public class CommodityOffer
+    {
+        public MarketCommodityOffer info { get; set; }
+
+        override
+        public string ToString()
+        {
+            return info.ToString();
+        }
+    }
+
+    public class UserRequests
+    {
+        public int id { get; set; }
+        public MarketItemQuery request { get; set; }
+
+        override
+        public string ToString()
+        {
+            return id + ": " + request;
+        }
+    }
+
+    public class Commodities
+    {
+        public int id { get; set; }
+        public MarketCommodityOffer info { get; set; }
+
+        override
+        public string ToString()
+        {
+            return "Commodity " + id + " " + info;
+        }
     }
 }

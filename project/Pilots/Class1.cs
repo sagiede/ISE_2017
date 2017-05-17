@@ -51,12 +51,12 @@ namespace Pilots
             if (requestType)            //buy when price of ask of commidity id is lower then extremePrice
             {
                 int stockPrice = query.ask;
-                if (stockPrice <= extremePrice)
+                if (stockPrice <= extremePrice & amount>0)
                 {
-                    pc.SendBuyRequest(stockPrice, commodity, 1);
-                    SemiPilot.amount--;
-                    eventsData += "buy request has sended : \ncommodidy: "+commodity+"\nprice: "+stockPrice+ "\namount: 1 \n";
-                    if (amount == 0)
+                        pc.SendBuyRequest(stockPrice, commodity, 1);
+                        SemiPilot.amount = amount - 1;
+                        eventsData += "buy request has sended : \ncommodidy: " + commodity + "\nprice: " + stockPrice + "\namount: 1 \n";
+                        if (amount == 0)
                     {
                         semiPilotTimer.Stop();
                     }
@@ -66,7 +66,7 @@ namespace Pilots
             else
             {
                 int stockOffer = query.bid;
-                if (stockOffer >= extremePrice)
+                if (stockOffer >= extremePrice & amount>0)
                 {
                     pc.SendSellRequest(stockOffer, commodity, 1);
                     SemiPilot.amount--;
@@ -84,77 +84,82 @@ namespace Pilots
     public class AutoPilot
     {
         private static Timer timer = new Timer(2000);
-        private static int commodity = 0;
         private static int requestsLeft = 18;
         public static MarketClientConnection mc = new MarketClientConnection();
         private static Boolean act = false;
+        private static Boolean activated = false;
         public static String actions = "";
-        
-      
-
+     
         public static void runPilot()
         {
-            act = !act;
-            if (act)
+            if (!activated)
             {
+                activated = true;
                 timer.Elapsed += OnTimedEvent;
                 timer.AutoReset = true;
             }
+            act = !act;
             timer.Enabled = act;
-            // need to add stopping term from the GUI
         }
        
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            
-              requestsLeft += 2;
+            increaseRequests(2);
 
-              if (requestsLeft <= 4)
-              {
-                  timer.Stop();
-                  System.Threading.Thread.Sleep(4000);
-                  requestsLeft += 16;
-                  timer.Start();
-              }
+            double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
 
+            LinkedList<Commodities> stockStatus = mc.SendQueryAllMarketRequest();
 
+            int ask = 0;
+            int bid = 0;
+            int commodity = 0;
 
-                   double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
+            for (commodity = 0; commodity <= 9; commodity++)
+            {
+                ask = stockStatus.ElementAt<Commodities>(commodity).info.ask;
+                bid = stockStatus.ElementAt<Commodities>(commodity).info.bid;
+                if (ask < bid)
+                    break;
+            }
 
-                   IMarketCommodityOffer stockStatus = mc.SendQueryMarketRequest(commodity);
-                   int ask = ((MarketCommodityOffer)stockStatus).ask;
-                   int bid = ((MarketCommodityOffer)stockStatus).bid;
-
-              if (ask < bid)
-              {
+            if (ask < bid)
+            {
                 if (funds - ask > 0)
                 {
                     mc.SendBuyRequest(ask, commodity, 1);
-                    requestsLeft--;
                     actions += "bought " + commodity + " in " + ask;
                     mc.SendSellRequest(bid, commodity, 1);
-                    requestsLeft--;
                     actions += ", sold for " + bid + "\n";
-
+                    Console.WriteLine(commodity + " " + ask + " " + bid);
+                    increaseRequests(-2);
                 }
                 else
                 {
-                    actions += "there is no more money";
+                    actions += "there is no more money\n";
                     return;
                 }
-               }
-               else
-               {
-                   // temporarly to 9
-                   if (commodity == 9)
-                      commodity = 0;
-                  else commodity++;
-
-
-           }
-           
+            }
+            else
+            {
+                if (commodity == 9)
+                    commodity = 0;
+                else commodity++;
+            }
         }
 
+        private static void increaseRequests(int i)
+        {
+            if (requestsLeft + i <= 4)
+            {
+                timer.Stop();
+                System.Threading.Thread.Sleep(2000);
+                increaseRequests(4);
+                timer.Start();
+            }
+            else if (requestsLeft + i > 20)
+                requestsLeft = 20;
+            else
+                requestsLeft += i;
+        }
     }
-
-    }
+}

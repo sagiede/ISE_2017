@@ -32,7 +32,6 @@ oxfRSdnC61rWXG2M/PcfVwOCegqwludspE5EYmBmIVgle3k/UpVIt/hwD0abAkB1
 wSavMCV0iv8QUBxldYMhAkEAkYx4UBaYXMr/byar4UYkdTYuxag+iXFifBSqIYY4
 sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 -----END RSA PRIVATE KEY-----";
-
        
         public static log4net.ILog mainLog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static  log4net.ILog buyingLog = log4net.LogManager.GetLogger("buyingLogger");
@@ -41,8 +40,6 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-         
-            
           
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.BuySellRequest();
@@ -93,10 +90,10 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.type = "queryBuySell";
             item.id = id;
 
-             	mainLog.Info("Send Query BuySell Request to the server. information: " + item.ToString());
-                MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after Send Query BuySell Request: " + output);
-                return output;
+            mainLog.Info("Send Query BuySell Request to the server. information: " + item.ToString());
+            MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Info("return answere from the server after Send Query BuySell Request: " + output);
+            return output;
         }
 
         public IMarketUserData SendQueryUserRequest()
@@ -105,10 +102,10 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             string token = SimpleCtyptoLibrary.CreateToken("user52", key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUser";
-               mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
-                MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after Send Query User Request: " + output);
-                return output;
+            mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
+            MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Info("return answere from the server after Send Query User Request: " + output);
+            return output;
         }
 
         public IMarketCommodityOffer SendQueryMarketRequest(int commodity){
@@ -118,10 +115,10 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
-               mainLog.Info("Send Query Market Request to the server. information: " + item.ToString());
-                var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Info("return answere from the server after Send Query Market Request: " + output);
-                return output;
+            mainLog.Info("Send Query Market Request to the server. information: " + item.ToString());
+            var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Info("return answere from the server after Send Query Market Request: " + output);
+            return output;
         }
 
         public bool SendCancelBuySellRequest(int id){
@@ -141,8 +138,8 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 cancelLog.Logger.Repository.Shutdown();
                 return true;
             }
-                throw new Exception(output); 
         }
+
         public bool cancelAllRequests()
         {
        		mainLog.Info("Send cancel All Requests to the server.");
@@ -154,11 +151,33 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 
                 if (!output)
                     allCanceled = false;
-
             }
             mainLog.Info("All Requests canceld.");
             return allCanceled;
+        }
 
+        public LinkedList<Commodities> SendQueryAllMarketRequest()
+        {
+            SimpleHTTPClient client = new SimpleHTTPClient();
+            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            var item = new MarketItems.QueryMarketRequest();
+            item.type = "queryAllMarket";
+            mainLog.Info("Send Query All Market Request to the server. information: " + item.ToString());
+            var output = client.SendPostRequest<QueryMarketRequest, LinkedList<Commodities>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Info("returned answer from the server after sending Query Market Request: " + output);
+            return output;
+        }
+
+        public LinkedList<UserRequests> SendQueryUserRequestsRequest()
+        {
+            SimpleHTTPClient client = new SimpleHTTPClient();
+            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            var item = new MarketItems.QueryUserRequest();
+            item.type = "queryUserRequests";
+            mainLog.Info("Send Query User Request to the server. information: " + item.ToString());
+            var output = client.SendPostRequest<QueryUserRequest, LinkedList<UserRequests>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Info("return answere from the server after Send Query User Request: " + output);
+            return output;
         }
 
         // check the answere that the server give back. if it isnt number return false
