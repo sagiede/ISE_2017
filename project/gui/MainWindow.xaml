@@ -26,18 +26,18 @@
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="21*"/>
                         <ColumnDefinition Width="31*"/>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="62*"/>
+                        <ColumnDefinition Width="28*"/>
+                        <ColumnDefinition Width="39*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="commodityBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,50,0,0" Grid.Column="1" Grid.ColumnSpan="4"/>
-                    <Label x:Name="label_2" Content="Price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,89,0,0"/>
+                    <TextBox x:Name="commodityBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,50,0,0" Grid.Column="1" Grid.ColumnSpan="3"/>
+                    <Label x:Name="label_2" Content="Price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,89,0,0" Height="26" Width="42"/>
 
-                    <Label x:Name="label_3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,133,0,0" Grid.ColumnSpan="2"/>
+                    <Label x:Name="label_3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,133,0,0" Grid.ColumnSpan="2" Height="26" Width="59"/>
                     <TextBox x:Name="amountBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,133,0,0" Grid.Column="1" Grid.ColumnSpan="3" />
-                    <Label x:Name="label_2_Copy" Content="Commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Grid.ColumnSpan="2" Width="73"/>
+                    <Label x:Name="label_2_Copy" Content="Commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Grid.ColumnSpan="2" Width="73" Height="26"/>
 
                     <TextBox x:Name="PriceBuy" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="28,89,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3"/>
-                    <Button x:Name="buyButton" Content="Commit" Grid.Column="1" HorizontalAlignment="Left" Margin="29,190,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2"/>
+                    <Button x:Name="buyButton" Content="Commit" Grid.Column="1" HorizontalAlignment="Left" Margin="29,190,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2" Height="20"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="sell" Header="Sell"  Width="58" Margin="-3,2,28,-2" Visibility="Visible" Height="25">

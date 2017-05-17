@@ -147,6 +147,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 
         public bool cancelAllRequests()
         {
+            int counter = 0;
        		mainLog.Info("Sent cancel All Requests request to the server.");
             MarketItems.MarketUserData userD = (MarketItems.MarketUserData) SendQueryUserRequest();
             bool allCanceled = true;

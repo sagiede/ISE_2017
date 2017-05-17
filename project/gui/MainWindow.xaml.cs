@@ -14,10 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LogicLayer;
 using MarketItems;
-using Pilots;
 using System.Timers;
 using System.IO;
 using log4net.Appender;
+using Pilots;
 
 namespace gui
 {
@@ -88,9 +88,7 @@ namespace gui
             }
             try
             {
-  
                 Pilots.AutoPilot.runPilot();
-
             }
             catch (Exception e2)
             {
