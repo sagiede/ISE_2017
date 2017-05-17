@@ -47,16 +47,16 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
-                mainLog.Debug("buying requset send to the server. information: " + item.ToString());
-                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
-                mainLog.Debug("return answere from the server after buing request: " + output);
+            mainLog.Debug("buying requset send to the server. information: " + item.ToString());
+            string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            mainLog.Debug("return answere from the server after buing request: " + output);
 
 
                 if (!(checkMarketResponse(output)))
                     throw new ApplicationException(output);
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
-            buyingLog.Info("Request for buying " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent " + "id: "+ output);
+               buyingLog.Info("Request for buying " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent " + "id: "+ output);
             
             return integerOutput;
         }
@@ -143,6 +143,9 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 
         public bool cancelAllRequests()
         {
+            int counter = 0;
+            
+          
        		mainLog.Info("Send cancel All Requests to the server.");
             MarketItems.MarketUserData userD = (MarketItems.MarketUserData) SendQueryUserRequest();
             bool allCanceled = true;
