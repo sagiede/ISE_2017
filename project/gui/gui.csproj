@@ -132,8 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pline.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="backmoney.jpg" />
     <Content Include="Money.wav" />
     <Resource Include="submit.jpg" />

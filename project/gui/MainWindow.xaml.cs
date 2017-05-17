@@ -63,6 +63,19 @@ namespace gui
 
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
+            if (isVisible)
+            {
+                ((Button)sender).Background = Brushes.Red;
+                ((Button)sender).Content = "Stop";
+            }
+            else
+            {
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Auto-pilot";
+            }
+
             output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
             player.SoundLocation = "Money.wav";
