@@ -25,18 +25,19 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="21*"/>
-                        <ColumnDefinition Width="36*"/>
+                        <ColumnDefinition Width="31*"/>
+                        <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="62*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="commodityBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,50,0,0" Grid.Column="1" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="commodityBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,50,0,0" Grid.Column="1" Grid.ColumnSpan="4"/>
                     <Label x:Name="label_2" Content="Price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,89,0,0"/>
 
                     <Label x:Name="label_3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,133,0,0" Grid.ColumnSpan="2"/>
-                    <TextBox x:Name="amountBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,133,0,0" Grid.Column="1" Grid.ColumnSpan="3" />
+                    <TextBox x:Name="amountBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,133,0,0" Grid.Column="1" Grid.ColumnSpan="4" />
                     <Label x:Name="label_2_Copy" Content="commodity :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Grid.ColumnSpan="2" Width="73"/>
 
-                    <TextBox x:Name="PriceBuy" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="28,89,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3"/>
-                    <Button x:Name="buyButton" Content="commit" Grid.Column="2" HorizontalAlignment="Left" Margin="47,202,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="PriceBuy" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="28,89,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Grid.ColumnSpan="4"/>
+                    <Button x:Name="buyButton" Content="commit" Grid.Column="2" HorizontalAlignment="Left" Margin="47,202,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="3"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="sell" Header="Sell"  Width="58" Margin="129.333,1,-110,-4" Visibility="Visible">
@@ -52,7 +53,7 @@
             </TabItem>
             <TabItem x:Name="cancel" Header="cancel" HorizontalAlignment="Left" Width="58" Margin="-81.333,-0.667,0,-1.667" Visibility="Visible">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-17,3.333">
-                    <Label x:Name="label1" Content="commodity:" HorizontalAlignment="Left" Margin="32,58,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label1" Content="id:" HorizontalAlignment="Left" Margin="32,58,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="cancelCommodity" HorizontalAlignment="Left" Height="23" Margin="118,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
                     <Button x:Name="cancelButton" Content="commit" HorizontalAlignment="Left" Margin="141,168,0,0" VerticalAlignment="Top" Width="76" Click="cancelButton_Click" Height="21">
                         <Button.Background>
@@ -95,7 +96,7 @@
                     <Button x:Name="semiStopBuy" Content="stop" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopBuy_Click" Visibility="Collapsed"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="57,-1,-54.667,-1" Visibility="Visible">
+            <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="57,-1,-54.667,-1" Visibility="Visible" >
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0.333">
                     <Button x:Name="semiStartSell" Content="start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStartSell_Click" Visibility="Visible"/>
                     <TextBox x:Name="commoditySPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>

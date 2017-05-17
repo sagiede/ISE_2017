@@ -63,8 +63,9 @@ namespace gui
 
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
-            player.SoundLocation = "C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\Money.wav";
+            player.SoundLocation = "Money.wav";
             player.Load();
 
             if (isVisible) // first click
@@ -124,6 +125,7 @@ namespace gui
 
         private void buyButton_Click(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             int commodity = -1;
             int price = -1;
             int amount = -1;
@@ -143,7 +145,7 @@ namespace gui
             {
                 LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                 int response = mc.SendBuyRequest(price, commodity, amount);
-                output.Text = response.ToString();
+                output.Text = "the buy request for commodity: " + commodity + " in price: "+price+" amount: " +amount+" id: "+response.ToString()+" sent";
             }
             catch (Exception e2)
             {
@@ -152,6 +154,7 @@ namespace gui
         }
         private void SellButton_Click(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             {
                 int commodity = -1;
                 int price = -1;
@@ -172,7 +175,7 @@ namespace gui
                 {
                     LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                     int response = mc.SendSellRequest(price, commodity, amount);
-                    output.Text = response.ToString();
+                    output.Text = "the sell request for commodity: " + commodity + " in price: " + price + " amount: " + amount + " id: " + response.ToString() + " sent";
                 }
                 catch (Exception e3)
                 {
@@ -183,6 +186,7 @@ namespace gui
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             {
                 int commodity = -1;
                 try
@@ -198,7 +202,8 @@ namespace gui
                 {
                     LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                     Boolean response = mc.SendCancelBuySellRequest(commodity);
-                    output.Text = response.ToString();
+                    if(response==true)
+                    output.Text = "cancel for commodity "+commodity+" is done";
                 }
                 catch (Exception e1)
                 {
@@ -209,6 +214,7 @@ namespace gui
 
         private void userQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             clearAllQueris();
             userQButton.Visibility = System.Windows.Visibility.Visible;
 
@@ -229,8 +235,8 @@ namespace gui
 
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
         {
-            
-                int commodity = -1;
+            output.Text = "";
+            int commodity = -1;
                 try
                 {
                     commodity = int.Parse(marketQText.Text);
@@ -270,7 +276,7 @@ namespace gui
 
         private void userQButton_Click(object sender, RoutedEventArgs e)
         {
-
+            output.Text = "";
             try
             {
                 LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
@@ -285,6 +291,7 @@ namespace gui
 
         private void BuySellQButton_Click(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             int id = -1;
             try
             {
@@ -309,28 +316,31 @@ namespace gui
 
         private void cancelAllCommit_Click(object sender, RoutedEventArgs e)
         {
-            
+            output.Text = "";
+            MessageBox.Show("it will take a moment..");
             try
             {
-                LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+               LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                 Boolean response = mc.cancelAllRequests();
-                output.Text = response.ToString();
+               output.Text = "all request canceld";
             }
             catch (Exception e1)
             {
+               
                 output.Text = e1.Message;
             }
+            
         }
 
         private void cancelAllButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
             cancelAllCommit.Visibility = System.Windows.Visibility.Visible;
-
         }
         // semi-pilot
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             semiStartBuy.Visibility = System.Windows.Visibility.Hidden;
             semiStopBuy.Visibility = System.Windows.Visibility.Visible;
             {
@@ -428,23 +438,24 @@ namespace gui
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
            
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\buyingLog.log");
+            output.Text = File.ReadAllText("buyingLog.log");
            
         }
         private void sellHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\sellingLog.log");
+            output.Text = File.ReadAllText("sellingLog.log");
         }
         private void cancelHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
-            output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\cancelLog.log");
+            output.Text = File.ReadAllText("cancelLog.log");
         }
         
  
         private void semiStartSell_Click(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
             semiStartSell.Visibility = System.Windows.Visibility.Hidden;
             semiStopSell.Visibility = System.Windows.Visibility.Visible;
             {
@@ -483,6 +494,7 @@ namespace gui
                 }
             }
         }
+       
         private void semiStopSell_Click(object sender, RoutedEventArgs e)
         {
             try
