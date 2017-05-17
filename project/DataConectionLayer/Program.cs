@@ -152,8 +152,13 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             bool allCanceled = true;
             foreach( int id in userD.requests)
             {
+                if(counter==2)
+                {
+                    counter = 0;
+                    System.Threading.Thread.Sleep(2000);
+                }
                 bool output = SendCancelBuySellRequest(id);
-                
+                counter++;
                 if (!output)
                     allCanceled = false;
             }

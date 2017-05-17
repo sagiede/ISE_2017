@@ -25,10 +25,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="21*"/>
-                        <ColumnDefinition Width="36*"/>
+                        <ColumnDefinition Width="31*"/>
+                        <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="62*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="commodityBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,50,0,0" Grid.Column="1" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="commodityBuy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="28,50,0,0" Grid.Column="1" Grid.ColumnSpan="4"/>
                     <Label x:Name="label_2" Content="Price :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,89,0,0"/>
 
                     <Label x:Name="label_3" Content="Amount :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,133,0,0" Grid.ColumnSpan="2"/>
