@@ -423,7 +423,7 @@ namespace gui
         }
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
-           // LogicLayer.MarketClientConnection.buyingLog.
+           
             output.Text = File.ReadAllText("C:\\Users\\etay2\\Desktop\\ISE17_project\\project\\gui\\bin\\Debug\\buyingLog.log");
            
         }

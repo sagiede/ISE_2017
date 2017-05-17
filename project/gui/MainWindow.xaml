@@ -19,7 +19,7 @@
                 <ImageBrush ImageSource="pline.jpg"/>
             </Button.Background>
         </Button>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="386" VerticalAlignment="Top" Width="304" Margin="0,25,0,0"  RenderTransformOrigin="0.49,0.539" Visibility="Visible">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="386" VerticalAlignment="Top" Width="304" Margin="5,25,0,0"  RenderTransformOrigin="0.49,0.539" Visibility="Visible">
             <TabItem x:Name="buy" Header="Buy" Height="22" VerticalAlignment="Top" Margin="-2,-2,2,0" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -39,7 +39,7 @@
                     <Button x:Name="buyButton" Content="commit" Grid.Column="2" HorizontalAlignment="Left" Margin="47,202,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="sell" Header="Sell" Margin="171,-2.667,-108.333,0.333">
+            <TabItem x:Name="sell" Header="Sell"  Width="58" Margin="129.333,1,-110,-4" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <TextBox x:Name="commodityT" HorizontalAlignment="Left" Height="23" Margin="114,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.231,0.42"/>
                     <TextBox x:Name="priceT" HorizontalAlignment="Left" Height="23" Margin="114,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.725,-0.246"/>
@@ -50,7 +50,7 @@
                     <Button x:Name="SellButton" Content="submit" HorizontalAlignment="Left" Margin="138,202,0,0" VerticalAlignment="Top" Width="80" Click="SellButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="cancel" Header="cancel" HorizontalAlignment="Left" Width="58" Margin="-62.333,0,0,-2" Visibility="Visible">
+            <TabItem x:Name="cancel" Header="cancel" HorizontalAlignment="Left" Width="58" Margin="-81.333,-0.667,0,-1.667" Visibility="Visible">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-17,3.333">
                     <Label x:Name="label1" Content="commodity:" HorizontalAlignment="Left" Margin="32,58,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="cancelCommodity" HorizontalAlignment="Left" Height="23" Margin="118,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
@@ -62,7 +62,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="queries" Header="Queries" Height="22" VerticalAlignment="Top" Margin="-97.667,-1,97,0" Visibility="Visible">
+            <TabItem x:Name="queries" Header="Queries" Height="22" VerticalAlignment="Top" Margin="-123,1.333,122,-0.667" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="127*"/>

@@ -78,7 +78,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
                 int integerOutput;
                 int.TryParse(output, out integerOutput);
            sellingLog.Info("Request for selling " + amount + " shares of " + commodity + " for " + price + " dollars per share has sent" + "id: " + output);
-            sellingLog.Logger.Repository.Shutdown();
+         
             return integerOutput;
         }
 
@@ -135,9 +135,10 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             if (output == "Ok")
             {
                 cancelLog.Info("cancel request for transaction: " + id + " sent");
-                cancelLog.Logger.Repository.Shutdown();
+               
                 return true;
             }
+            throw new Exception(output);
         }
 
         public bool cancelAllRequests()
