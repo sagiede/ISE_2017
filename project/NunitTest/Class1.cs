@@ -37,6 +37,15 @@ namespace NunitTest
         }
 
         [Test]
+        public void sellRequestTest()
+        {
+            mc.SendSellRequest(200, 5, 1);
+            requestId = mc.SendSellRequest(100, 5, 1);
+            MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
+            Assert.AreEqual(user.requests.Contains(requestId), true);
+        }
+
+       [Test]
         public void cancelRequestTest()
         {
             requestId = mc.SendBuyRequest(1, 3, 10);
@@ -111,4 +120,3 @@ namespace NunitTest
             }
         }
     }
-}
