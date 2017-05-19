@@ -107,7 +107,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="!.jpg" />
@@ -131,10 +133,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pline.jpg" />
     <Resource Include="backmoney.jpg" />
-    <Content Include="Money.wav" />
     <Resource Include="submit.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pline.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Money.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

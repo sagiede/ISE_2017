@@ -42,7 +42,7 @@ namespace gui
             timerSemiPliot.Elapsed += HandleTimerElapsedSemiPilot;
 
         }
-
+        //the action of semi pilot
         private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
         {
             Dispatcher.Invoke(() => {
@@ -60,22 +60,11 @@ namespace gui
             });
             
         }
-
+        //action of auto Pilot Button Click
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
-            if (isVisible)
-            {
-                ((Button)sender).Background = Brushes.Red;
-                ((Button)sender).Content = "Stop";
-            }
-            else
-            {
-                var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
-                ((Button)sender).Background = brush;
-                ((Button)sender).Content = "Auto-pilot";
-            }
-
+           
+            //sound
             output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
             player.SoundLocation = "Money.wav";
@@ -83,8 +72,9 @@ namespace gui
 
             if (isVisible) // first click
             {
+                ((Button)sender).Background = Brushes.Red;
+                ((Button)sender).Content = "Stop";
                 isVisible = false;
-
                 timerPliot.Enabled = true;
                 tabControl.Visibility = System.Windows.Visibility.Hidden;
                 moneypic.Visibility= System.Windows.Visibility.Visible;
@@ -98,6 +88,10 @@ namespace gui
                 player.Stop();
                 isVisible = true;
                 tabControl.Visibility = System.Windows.Visibility.Visible;
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Auto-pilot";
             }
             try
             {
@@ -106,7 +100,12 @@ namespace gui
             catch (Exception e2)
             {
                 output.Text = e2.Message;
-               
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Auto-pilot";
+                tabControl.Visibility = System.Windows.Visibility.Visible;
+                moneypic.Visibility = System.Windows.Visibility.Hidden;
             }
         }
         //timer of clock event
@@ -163,6 +162,7 @@ namespace gui
                 output.Text = e2.Message;
             }
         }
+        //the action of sell button
         private void SellButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -194,7 +194,7 @@ namespace gui
                 }
             }
         }
-
+        // cancel button
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -222,7 +222,7 @@ namespace gui
                 }
             }
         }
-
+        // user query  radio button
         private void userQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -243,7 +243,7 @@ namespace gui
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
             cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
-
+        //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -268,7 +268,7 @@ namespace gui
                     output.Text = e1.Message;
                 }
             }
-
+        //user query  radio button
         private void marketQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
@@ -276,7 +276,7 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Visible;
             labeId2.Visibility = System.Windows.Visibility.Visible;
         }
-
+        // buy sell query button
         private void buySellQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
@@ -284,7 +284,7 @@ namespace gui
             BuySellQButton.Visibility = System.Windows.Visibility.Visible;
             labelId1.Visibility = System.Windows.Visibility.Visible;
         }
-
+        // user query button
         private void userQButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -299,7 +299,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-
+        //buy sell query button
         private void BuySellQButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -324,7 +324,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-
+        // cancel all commit 
         private void cancelAllCommit_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -342,13 +342,13 @@ namespace gui
             }
             
         }
-
+        // cancel all radio button
         private void cancelAllButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
             cancelAllCommit.Visibility = System.Windows.Visibility.Visible;
         }
-        // semi-pilot
+        // semi-pilot buy start
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -404,6 +404,7 @@ namespace gui
             }
             catch (Exception e2)
             {
+                returnAllForSemiBuy();
                 timerSemiPliot.Stop();
                 output.Text = e2.Message;
                 return;
@@ -419,6 +420,7 @@ namespace gui
             SemiAutoSell.Visibility = System.Windows.Visibility.Hidden;
             sell.Visibility = System.Windows.Visibility.Hidden;
         }
+        // return items vissible
         public void returnAllForSemiBuy()
         {
             queries.Visibility = System.Windows.Visibility.Visible;
@@ -428,6 +430,7 @@ namespace gui
             SemiAutoSell.Visibility = System.Windows.Visibility.Visible;
             sell.Visibility = System.Windows.Visibility.Visible;
         }
+        // return items to hidden
         public void clearAllForSemiSell()
         {
             queries.Visibility = System.Windows.Visibility.Hidden;
@@ -437,6 +440,7 @@ namespace gui
             SemiAutoBuy.Visibility = System.Windows.Visibility.Hidden;
             sell.Visibility = System.Windows.Visibility.Hidden;
         }
+        // return items vissible
         public void returnAllForSemiSell()
         {
             queries.Visibility = System.Windows.Visibility.Visible;
@@ -446,24 +450,27 @@ namespace gui
             SemiAutoBuy.Visibility = System.Windows.Visibility.Visible;
             sell.Visibility = System.Windows.Visibility.Visible;
         }
+        //buy history radio button
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
            
             output.Text = File.ReadAllText("buyingLog.log");
            
         }
+        //sell history radio button
         private void sellHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
             output.Text = File.ReadAllText("sellingLog.log");
         }
+        //cancel history radio button
         private void cancelHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
 
             output.Text = File.ReadAllText("cancelLog.log");
         }
-        
- 
+
+        //semi pilot sell start
         private void semiStartSell_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -505,7 +512,7 @@ namespace gui
                 }
             }
         }
-       
+       // semi pilot stop sell
         private void semiStopSell_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -519,6 +526,7 @@ namespace gui
             }
             catch (Exception e2)
             {
+                returnAllForSemiSell();
                 timerSemiPliot.Stop();
                 output.Text = e2.Message;
                 return;
