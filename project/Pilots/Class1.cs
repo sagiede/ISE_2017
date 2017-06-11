@@ -130,7 +130,7 @@ namespace Pilots
                 int bid = 0;
                 int commodity = 0;
                 
-                for (commodity = 0; commodity <= 9; commodity++)            //run oncommodities list
+                for (commodity = 4; commodity <= 9; commodity++)            //run oncommodities list
                 {
                     ask = stockStatus.ElementAt<Commodities>(commodity).info.ask;
                     bid = stockStatus.ElementAt<Commodities>(commodity).info.bid;
@@ -139,7 +139,7 @@ namespace Pilots
                         break;                                //stop at commodity with bid higher then ask price
                 }
 
-                if (ask < bid)
+                if (ask +1  < bid)
                     if (funds - ask > 0)                    //if we have enaugh money to buy, buy and sell
                     {
                         String current = "";

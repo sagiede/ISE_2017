@@ -173,9 +173,9 @@ namespace gui
                 try
                 {
 
-                    commodity = int.Parse(commodityBuy.Text);
-                    price = int.Parse(PriceBuy.Text);
-                    amount = int.Parse(amountBuy.Text);
+                    commodity = int.Parse(commodityT.Text);
+                    price = int.Parse(priceT.Text);
+                    amount = int.Parse(amountT.Text);
                 }
                 catch (Exception)
                 {
