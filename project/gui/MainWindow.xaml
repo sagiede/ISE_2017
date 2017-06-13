@@ -115,6 +115,7 @@
                     <TextBox x:Name="buySellQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed" Grid.ColumnSpan="2"/>
                     <RadioButton x:Name="cancelAllButton" Content="Cancel all requests" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Visibility="Visible" Checked="cancelAllButton_Checked" Grid.ColumnSpan="2"/>
                     <Button x:Name="cancelAllCommit" Content="submmit" HorizontalAlignment="Left" Margin="108,167,0,0" VerticalAlignment="Top" Width="75" Visibility="Collapsed" Click="cancelAllCommit_Click" Grid.ColumnSpan="2"/>
+                    <Button x:Name="exportB" Content="export it to PDF!" HorizontalAlignment="Left" Margin="11,261,0,0" VerticalAlignment="Top" Width="116" Height="41" Click="button_Click" Visibility="Collapsed" Background="#FFFE2E2E"/>
 
                 </Grid>
             </TabItem>

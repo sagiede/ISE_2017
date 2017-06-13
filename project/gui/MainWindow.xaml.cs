@@ -25,6 +25,8 @@ using System.Data.Linq.Mapping;
 using System.Collections.ObjectModel;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace gui
 {
@@ -145,8 +147,9 @@ namespace gui
         //timer of auto pilot event
         public void HandleTimerElapsed(object sender, EventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                
+            Dispatcher.Invoke(() =>
+            {
+
                 output.Text = Pilots.NewAutoPilot.actions;
             });
         }
@@ -159,7 +162,7 @@ namespace gui
 
         private void buyButton_Click(object sender, RoutedEventArgs e)
         {
-           
+
             output.Text = "";
             int commodity = -1;
             int price = -1;
@@ -252,6 +255,7 @@ namespace gui
         {
             output.Text = "";
             clearAllQueris();
+            exportB.Visibility= System.Windows.Visibility.Visible;
             userQButton.Visibility = System.Windows.Visibility.Visible;
 
 
@@ -259,6 +263,7 @@ namespace gui
         //clear from window all the irelevant elements in the queris
         private void clearAllQueris()
         {
+            exportB.Visibility = System.Windows.Visibility.Hidden;
             marketQText.Visibility = System.Windows.Visibility.Hidden;
             buySellQText.Visibility = System.Windows.Visibility.Hidden;
             labelId1.Visibility = System.Windows.Visibility.Hidden;
@@ -558,22 +563,22 @@ namespace gui
                 return;
             }
         }
-        
+
         private void historyByDateB_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
             try
             {
-             DateTime start = DateTime.Parse(dateStart.Text);
-   
-             DateTime end = DateTime.Parse(dateEnd.Text);
-              
-               
+                DateTime start = DateTime.Parse(dateStart.Text);
+
+                DateTime end = DateTime.Parse(dateEnd.Text);
+
+
                 LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
-                historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start,end);
-            
+                historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start, end);
+
             }
-            catch(Exception e2)
+            catch (Exception e2)
             {
                 output.Text = "please select date";
             }
@@ -607,8 +612,44 @@ namespace gui
                     viewModel.Data.Collection.Add(new Point(i, b));
             
         }
-    }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".pdf"; // Default file extension
+            dlg.Filter = "PDF documents (.pdf)|*.pdf"; // Filter files by extension 
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Open document
+                string res = dlg.FileName;
+
+                var doc1 = new Document();
+                PdfWriter.GetInstance(doc1, new FileStream(res, FileMode.Create));
+                try
+                {
+                    LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+                    MarketItems.MarketUserData response = (MarketUserData)mc.SendQueryUserRequest();
+                    doc1.Open();
+                    var f = FontFactory.GetFont("David", 11, Font.BOLD);
+                    doc1.Add(new iTextSharp.text.Paragraph(response.ToString(), f));
+                    doc1.Close();
+                }
+                catch (Exception e1)
+                {
+                    output.Text = e1.Message;
+                }
+
+
+            }
+        }
+    }
     
 }
 

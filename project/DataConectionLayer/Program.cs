@@ -40,11 +40,12 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public static log4net.ILog sellingLog = log4net.LogManager.GetLogger("sellingLogger");
         public static log4net.ILog cancelLog = log4net.LogManager.GetLogger("cancelLogger");
         public static Random r = new Random();
+      // public static int nonce = r.Next(0, 10000000);
      //   public static SqlConnection conn = new SqlConnection(windo);
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+           int nonce= r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.BuySellRequest();
             item.type = "buy";
@@ -83,14 +84,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
           
             return histo;
         }
-        public IQueryable<item> getCancelHistory()
-        {
-            HistoryDataContext sellHistory = new HistoryDataContext();
-            byte b = Byte.Parse("52");
-            IQueryable<item> histo = from item in sellHistory.items where item.seller.Equals(b) select item;
-            
-            return histo;
-        }
+       
         public IQueryable<item> getBuyHistoryByDate(DateTime start, DateTime end)
         {
             HistoryDataContext buyHistory = new HistoryDataContext();
@@ -109,7 +103,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public int SendSellRequest(int price, int commodity, int amount) {
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.BuySellRequest();
             item.type = "sell";
@@ -133,7 +127,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public IMarketItemQuery SendQueryBuySellRequest(int id)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryBuySellRequest();
             item.type = "queryBuySell";
@@ -148,7 +142,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public IMarketUserData SendQueryUserRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUser";
@@ -161,7 +155,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public IMarketCommodityOffer SendQueryMarketRequest(int commodity){
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryMarket";
@@ -175,7 +169,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public bool SendCancelBuySellRequest(int id){
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.CancelBuySellRequest();
             item.type = "cancelBuySell";
@@ -218,7 +212,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public LinkedList<Commodities> SendQueryAllMarketRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000);
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryAllMarket";
@@ -231,7 +225,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public LinkedList<UserRequests> SendQueryUserRequestsRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            int nonce = r.Next(0, 1000000);
+            int nonce = r.Next(0, 10000000); ;
             string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUserRequests";
