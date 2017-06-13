@@ -9,6 +9,10 @@ using Pilots;
 using MarketClient;
 using MarketItems;
 using System.IO;
+using System.Data.SqlClient;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+
 
 namespace NunitTest
 {
@@ -19,7 +23,7 @@ namespace NunitTest
         MarketClientConnection mc = new MarketClientConnection();
         int requestId;
 
-        [Test]
+       /* [Test]
         public void buyRequestTest()
         {
             requestId = mc.SendBuyRequest(1, 2, 10);            //send buy request (with low price)
@@ -91,6 +95,47 @@ namespace NunitTest
             System.Threading.Thread.Sleep(2000);
             userData = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreNotEqual(myFunds, userData.funds);
+        }
+        */
+        [Test]
+        public void testBuyHistoryByDate()
+        {
+            DateTime start = new DateTime(2017, 06, 10);
+            DateTime end = new DateTime(2017, 06, 11);
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getBuyHistoryByDate(start, end);
+            int x = i1.Count();
+            Assert.AreEqual(x, 2452);
+        }
+        [Test]
+        public void testSellHistoryByDate()
+        {
+            DateTime start = new DateTime(2017, 06, 10);
+            DateTime end = new DateTime(2017, 06, 11);
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getSellHistoryByDate(start, end);
+            int x = i1.Count();
+            Assert.AreEqual(x, 3253);
+            
+        }
+        [Test]
+        public void testBuyHistory()
+        { 
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getBuyHistory();
+            int x = i1.Count();
+            Boolean check = x > 10;
+            Assert.AreEqual(true, check);
+        }
+        [Test]
+        public void testSellBuyHistory()
+        {
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getSellHistory();
+            int x = i1.Count();
+            Boolean check = x > 10;
+            Assert.AreEqual(true, check);
+
         }
     }
 }

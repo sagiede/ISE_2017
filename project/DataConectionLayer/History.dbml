@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="history" Class="HistoryDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ise172.ise.bgu.ac.il;Initial Catalog=history;User ID=labuser" SettingsObjectName="LogicLayer.Properties.Settings" SettingsPropertyName="historyConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.items" Member="items">
+    <Type Name="item">
+      <Column Name="timestamp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="commodity" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="amount" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="price" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="seller" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="buyer" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

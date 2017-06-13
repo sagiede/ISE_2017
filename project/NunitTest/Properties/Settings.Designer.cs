@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace gui.Properties {
+namespace NunitTest.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,11 +26,11 @@ namespace gui.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\etay2\\Desktop\\ISE17_" +
-            "project\\project\\historyDataBase\\myHistory.mdf;Integrated Security=True")]
-        public string myHistoryConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=ise172.ise.bgu.ac.il;Initial Catalog=history;Persist Security Info=Tr" +
+            "ue;User ID=labuser;Password=wonsawheightfly")]
+        public string historyConnectionString {
             get {
-                return ((string)(this["myHistoryConnectionString"]));
+                return ((string)(this["historyConnectionString"]));
             }
         }
     }

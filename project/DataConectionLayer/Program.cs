@@ -11,6 +11,8 @@ using log4net;
 using System.IO;
 using System.Timers;
 using log4net.Appender;
+using System.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace LogicLayer
 {
@@ -37,18 +39,20 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public static  log4net.ILog buyingLog = log4net.LogManager.GetLogger("buyingLogger");
         public static log4net.ILog sellingLog = log4net.LogManager.GetLogger("sellingLogger");
         public static log4net.ILog cancelLog = log4net.LogManager.GetLogger("cancelLogger");
+        public static int nonce=0;
+     //   public static SqlConnection conn = new SqlConnection(windo);
         public int SendBuyRequest(int price, int commodity, int amount)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-          
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.BuySellRequest();
             item.type = "buy";
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
                 mainLog.Debug("Buying requset sent to the server. information: " + item.ToString());
-                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52",nonce,key, token, item);
                 mainLog.Debug("Returned answer from the server after buying request: " + output);
 
 
@@ -59,21 +63,61 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             buyingLog.Info("Request for buying " + amount + " shares of commodity number " 
                             + commodity + " for " + price + " dollars per share has sent, " 
                             + " transaction id: " + output);
-            
+           
+         
             return integerOutput;
         }
-
+        public IQueryable<item> getBuyHistory()
+        {
+            HistoryDataContext buyHistory = new HistoryDataContext();
+            byte b= Byte.Parse("52");
+            IQueryable<item> histo = from item in buyHistory.items where item.buyer.Equals(b) select item;
+            
+            return histo;    
+        }
+        public IQueryable<item> getSellHistory()
+        {
+            HistoryDataContext sellHistory = new HistoryDataContext();
+            byte b = Byte.Parse("52");
+            IQueryable<item> histo = from item in sellHistory.items where item.seller.Equals(b) select item;
+          
+            return histo;
+        }
+        public IQueryable<item> getCancelHistory()
+        {
+            HistoryDataContext sellHistory = new HistoryDataContext();
+            byte b = Byte.Parse("52");
+            IQueryable<item> histo = from item in sellHistory.items where item.seller.Equals(b) select item;
+            
+            return histo;
+        }
+        public IQueryable<item> getBuyHistoryByDate(DateTime start, DateTime end)
+        {
+            HistoryDataContext buyHistory = new HistoryDataContext();
+            byte b = Byte.Parse("52");
+            IQueryable<item> histo = from item in buyHistory.items where item.buyer.Equals(b) & item.timestamp.Date.CompareTo(start)>=0  & item.timestamp.Date.CompareTo(end) <= 0  select item;
+            return histo;
+        }
+        public IQueryable<item> getSellHistoryByDate(DateTime start, DateTime end)
+        {
+            HistoryDataContext sellHistory = new HistoryDataContext();
+            byte b = Byte.Parse("52");
+            IQueryable<item> histo = from item in sellHistory.items where item.seller.Equals(b) & item.timestamp.Date.CompareTo(start) >= 0 & item.timestamp.Date.CompareTo(end) <= 0 select item;
+            return histo;
+        }
+        
         public int SendSellRequest(int price, int commodity, int amount) {
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.BuySellRequest();
             item.type = "sell";
             item.price = price;
             item.commodity = commodity;
             item.amount = amount;
             mainLog.Info("Selling requset sent to the server. information: " + item.ToString());
-                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                string output = client.SendPostRequest< MarketItems.BuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52", nonce, key, token, item);
                 mainLog.Info("Returned answer from the server after selling request: " + output);
                 if (!(checkMarketResponse(output)))
                     throw new ApplicationException(output);
@@ -89,13 +133,14 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public IMarketItemQuery SendQueryBuySellRequest(int id)
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryBuySellRequest();
             item.type = "queryBuySell";
             item.id = id;
 
             mainLog.Info("Sent Query BuySell request to the server. information: " + item.ToString());
-            MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            MarketItemQuery output = client.SendPostRequest<QueryBuySellRequest, MarketItemQuery> ("http://ise172.ise.bgu.ac.il", "user52",nonce,key, token, item);
             mainLog.Info("Returned answer from the server after Send Query BuySell Request: " + output);
             return output;
         }
@@ -103,11 +148,12 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public IMarketUserData SendQueryUserRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUser";
             mainLog.Info("Sent Query User request to the server. information: " + item.ToString());
-            MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            MarketUserData output = client.SendPostRequest<QueryUserRequest, MarketUserData> ("http://ise172.ise.bgu.ac.il", "user52",nonce,key, token, item);
             mainLog.Info("Returned answer from the server after sent Query User request: " + output);
             return output;
         }
@@ -115,12 +161,13 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public IMarketCommodityOffer SendQueryMarketRequest(int commodity){
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryMarket";
             item.commodity = commodity;
             mainLog.Info("Sent Query Market request to the server. information: " + item.ToString());
-            var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<QueryMarketRequest, MarketCommodityOffer> ("http://ise172.ise.bgu.ac.il", "user52",nonce,key, token, item);
             mainLog.Info("returned answer from the server after sent Query Market request: " + output);
             return output;
         }
@@ -128,12 +175,13 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public bool SendCancelBuySellRequest(int id){
 
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.CancelBuySellRequest();
             item.type = "cancelBuySell";
             item.id = id;
                 mainLog.Info("Sent Cancel Buy Sell request to the server. information: " + item.ToString());
-                var output = client.SendPostRequest<CancelBuySellRequest>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+                var output = client.SendPostRequest<CancelBuySellRequest> ("http://ise172.ise.bgu.ac.il", "user52",nonce,key, token, item);
                 mainLog.Info("Returned answer from the server after sent Cancel Buy Sell request: " + output);
 
             if (output == "Ok")
@@ -170,11 +218,12 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public LinkedList<Commodities> SendQueryAllMarketRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryMarketRequest();
             item.type = "queryAllMarket";
             mainLog.Info("Sent Query All Market request to the server. information: " + item.ToString());
-            var output = client.SendPostRequest<QueryMarketRequest, LinkedList<Commodities>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<QueryMarketRequest, LinkedList<Commodities>>("http://ise172.ise.bgu.ac.il", "user52", nonce, key, token, item);
             mainLog.Info("Returned answer from the server after sent Query Market request: " + output);
             return output;
         }
@@ -182,11 +231,12 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
         public LinkedList<UserRequests> SendQueryUserRequestsRequest()
         {
             SimpleHTTPClient client = new SimpleHTTPClient();
-            string token = SimpleCtyptoLibrary.CreateToken("user52", key);
+            nonce++;
+            string token = SimpleCtyptoLibrary.CreateToken("user52_" + nonce, key);
             var item = new MarketItems.QueryUserRequest();
             item.type = "queryUserRequests";
             mainLog.Info("Sent Query User Request to the server. information: " + item.ToString());
-            var output = client.SendPostRequest<QueryUserRequest, LinkedList<UserRequests>>("http://ise172.ise.bgu.ac.il", "user52", token, item);
+            var output = client.SendPostRequest<QueryUserRequest, LinkedList<UserRequests>>("http://ise172.ise.bgu.ac.il", "user52", nonce, key, token, item);
             mainLog.Info("Returned answer from the server after sent Query User request: " + output);
             return output;
         }
@@ -201,7 +251,10 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             }
             return true;
         }
-      
+       
+
     }
 
 }
+
+

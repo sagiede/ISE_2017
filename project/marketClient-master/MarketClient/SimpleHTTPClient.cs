@@ -20,9 +20,9 @@ namespace MarketClient
         /// <param name="token">token for authentication data</param>
         /// <param name="item">the data item to send in the reuqest</param>
         /// <returns>the server response parsed as T2 object in json format</returns>
-        public T2 SendPostRequest<T1,T2>(string url, string user, string token, T1 item) where T2 : class 
+        public T2 SendPostRequest<T1,T2>(string url, string user, int nonce,string privateKey,string token, T1 item) where T2 : class 
         {
-            var response = SendPostRequest(url, user, token, item);
+            var response = SendPostRequest(url, user,nonce,privateKey, token, item);
             return response == null ? null : FromJson<T2>(response);
         }
 
@@ -38,9 +38,9 @@ namespace MarketClient
         /// <param name="token">token for authentication data</param>
         /// <param name="item">the data item to send in the reuqest</param>
         /// <returns>the server response</returns>
-        public string SendPostRequest<T1>(string url, string user, string token, T1 item)
+        public string SendPostRequest<T1>(string url, string user, int nonce, string privateKey, string token, T1 item)
         {
-            var auth = new { user, token };
+            var auth = new { user, token,nonce };
             JObject jsonItem = JObject.FromObject(item);
             jsonItem.Add("auth", JObject.FromObject(auth));
             StringContent content = new StringContent(jsonItem.ToString());
@@ -48,6 +48,7 @@ namespace MarketClient
             {
                 var result = client.PostAsync(url, content).Result;
                 var responseContent = result?.Content?.ReadAsStringAsync().Result;
+                responseContent = SimpleCtyptoLibrary.decrypt(responseContent, privateKey);
                 return responseContent;
             }
         }

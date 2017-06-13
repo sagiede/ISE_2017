@@ -16,20 +16,24 @@ namespace project
 
         static void Main(string[] args)
         {
-           
-            //SemiPilot.runSemiPilot(4,12,1,true);
-            
 
-            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
+            //SemiPilot.runSemiPilot(4,12,1,true);
+
+           
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            Console.WriteLine(mc.getBuyHistory().ToString());// response depend the input
+           // mc.getBuyHistory;
             //Console.WriteLine(Pilots.AutoPilot.act);
-            Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
+            //  Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
             runTrading(mc);
+           // mc.linQtoSqlFunc();
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 
             while (true)
             {
-                Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
+                
+                //Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
                 Console.WriteLine("---------------------------------------------------------------\nWelcome to Algo-Trading application. to go back to main menu, you can press -1 at any point");
                 Console.WriteLine("What do you wish to do?");
                 Console.WriteLine("1- Buy\n2- Sell\n3- Cancel\n4- Queries\n5- delete all open requests");
