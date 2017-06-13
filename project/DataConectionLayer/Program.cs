@@ -84,14 +84,7 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
           
             return histo;
         }
-        public IQueryable<item> getCancelHistory()
-        {
-            HistoryDataContext sellHistory = new HistoryDataContext();
-            byte b = Byte.Parse("52");
-            IQueryable<item> histo = from item in sellHistory.items where item.seller.Equals(b) select item;
-            
-            return histo;
-        }
+       
         public IQueryable<item> getBuyHistoryByDate(DateTime start, DateTime end)
         {
             HistoryDataContext buyHistory = new HistoryDataContext();
