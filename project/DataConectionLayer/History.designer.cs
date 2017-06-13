@@ -33,7 +33,7 @@ namespace LogicLayer
     #endregion
 		
 		public HistoryDataContext() : 
-				base(global::LogicLayer.Properties.Settings.Default.DataSourceConnectionString, mappingSource)
+				base(global::LogicLayer.Properties.Settings.Default.historyConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
