@@ -44,7 +44,7 @@ namespace gui
             timerPliot.Elapsed += HandleTimerElapsed;
             timerSemiPliot.Enabled = false;  // timer of pilot is off now                    
             timerSemiPliot.Elapsed += HandleTimerElapsedSemiPilot;
-          
+            //dataGrid.ItemsSource = LogicLayer.History.getLastDayCommodityHistoryOrderdByPrice(4);
         }
         //the action of semi pilot
         private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
@@ -100,7 +100,7 @@ namespace gui
             }
             try
             {
-                Pilots.AutoPilot.runPilot();
+                Pilots.NewAutoPilot.runPilot();
             }
             catch (Exception e2)
             {
@@ -127,10 +127,9 @@ namespace gui
         //timer of auto pilot event
         public void HandleTimerElapsed(object sender, EventArgs e)
         {
-            Dispatcher.Invoke(() =>
-            {
-
-                output.Text = Pilots.AutoPilot.actions;
+            Dispatcher.Invoke(() => {
+                
+                output.Text = Pilots.NewAutoPilot.actions;
             });
         }
 

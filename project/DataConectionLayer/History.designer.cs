@@ -22,7 +22,7 @@ namespace LogicLayer
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="history")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="DataSource")]
 	public partial class HistoryDataContext : System.Data.Linq.DataContext
 	{
 		
