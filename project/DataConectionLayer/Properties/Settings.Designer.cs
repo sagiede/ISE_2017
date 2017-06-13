@@ -26,11 +26,22 @@ namespace LogicLayer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=ise172.ise.bgu.ac.il;Persist Security Info=True;User ID=labuser;Passw" +
-            "ord=wonsawheightfly")]
-        public string DataSourceConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=ise172.ise.bgu.ac.il;Initial Catalog=history;User ID=labuser;Password" +
+            "=wonsawheightfly")]
+        public string historyConnectionString {
             get {
-                return ((string)(this["DataSourceConnectionString"]));
+                return ((string)(this["historyConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\myHistory.mdf" +
+            ";Integrated Security=True")]
+        public string myHistoryConnectionString {
+            get {
+                return ((string)(this["myHistoryConnectionString"]));
             }
         }
     }

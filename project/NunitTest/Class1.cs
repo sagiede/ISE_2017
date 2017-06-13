@@ -9,6 +9,10 @@ using Pilots;
 using MarketClient;
 using MarketItems;
 using System.IO;
+using System.Data.SqlClient;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+
 
 namespace NunitTest
 {
@@ -19,21 +23,21 @@ namespace NunitTest
         MarketClientConnection mc = new MarketClientConnection();
         int requestId;
 
-        [Test]
+       /* [Test]
         public void buyRequestTest()
         {
-            requestId = mc.SendBuyRequest(1, 2, 10);
+            requestId = mc.SendBuyRequest(1, 2, 10);            //send buy request (with low price)
             System.Threading.Thread.Sleep(2000);
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(user.requests.Contains(requestId), true);
+            Assert.AreEqual(true, user.requests.Contains(requestId));       //check that the request had sended
         }
         [Test]
         public void sellRequestTest()
         {
-            requestId = mc.SendSellRequest(100, 5, 1);
+            requestId = mc.SendSellRequest(100, 5, 1);      //send buy request  (with high price)
             System.Threading.Thread.Sleep(2000);
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(user.requests.Contains(requestId), true);
+            Assert.AreEqual(true, user.requests.Contains(requestId));       //check that the request had sended
         }
 
         [Test]
@@ -43,7 +47,7 @@ namespace NunitTest
             mc.SendCancelBuySellRequest(requestId);
             System.Threading.Thread.Sleep(2000);
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(user.requests.Contains(requestId), false);
+            Assert.AreEqual(false, user.requests.Contains(requestId));      //check the request had canceled
         }
         [Test]
         public void cancelAllRequestTest()
@@ -54,17 +58,18 @@ namespace NunitTest
             mc.cancelAllRequests();
             System.Threading.Thread.Sleep(2000);
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(user.requests.Count, 0);
+            Assert.AreEqual(user.requests.Count, 0);        //check all requests had canceled
         }
+        //test that the semi pilot begins and stops when telling him to
         [Test]
         public void test1SemiPilot()
         {
             SemiPilot.runSemiPilot(5, 20, 1, true);
-            Assert.AreEqual(SemiPilot.semiPilotTimer.Enabled, true);
+            Assert.AreEqual(true, SemiPilot.semiPilotTimer.Enabled);
             SemiPilot.stopSemiPilot();
-            Assert.AreEqual(SemiPilot.semiPilotTimer.Enabled, false);
+            Assert.AreEqual(false, SemiPilot.semiPilotTimer.Enabled);
         }
-
+        //run semi pilot and check that he bought/sell when he told he did
         [Test]
         public void test2SemiPilot()
         {
@@ -74,8 +79,10 @@ namespace NunitTest
             System.Threading.Thread.Sleep(2000);
             MarketUserData userAfter = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreNotEqual(userBefore.ToString(), userAfter.ToString());
+            //if the user data diffrenet - its either there is more requests waiting (buy/sell) or the funds/commodity is different
         }
-
+        //run auto pilot and after making a purchase check that he funds changed
+        //either we bought and the funds lower/we bought and sold and earned money
         [Test]
         public void testAutoPilot()
         {
@@ -89,39 +96,46 @@ namespace NunitTest
             userData = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreNotEqual(myFunds, userData.funds);
         }
+        */
         [Test]
-
-        public void test2AutoPilot()
+        public void testBuyHistoryByDate()
         {
-            MarketUserData userDataBefore = (MarketUserData)mc.SendQueryUserRequest();
+            DateTime start = new DateTime(2017, 06, 10);
+            DateTime end = new DateTime(2017, 06, 11);
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getBuyHistoryByDate(start, end);
+            int x = i1.Count();
+            Assert.AreEqual(x, 2452);
+        }
+        [Test]
+        public void testSellHistoryByDate()
+        {
+            DateTime start = new DateTime(2017, 06, 10);
+            DateTime end = new DateTime(2017, 06, 11);
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getSellHistoryByDate(start, end);
+            int x = i1.Count();
+            Assert.AreEqual(x, 3253);
+            
+        }
+        [Test]
+        public void testBuyHistory()
+        { 
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getBuyHistory();
+            int x = i1.Count();
+            Boolean check = x > 10;
+            Assert.AreEqual(true, check);
+        }
+        [Test]
+        public void testSellBuyHistory()
+        {
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            IQueryable<LogicLayer.item> i1 = mc1.getSellHistory();
+            int x = i1.Count();
+            Boolean check = x > 10;
+            Assert.AreEqual(true, check);
 
-            mc.cancelAllRequests();
-            AutoPilot.runPilot();
-            while (AutoPilot.actions == "") { }
-            AutoPilot.runPilot();           //stop auto pilot
-            System.Threading.Thread.Sleep(2000);
-            MarketUserData userDataAfter = (MarketUserData)mc.SendQueryUserRequest();
-            if (userDataAfter.commodities[AutoPilot.lastCommodity + ""] > userDataBefore.commodities[AutoPilot.lastCommodity + ""])
-            {    //we bought and havent sell the item
-                if (userDataAfter.requests.Count != 0) { 
-                    int dif = 0;
-                    foreach (var tmp in userDataAfter.requests)
-                        dif = ((MarketItemQuery)mc.SendQueryBuySellRequest(tmp)).price;
-                    Assert.AreEqual(true, userDataAfter.funds + dif > userDataBefore.funds);
-                }   
-                else
-                    Assert.AreEqual(userDataAfter.requests.Count > userDataBefore.requests.Count, true);
-            }
-            else //we managed to sell the stock when we bought it - then check we earned money
-            if (userDataAfter.requests.Count != 0)
-            {
-                int dif = 0;
-                foreach (var tmp in userDataAfter.requests)
-                    dif = ((MarketItemQuery)mc.SendQueryBuySellRequest(tmp)).price;
-                Assert.AreEqual(true, userDataAfter.funds + dif > userDataBefore.funds);
-            }
-            else
-                Assert.AreEqual(true, userDataAfter.funds > userDataBefore.funds);
         }
     }
 }

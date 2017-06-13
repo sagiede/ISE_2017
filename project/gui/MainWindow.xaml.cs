@@ -18,6 +18,10 @@ using System.Timers;
 using System.IO;
 using log4net.Appender;
 using Pilots;
+using System.Data.SqlClient;
+
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
 
 namespace gui
 {
@@ -30,23 +34,24 @@ namespace gui
         private static Timer timerPliot = new Timer(1053); // timer of auto pilot
         private static Timer timerSemiPliot = new Timer(1053); // timer of auto pilot
         private static Timer theTimeNow = new Timer(1000); // timer of show time
-        
+
         public MainWindow()
         {
             InitializeComponent();
             theTimeNow.Enabled = true; // show the time
-            theTimeNow.Elapsed += HandleTimerElapsedTime; 
+            theTimeNow.Elapsed += HandleTimerElapsedTime;
             timerPliot.Enabled = false;  // timer of pilot is off now                    
             timerPliot.Elapsed += HandleTimerElapsed;
             timerSemiPliot.Enabled = false;  // timer of pilot is off now                    
             timerSemiPliot.Elapsed += HandleTimerElapsedSemiPilot;
             //dataGrid.ItemsSource = LogicLayer.History.getLastDayCommodityHistoryOrderdByPrice(4);
         }
-
+        //the action of semi pilot
         private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                if(!(Pilots.SemiPilot.semiPilotTimer.Enabled))
+            Dispatcher.Invoke(() =>
+            {
+                if (!(Pilots.SemiPilot.semiPilotTimer.Enabled))
                 {
                     returnAllForSemiBuy();
                     returnAllForSemiSell();
@@ -58,24 +63,13 @@ namespace gui
                 }
                 output.Text = Pilots.SemiPilot.eventsData;
             });
-            
-        }
 
+        }
+        //action of auto Pilot Button Click
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
-            if (isVisible)
-            {
-                ((Button)sender).Background = Brushes.Red;
-                ((Button)sender).Content = "Stop";
-            }
-            else
-            {
-                var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
-                ((Button)sender).Background = brush;
-                ((Button)sender).Content = "Auto-pilot";
-            }
 
+            //sound
             output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
             player.SoundLocation = "Money.wav";
@@ -83,11 +77,12 @@ namespace gui
 
             if (isVisible) // first click
             {
+                ((Button)sender).Background = Brushes.Red;
+                ((Button)sender).Content = "Stop";
                 isVisible = false;
-
                 timerPliot.Enabled = true;
                 tabControl.Visibility = System.Windows.Visibility.Hidden;
-                moneypic.Visibility= System.Windows.Visibility.Visible;
+                moneypic.Visibility = System.Windows.Visibility.Visible;
                 player.Play();
 
             }
@@ -98,6 +93,10 @@ namespace gui
                 player.Stop();
                 isVisible = true;
                 tabControl.Visibility = System.Windows.Visibility.Visible;
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Auto-pilot";
             }
             try
             {
@@ -106,19 +105,25 @@ namespace gui
             catch (Exception e2)
             {
                 output.Text = e2.Message;
-               
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Auto-pilot";
+                tabControl.Visibility = System.Windows.Visibility.Visible;
+                moneypic.Visibility = System.Windows.Visibility.Hidden;
             }
         }
         //timer of clock event
         public void HandleTimerElapsedTime(object sender, EventArgs e)
-        { 
-            Dispatcher.Invoke(() => {
+        {
+            Dispatcher.Invoke(() =>
+            {
 
                 time.Text = DateTime.Now.ToString("HH:mm:ss");
-           });
+            });
 
         }
-        
+
         //timer of auto pilot event
         public void HandleTimerElapsed(object sender, EventArgs e)
         {
@@ -127,15 +132,16 @@ namespace gui
                 output.Text = Pilots.NewAutoPilot.actions;
             });
         }
-       
+
         // close all active threads when close the program
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        { 
+        {
             Environment.Exit(0);
         }
 
         private void buyButton_Click(object sender, RoutedEventArgs e)
         {
+           
             output.Text = "";
             int commodity = -1;
             int price = -1;
@@ -156,13 +162,14 @@ namespace gui
             {
                 LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                 int response = mc.SendBuyRequest(price, commodity, amount);
-                output.Text = "the buy request for commodity: " + commodity + " in price: "+price+" amount: " +amount+" id: "+response.ToString()+" sent";
+                output.Text = "the buy request for commodity: " + commodity + " in price: " + price + " amount: " + amount + " id: " + response.ToString() + " sent";
             }
             catch (Exception e2)
             {
                 output.Text = e2.Message;
             }
         }
+        //the action of sell button
         private void SellButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -194,7 +201,7 @@ namespace gui
                 }
             }
         }
-
+        // cancel button
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -213,8 +220,8 @@ namespace gui
                 {
                     LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                     Boolean response = mc.SendCancelBuySellRequest(commodity);
-                    if(response==true)
-                    output.Text = "cancel for commodity "+commodity+" is done";
+                    if (response == true)
+                        output.Text = "cancel for commodity " + commodity + " is done";
                 }
                 catch (Exception e1)
                 {
@@ -222,7 +229,7 @@ namespace gui
                 }
             }
         }
-
+        // user query  radio button
         private void userQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -243,32 +250,32 @@ namespace gui
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
             cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
-
+        //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
             int commodity = -1;
-                try
-                {
-                    commodity = int.Parse(marketQText.Text);
-                }
-                catch (Exception)
-                {
-                    output.Text = "invalid input";
-                    return;
-                }
-                try
-                {
-                    LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
-                    MarketItems.MarketCommodityOffer response = (MarketCommodityOffer)mc.SendQueryMarketRequest(commodity);
-                    output.Text = response.ToString();
-                }
-                catch (Exception e1)
-                {
-                    output.Text = e1.Message;
-                }
+            try
+            {
+                commodity = int.Parse(marketQText.Text);
             }
-
+            catch (Exception)
+            {
+                output.Text = "invalid input";
+                return;
+            }
+            try
+            {
+                LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+                MarketItems.MarketCommodityOffer response = (MarketCommodityOffer)mc.SendQueryMarketRequest(commodity);
+                output.Text = response.ToString();
+            }
+            catch (Exception e1)
+            {
+                output.Text = e1.Message;
+            }
+        }
+        //user query  radio button
         private void marketQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
@@ -276,7 +283,7 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Visible;
             labeId2.Visibility = System.Windows.Visibility.Visible;
         }
-
+        // buy sell query button
         private void buySellQRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
@@ -284,7 +291,7 @@ namespace gui
             BuySellQButton.Visibility = System.Windows.Visibility.Visible;
             labelId1.Visibility = System.Windows.Visibility.Visible;
         }
-
+        // user query button
         private void userQButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -299,7 +306,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-
+        //buy sell query button
         private void BuySellQButton_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -324,31 +331,31 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-
+        // cancel all commit 
         private void cancelAllCommit_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
             MessageBox.Show("it will take a moment..");
             try
             {
-               LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+                LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
                 Boolean response = mc.cancelAllRequests();
-               output.Text = "all request canceld";
+                output.Text = "all request canceld";
             }
             catch (Exception e1)
             {
-               
+
                 output.Text = e1.Message;
             }
-            
-        }
 
+        }
+        // cancel all radio button
         private void cancelAllButton_Checked(object sender, RoutedEventArgs e)
         {
             clearAllQueris();
             cancelAllCommit.Visibility = System.Windows.Visibility.Visible;
         }
-        // semi-pilot
+        // semi-pilot buy start
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -364,7 +371,7 @@ namespace gui
                     commodity = int.Parse(commoditySPTextBuy.Text);
                     price = int.Parse(priceSPTextBuy.Text);
                     amount = int.Parse(amountSPTextBuy.Text);
-                    
+
                 }
                 catch (Exception)
                 {
@@ -378,7 +385,7 @@ namespace gui
                     clearAllForSemiBuy();
                     Pilots.SemiPilot.runSemiPilot(commodity, price, amount, true);
                     timerSemiPliot.Start();
-                 }
+                }
                 catch (Exception e3)
                 {
                     timerSemiPliot.Stop();
@@ -404,6 +411,7 @@ namespace gui
             }
             catch (Exception e2)
             {
+                returnAllForSemiBuy();
                 timerSemiPliot.Stop();
                 output.Text = e2.Message;
                 return;
@@ -412,13 +420,14 @@ namespace gui
         //clear all windows when semi pilot start 
         public void clearAllForSemiBuy()
         {
-            queries.Visibility= System.Windows.Visibility.Hidden;
+            queries.Visibility = System.Windows.Visibility.Hidden;
             cancel.Visibility = System.Windows.Visibility.Hidden;
             buy.Visibility = System.Windows.Visibility.Hidden;
             history.Visibility = System.Windows.Visibility.Hidden;
             SemiAutoSell.Visibility = System.Windows.Visibility.Hidden;
             sell.Visibility = System.Windows.Visibility.Hidden;
         }
+        // return items vissible
         public void returnAllForSemiBuy()
         {
             queries.Visibility = System.Windows.Visibility.Visible;
@@ -428,6 +437,7 @@ namespace gui
             SemiAutoSell.Visibility = System.Windows.Visibility.Visible;
             sell.Visibility = System.Windows.Visibility.Visible;
         }
+        // return items to hidden
         public void clearAllForSemiSell()
         {
             queries.Visibility = System.Windows.Visibility.Hidden;
@@ -437,6 +447,7 @@ namespace gui
             SemiAutoBuy.Visibility = System.Windows.Visibility.Hidden;
             sell.Visibility = System.Windows.Visibility.Hidden;
         }
+        // return items vissible
         public void returnAllForSemiSell()
         {
             queries.Visibility = System.Windows.Visibility.Visible;
@@ -446,24 +457,28 @@ namespace gui
             SemiAutoBuy.Visibility = System.Windows.Visibility.Visible;
             sell.Visibility = System.Windows.Visibility.Visible;
         }
+        //buy history radio button
         private void buyHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
-           
-            output.Text = File.ReadAllText("buyingLog.log");
-           
+            output.Text = "";
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            dataGrid.ItemsSource = mc1.getBuyHistory();
         }
+        //sell history radio button
         private void sellHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
-
-            output.Text = File.ReadAllText("sellingLog.log");
+            output.Text = "";
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            dataGrid.ItemsSource = mc1.getSellHistory();
         }
+        //cancel history radio button
         private void cancelHistoryRadio_Checked(object sender, RoutedEventArgs e)
         {
-
+            dataGrid.ItemsSource = "";
             output.Text = File.ReadAllText("cancelLog.log");
         }
-        
- 
+
+        //semi pilot sell start
         private void semiStartSell_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
@@ -505,7 +520,7 @@ namespace gui
                 }
             }
         }
-       
+        // semi pilot stop sell
         private void semiStopSell_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -519,11 +534,52 @@ namespace gui
             }
             catch (Exception e2)
             {
+                returnAllForSemiSell();
                 timerSemiPliot.Stop();
                 output.Text = e2.Message;
                 return;
             }
         }
+        
+        private void historyByDateB_Click(object sender, RoutedEventArgs e)
+        {
+            output.Text = "";
+            try
+            {
+             DateTime start = DateTime.Parse(dateStart.Text);
+   
+             DateTime end = DateTime.Parse(dateEnd.Text);
+              
+               
+                LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+                historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start,end);
+            
+            }
+            catch(Exception e2)
+            {
+                output.Text = "please select date";
+            }
+        }
+
+        private void SellhistoryByDateB_Click(object sender, RoutedEventArgs e)
+        {
+            output.Text = "";
+            try
+            {
+                DateTime start = DateTime.Parse(dateStartS.Text);
+                DateTime end = DateTime.Parse(dateEndS.Text);
+
+                LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+                SellhistoryDateDataGrid.ItemsSource = mc1.getSellHistoryByDate(start, end);
+
+            }
+            catch (Exception e2)
+            {
+                output.Text = "please select date";
+            }
+        }
     }
+
+    
 }
 
