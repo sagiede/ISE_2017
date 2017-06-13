@@ -22,18 +22,32 @@ using System.Data.SqlClient;
 
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Collections.ObjectModel;
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
 
 namespace gui
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary> 
+    public class MyViewModel
+    {
+        public ObservableDataSource<Point> Data { get; set; }
+
+        public MyViewModel()
+        {
+            Data = new ObservableDataSource<Point>();
+        }
+    }
+
     public partial class MainWindow : Window
     {
         private static Boolean isVisible = true; // cahnge when press auto pilot
         private static Timer timerPliot = new Timer(1053); // timer of auto pilot
         private static Timer timerSemiPliot = new Timer(1053); // timer of auto pilot
         private static Timer theTimeNow = new Timer(1000); // timer of show time
+        public MyViewModel viewModel;
 
         public MainWindow()
         {
@@ -45,6 +59,10 @@ namespace gui
             timerSemiPliot.Enabled = false;  // timer of pilot is off now                    
             timerSemiPliot.Elapsed += HandleTimerElapsedSemiPilot;
             //dataGrid.ItemsSource = LogicLayer.History.getLastDayCommodityHistoryOrderdByPrice(4);
+            InitializeComponent();
+
+            viewModel = new MyViewModel();
+            DataContext = viewModel;
         }
         //the action of semi pilot
         private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
@@ -577,6 +595,17 @@ namespace gui
             {
                 output.Text = "please select date";
             }
+        }
+
+        private void clicked(object sender, RoutedEventArgs e)
+        {
+            IQueryable<float> a =LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(4);
+            
+            int i = 0;
+            foreach (float b in a)
+                if(i++ % 20 == 0)
+                    viewModel.Data.Collection.Add(new Point(i, b));
+            
         }
     }
 
