@@ -37,15 +37,6 @@ namespace NunitTest
         }
 
         [Test]
-        public void sellRequestTest()
-        {
-            mc.SendSellRequest(200, 5, 1);
-            requestId = mc.SendSellRequest(100, 5, 1);
-            MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(user.requests.Contains(requestId), true);
-        }
-
-       [Test]
         public void cancelRequestTest()
         {
             requestId = mc.SendBuyRequest(1, 3, 10);
@@ -110,13 +101,27 @@ namespace NunitTest
             AutoPilot.runPilot();           //stop auto pilot
             System.Threading.Thread.Sleep(2000);
             MarketUserData userDataAfter = (MarketUserData)mc.SendQueryUserRequest();
-            if (userDataAfter.commodities[AutoPilot.lastCommodity + ""] > userDataBefore.commodities[AutoPilot.lastCommodity + ""])    //we bought and havent sell the item
-            {
-                Assert.AreEqual(userDataAfter.requests.Count > userDataBefore.requests.Count, true);
+            if (userDataAfter.commodities[AutoPilot.lastCommodity + ""] > userDataBefore.commodities[AutoPilot.lastCommodity + ""])
+            {    //we bought and havent sell the item
+                if (userDataAfter.requests.Count != 0) { 
+                    int dif = 0;
+                    foreach (var tmp in userDataAfter.requests)
+                        dif = ((MarketItemQuery)mc.SendQueryBuySellRequest(tmp)).price;
+                    Assert.AreEqual(true, userDataAfter.funds + dif > userDataBefore.funds);
+                }   
+                else
+                    Assert.AreEqual(userDataAfter.requests.Count > userDataBefore.requests.Count, true);
             }
-            else        //we managed to sell the stock when we bought it - then check we earned money
+            else //we managed to sell the stock when we bought it - then check we earned money
+            if (userDataAfter.requests.Count != 0)
             {
+                int dif = 0;
+                foreach (var tmp in userDataAfter.requests)
+                    dif = ((MarketItemQuery)mc.SendQueryBuySellRequest(tmp)).price;
+                Assert.AreEqual(true, userDataAfter.funds + dif > userDataBefore.funds);
+            }
+            else
                 Assert.AreEqual(true, userDataAfter.funds > userDataBefore.funds);
-            }
         }
     }
+}

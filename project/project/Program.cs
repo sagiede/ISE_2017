@@ -16,14 +16,12 @@ namespace project
 
         static void Main(string[] args)
         {
-           
-            //SemiPilot.runSemiPilot(4,12,1,true);
-            
-
-            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
+            Pilots.tmpAutoPilot.runPilot();
+            Console.ReadLine();
+            //LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             //Console.WriteLine(Pilots.AutoPilot.act);
-            Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
-            runTrading(mc);
+            //Console.WriteLine(Pilots.SemiPilot.semiPilotTimer.Enabled);
+            //runTrading(mc);
         }//Main
         
         private static void runTrading(MarketClientConnection mc) { 

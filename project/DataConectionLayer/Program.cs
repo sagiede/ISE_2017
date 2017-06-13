@@ -204,4 +204,80 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
       
     }
 
+    public static class History
+    {
+        public static IQueryable<float> getLastHourCommodityHistoryOrderedByDate(int commodity)
+        {
+            HistoryDataContext dbContext = new HistoryDataContext();
+            IQueryable<float> list = from item in dbContext.items
+                                     where item.commodity == commodity
+       & item.timestamp.Day == DateTime.Today.Day - 1
+       & item.timestamp.Month == DateTime.Today.Month
+                                     //& item.timestamp.Hour >= DateTime.Today.Hour
+                                     orderby item.timestamp
+                                     select item.price;
+            
+            return list;
+        }
+
+        public static float getTodaysRecommendedBuyPrice(int commodity)
+        {
+            HistoryDataContext dbContext = new HistoryDataContext();
+            var list = from item in dbContext.items
+                       where item.commodity == commodity
+                       & item.timestamp.Day == DateTime.Today.Day
+                       & item.timestamp.Month == DateTime.Today.Month
+                       group item by item.price into tmp
+                       orderby tmp.Key
+                       select new
+                       {
+                           num = tmp.Count(),
+                           price = tmp.Key
+                       };
+            int quarter = list.Count() / 5, i = 0, maxNum = 0;
+            float bestPrice = 0;
+
+            foreach (var tmp in list)
+                if (i > quarter)
+                    break;
+                else if (tmp.num > maxNum)
+                {
+                    maxNum = tmp.num;
+                    bestPrice = tmp.price;
+                    i++;
+                }
+
+            return bestPrice;         
+        }
+
+        public static float getTodaysRecommendedSellPrice(int commodity)
+        {
+            HistoryDataContext dbContext = new HistoryDataContext();
+            var list = from item in dbContext.items
+                       where item.commodity == commodity
+                       & item.timestamp.Day == DateTime.Today.Day
+                       & item.timestamp.Month == DateTime.Today.Month
+                       group item by item.price into tmp
+                       orderby tmp.Key descending
+                       select new
+                       {
+                           num = tmp.Count(),
+                           price = tmp.Key
+                       };
+            int quarter = list.Count() / 5, i = 0, maxNum = 0;
+            float bestPrice = 0;
+
+            foreach (var tmp in list)
+                if (i > quarter)
+                    break;
+                else if (tmp.num > maxNum)
+                {
+                    maxNum = tmp.num;
+                    bestPrice = tmp.price;
+                    i++;
+                }
+
+            return bestPrice;
+        }
+    }
 }
