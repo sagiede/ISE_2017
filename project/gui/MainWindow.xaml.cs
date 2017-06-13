@@ -271,7 +271,6 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
-            cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
@@ -354,30 +353,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-        // cancel all commit 
-        private void cancelAllCommit_Click(object sender, RoutedEventArgs e)
-        {
-            output.Text = "";
-            MessageBox.Show("it will take a moment..");
-            try
-            {
-                LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
-                Boolean response = mc.cancelAllRequests();
-                output.Text = "all request canceld";
-            }
-            catch (Exception e1)
-            {
-
-                output.Text = e1.Message;
-            }
-
-        }
-        // cancel all radio button
-        private void cancelAllButton_Checked(object sender, RoutedEventArgs e)
-        {
-            clearAllQueris();
-            cancelAllCommit.Visibility = System.Windows.Visibility.Visible;
-        }
+       
         // semi-pilot buy start
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
@@ -606,6 +582,7 @@ namespace gui
         {
             try
             {
+                output.Text = "";
                 viewModel = new MyViewModel();
                 DataContext = viewModel;
                 int commodityNum = int.Parse(commodityForGraph.Text);
@@ -674,14 +651,9 @@ namespace gui
             }
         }
 
-        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void button_Click_1(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
         }
     }
     
