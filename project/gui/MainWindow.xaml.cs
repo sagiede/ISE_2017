@@ -602,14 +602,38 @@ namespace gui
             }
         }
 
-        private void clicked(object sender, RoutedEventArgs e)
+        private void chartClicked(object sender, RoutedEventArgs e)
         {
-            IQueryable<float> a =LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(4);
-            
-            int i = 0;
-            foreach (float b in a)
-                if(i++ % 20 == 0)
-                    viewModel.Data.Collection.Add(new Point(i, b));
+            try
+            {
+                viewModel = new MyViewModel();
+                DataContext = viewModel;
+                int commodityNum = int.Parse(commodityForGraph.Text);
+               // int index = comboBox.SelectedIndex;
+               //IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum , index);
+                IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum);
+                int pointsAmount = a.Count();
+                int modulu = 1;
+                if (pointsAmount > 50 & pointsAmount < 100)
+                    modulu = 2;
+                if (pointsAmount > 100 & pointsAmount < 300)
+                    modulu = 5;
+                if (pointsAmount > 300 & pointsAmount < 800)
+                    modulu = 10;
+                if (pointsAmount > 800 & pointsAmount < 3000)
+                    modulu = 20;
+                if (pointsAmount > 3000)
+                    modulu = 50;
+                int i = 0;
+                foreach (float b in a)
+                    if (i++ % modulu == 0)
+                        viewModel.Data.Collection.Add(new Point(i, b));
+            }
+            catch (Exception e4)
+            {
+                output.Text = e4.Message;
+            }
+
             
         }
 
@@ -648,6 +672,16 @@ namespace gui
 
 
             }
+        }
+
+        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
     }
     
