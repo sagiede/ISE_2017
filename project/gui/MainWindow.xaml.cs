@@ -22,6 +22,9 @@ using System.Data.SqlClient;
 
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Collections.ObjectModel;
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 
@@ -29,13 +32,24 @@ namespace gui
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary> 
+    public class MyViewModel
+    {
+        public ObservableDataSource<Point> Data { get; set; }
+
+        public MyViewModel()
+        {
+            Data = new ObservableDataSource<Point>();
+        }
+    }
+
     public partial class MainWindow : Window
     {
         private static Boolean isVisible = true; // cahnge when press auto pilot
         private static Timer timerPliot = new Timer(1053); // timer of auto pilot
         private static Timer timerSemiPliot = new Timer(1053); // timer of auto pilot
         private static Timer theTimeNow = new Timer(1000); // timer of show time
+        public MyViewModel viewModel;
 
         public MainWindow()
         {
@@ -47,6 +61,10 @@ namespace gui
             timerSemiPliot.Enabled = false;  // timer of pilot is off now                    
             timerSemiPliot.Elapsed += HandleTimerElapsedSemiPilot;
             //dataGrid.ItemsSource = LogicLayer.History.getLastDayCommodityHistoryOrderdByPrice(4);
+            InitializeComponent();
+
+            viewModel = new MyViewModel();
+            DataContext = viewModel;
         }
         //the action of semi pilot
         private void HandleTimerElapsedSemiPilot(object sender, ElapsedEventArgs e)
@@ -70,7 +88,7 @@ namespace gui
         //action of auto Pilot Button Click
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //change
             //sound
             output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
@@ -237,7 +255,7 @@ namespace gui
         {
             output.Text = "";
             clearAllQueris();
-            exportB.Visibility= System.Windows.Visibility.Visible;
+            exportB.Visibility = System.Windows.Visibility.Visible;
             userQButton.Visibility = System.Windows.Visibility.Visible;
 
 
@@ -253,7 +271,6 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
-            cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
@@ -336,30 +353,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-        // cancel all commit 
-        private void cancelAllCommit_Click(object sender, RoutedEventArgs e)
-        {
-            output.Text = "";
-            MessageBox.Show("it will take a moment..");
-            try
-            {
-                LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
-                Boolean response = mc.cancelAllRequests();
-                output.Text = "all request canceld";
-            }
-            catch (Exception e1)
-            {
 
-                output.Text = e1.Message;
-            }
-
-        }
-        // cancel all radio button
-        private void cancelAllButton_Checked(object sender, RoutedEventArgs e)
-        {
-            clearAllQueris();
-            cancelAllCommit.Visibility = System.Windows.Visibility.Visible;
-        }
         // semi-pilot buy start
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
@@ -584,6 +578,42 @@ namespace gui
             }
         }
 
+        private void chartClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                output.Text = "";
+                viewModel = new MyViewModel();
+                DataContext = viewModel;
+                int commodityNum = int.Parse(commodityForGraph.Text);
+                // int index = comboBox.SelectedIndex;
+                //IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum , index);
+                IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum);
+                int pointsAmount = a.Count();
+                int modulu = 1;
+                if (pointsAmount > 50 & pointsAmount < 100)
+                    modulu = 2;
+                if (pointsAmount > 100 & pointsAmount < 300)
+                    modulu = 5;
+                if (pointsAmount > 300 & pointsAmount < 800)
+                    modulu = 10;
+                if (pointsAmount > 800 & pointsAmount < 3000)
+                    modulu = 20;
+                if (pointsAmount > 3000)
+                    modulu = 50;
+                int i = 0;
+                foreach (float b in a)
+                    if (i++ % modulu == 0)
+                        viewModel.Data.Collection.Add(new Point(i, b));
+            }
+            catch (Exception e4)
+            {
+                output.Text = e4.Message;
+            }
+
+
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -620,7 +650,12 @@ namespace gui
 
             }
         }
+
+        private void newAutoPilot_clicked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
-    
+
 }
 
