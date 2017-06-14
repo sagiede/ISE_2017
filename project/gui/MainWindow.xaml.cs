@@ -88,7 +88,7 @@ namespace gui
         //action of auto Pilot Button Click
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //ti change
             //sound
             output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
