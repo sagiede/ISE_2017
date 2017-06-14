@@ -15,7 +15,7 @@
             </LinearGradientBrush>
         </Grid.OpacityMask>
         <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="41" Width="143" BorderBrush="Black" Margin="276,0,0,0"/>
-        <Button x:Name="button" Content="Risk Pilot" HorizontalAlignment="Left" Margin="637,0,0,0" VerticalAlignment="Top" Width="79" Height="39" FontWeight="Bold" Click="button_Click_1">
+        <Button x:Name="newPilot" Content="Risk Pilot" HorizontalAlignment="Left" Margin="637,0,0,0" VerticalAlignment="Top" Width="79" Height="39" FontWeight="Bold" Click="newAutoPilot_clicked">
             <Button.Background>
                 <ImageBrush ImageSource="pline.jpg"/>
             </Button.Background>

@@ -651,7 +651,7 @@ namespace gui
             }
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
+        private void newAutoPilot_clicked(object sender, RoutedEventArgs e)
         {
 
         }

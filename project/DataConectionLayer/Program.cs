@@ -187,27 +187,6 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             throw new Exception(output);
         }
 
-        public bool cancelAllRequests()
-        {
-            int counter = 0;
-       		mainLog.Info("Sent cancel All Requests request to the server.");
-            MarketItems.MarketUserData userD = (MarketItems.MarketUserData) SendQueryUserRequest();
-            bool allCanceled = true;
-            foreach( int id in userD.requests)
-            {
-                if(counter==2)
-                {
-                    counter = 0;
-                    System.Threading.Thread.Sleep(2000);
-                }
-                bool output = SendCancelBuySellRequest(id);
-                counter++;
-                if (!output)
-                    allCanceled = false;
-            }
-            mainLog.Info("All Requests have been canceled.");
-            return allCanceled;
-        }
 
         public LinkedList<Commodities> SendQueryAllMarketRequest()
         {
