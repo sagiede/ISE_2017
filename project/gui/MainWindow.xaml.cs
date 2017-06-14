@@ -272,7 +272,6 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
-            cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
@@ -355,7 +354,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-
+       
         // semi-pilot buy start
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
@@ -588,8 +587,8 @@ namespace gui
                 viewModel = new MyViewModel();
                 DataContext = viewModel;
                 int commodityNum = int.Parse(commodityForGraph.Text);
-                // int index = comboBox.SelectedIndex;
-                //IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum , index);
+               // int index = comboBox.SelectedIndex;
+               //IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum , index);
                 IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum);
                 int pointsAmount = a.Count();
                 int modulu = 1;
@@ -613,7 +612,7 @@ namespace gui
                 output.Text = e4.Message;
             }
 
-
+            
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
