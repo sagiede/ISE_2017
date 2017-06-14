@@ -255,7 +255,7 @@ namespace gui
         {
             output.Text = "";
             clearAllQueris();
-            exportB.Visibility = System.Windows.Visibility.Visible;
+            exportB.Visibility= System.Windows.Visibility.Visible;
             userQButton.Visibility = System.Windows.Visibility.Visible;
 
 
@@ -271,6 +271,7 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
+            cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
