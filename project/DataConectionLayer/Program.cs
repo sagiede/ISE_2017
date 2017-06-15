@@ -224,13 +224,36 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             }
             return true;
         }
-       
+       public float maxPrice(int commodity)
+        {
+            HistoryDataContext histo = new HistoryDataContext();
+          
+            IQueryable<float> max = from item in histo.items where item.commodity == commodity select item.price ;
+            float num = max.Max();
+            return num;
+        }
+        public float minPrice(int commodity)
+        {
+            HistoryDataContext histo = new HistoryDataContext();
+
+            IQueryable<float> min = from item in histo.items where item.commodity==commodity select item.price;
+            float num = min.Min();
+            return num;
+        }
+        public float avgPrice(int commodity)
+        {
+            HistoryDataContext histo = new HistoryDataContext();
+
+            IQueryable<float> avg = from item in histo.items where item.commodity == commodity select item.price;
+            float num = avg.Average();
+            return num;
+        }
 
     }
 
     public static class History
     {
-        public static IQueryable<float> getLastHourCommodityHistoryOrderedByDate(int commodity)
+        public static IQueryable<float> getCommodityHistoryOrderedByDate(int commodity, int time)
         {
             HistoryDataContext dbContext = new HistoryDataContext();
             IQueryable<float> list = from item in dbContext.items

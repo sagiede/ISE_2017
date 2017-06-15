@@ -272,6 +272,11 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
+            label5.Visibility = System.Windows.Visibility.Hidden;
+            QText.Visibility = System.Windows.Visibility.Hidden;
+            minPB.Visibility = System.Windows.Visibility.Hidden;
+            maxPB.Visibility = System.Windows.Visibility.Hidden;
+            avgPB.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
@@ -426,6 +431,7 @@ namespace gui
             history.Visibility = System.Windows.Visibility.Hidden;
             SemiAutoSell.Visibility = System.Windows.Visibility.Hidden;
             sell.Visibility = System.Windows.Visibility.Hidden;
+            
         }
         // return items vissible
         public void returnAllForSemiBuy()
@@ -587,9 +593,9 @@ namespace gui
                 viewModel = new MyViewModel();
                 DataContext = viewModel;
                 int commodityNum = int.Parse(commodityForGraph.Text);
-               // int index = comboBox.SelectedIndex;
-               //IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum , index);
-                IQueryable<float> a = LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(commodityNum);
+                int index = comboBox.SelectedIndex;
+               IQueryable<float> a = LogicLayer.History.getCommodityHistoryOrderedByDate(commodityNum , index);
+              
                 int pointsAmount = a.Count();
                 int modulu = 1;
                 if (pointsAmount > 50 & pointsAmount < 100)
@@ -611,10 +617,7 @@ namespace gui
             {
                 output.Text = e4.Message;
             }
-
-            
         }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -645,7 +648,7 @@ namespace gui
                 }
                 catch (Exception e1)
                 {
-                    output.Text = e1.Message;
+                    output.Text = e1.Message.ToString();
                 }
 
 
@@ -654,6 +657,87 @@ namespace gui
 
         private void newAutoPilot_clicked(object sender, RoutedEventArgs e)
         {
+
+        }
+
+       
+
+        private void maxPB_Click(object sender, RoutedEventArgs e)
+        {
+          
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            int commodity = -1;
+            try
+            {
+                commodity = int.Parse(QText.Text);
+                if (commodity >= 10 | commodity < 0)
+                    output.Text = "bad commodity";
+                else
+                output.Text = "maximom  price of commodity " + commodity + " is: "+ mc.maxPrice(commodity).ToString();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message.ToString();
+            }
+        }
+
+        private void minPB_Click(object sender, RoutedEventArgs e)
+        {
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            int commodity = -1;
+            try
+            {
+                commodity = int.Parse(QText.Text);
+                if (commodity >= 10 | commodity < 0)
+                    output.Text = "bad commodity";
+                else
+                    output.Text = "minimum  price of commodity " + commodity + " is: "+mc.minPrice(commodity).ToString();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message.ToString();
+            }
+        }
+
+        private void avgPB_Click(object sender, RoutedEventArgs e)
+        {
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            int commodity = -1;
+            try
+            {
+                commodity = int.Parse(QText.Text);
+                if (commodity >= 10 | commodity < 0)
+                    output.Text = "bad commodity";
+                else
+                    output.Text = "avarge price of commodity "+commodity+" is: "+mc.avgPrice(commodity).ToString();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message.ToString();
+            }
+        }
+
+        private void minimumP_Checked(object sender, RoutedEventArgs e)
+        {
+           clearAllQueris();
+           QText.Visibility = System.Windows.Visibility.Visible;
+           minPB.Visibility = System.Windows.Visibility.Visible;
+            label5.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void avgP_Checked(object sender, RoutedEventArgs e)
+        {
+            clearAllQueris();
+            QText.Visibility = System.Windows.Visibility.Visible;
+            avgPB.Visibility = System.Windows.Visibility.Visible;
+            label5.Visibility = System.Windows.Visibility.Visible;
+        }
+        private void maximomP_Checked(object sender, RoutedEventArgs e)
+        {
+            clearAllQueris();
+            QText.Visibility = System.Windows.Visibility.Visible;
+            maxPB.Visibility = System.Windows.Visibility.Visible;
+            label5.Visibility = System.Windows.Visibility.Visible;
 
         }
     }
