@@ -147,10 +147,13 @@
     <Resource Include="pline.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Money.wav" />
+    <Resource Include="safe.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Money.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
