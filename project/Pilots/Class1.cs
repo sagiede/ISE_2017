@@ -203,20 +203,9 @@ namespace Pilots
 
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            int numOfStocks = ((MarketUserData)mc.SendQueryUserRequest()).commodities.ElementAt(bestCommodity).Value;
-            Console.WriteLine(numOfStocks);
-
-            if (numOfStocks > 0 && bestSellPrice != 0)
-            {
-                mc.SendSellRequest((int)bestSellPrice, bestCommodity, numOfStocks);
-                actions += "Sold " + numOfStocks + " of commodity "
-                        + bestCommodity + " for " + (int)bestSellPrice 
-                        + " per share, approximate profit: " + bestProfit*100 + "%\n";
-            }
-
             double funds = ((MarketUserData)mc.SendQueryUserRequest()).funds;
 
-            for (int i = 4; i < 6; i++)
+            for (int i = 4; i < 10; i++)
             {
                 float sellPrice = LogicLayer.History.getTodaysRecommendedSellPrice(i);
                 float buyPrice = LogicLayer.History.getTodaysRecommendedBuyPrice(i);
@@ -229,7 +218,7 @@ namespace Pilots
                     bestSellPrice = sellPrice;
                 }    
             }
-            mc.SendBuyRequest((int)bestBuyPrice, bestCommodity, (int)(funds / 10 / bestBuyPrice));
+            mc.SendBuyRequest((int)bestBuyPrice, bestCommodity, (int)(funds / 20 / bestBuyPrice));
             actions += "Bought " + (int)(funds / 10 / bestBuyPrice) + " of commodity " 
                         + bestCommodity + " for " + (int)bestBuyPrice + " per share\n";
         }
@@ -241,7 +230,7 @@ namespace Pilots
         public static MarketClientConnection mc = new MarketClientConnection();
         private static Boolean act = false;
         private static Boolean activated = false;
-        private static int[] prices = { 0, 0, 0, 0, 11, 12, 15, 18, 18, 19 };
+        private static int[] prices = { 0, 0, 0, 0, 11, 13, 16, 0, 0, 19 };
 
         public static void runPilot()
         {
@@ -262,7 +251,7 @@ namespace Pilots
             for (int i = 4; i < 10; i++)
             {
                 int num = tmp.commodities.ElementAt(i).Value;
-                if (num != 0)
+                if (num != 0 && prices[i] != 0)
                 {
                     mc.SendSellRequest(prices[i], i, num);
                     Console.WriteLine(i + " " + prices[i] + " " + num);

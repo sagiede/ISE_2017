@@ -88,7 +88,7 @@ namespace gui
         //action of auto Pilot Button Click
         private void autoPilotButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //change
             //sound
             output.Text = "";
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
@@ -255,7 +255,7 @@ namespace gui
         {
             output.Text = "";
             clearAllQueris();
-            exportB.Visibility= System.Windows.Visibility.Visible;
+            exportB.Visibility = System.Windows.Visibility.Visible;
             userQButton.Visibility = System.Windows.Visibility.Visible;
 
 
@@ -271,7 +271,6 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
-            cancelAllCommit.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
@@ -354,30 +353,7 @@ namespace gui
                 output.Text = e1.Message;
             }
         }
-        // cancel all commit 
-        private void cancelAllCommit_Click(object sender, RoutedEventArgs e)
-        {
-            output.Text = "";
-            MessageBox.Show("it will take a moment..");
-            try
-            {
-                LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
-                Boolean response = mc.cancelAllRequests();
-                output.Text = "all request canceld";
-            }
-            catch (Exception e1)
-            {
 
-                output.Text = e1.Message;
-            }
-
-        }
-        // cancel all radio button
-        private void cancelAllButton_Checked(object sender, RoutedEventArgs e)
-        {
-            clearAllQueris();
-            cancelAllCommit.Visibility = System.Windows.Visibility.Visible;
-        }
         // semi-pilot buy start
         private void semiPilotSubmmitBuy(object sender, RoutedEventArgs e)
         {
@@ -602,15 +578,41 @@ namespace gui
             }
         }
 
-        private void clicked(object sender, RoutedEventArgs e)
+        private void chartClicked(object sender, RoutedEventArgs e)
         {
-            IQueryable<float> a =LogicLayer.History.getLastHourCommodityHistoryOrderedByDate(4);
-            
-            int i = 0;
-            foreach (float b in a)
-                if(i++ % 20 == 0)
-                    viewModel.Data.Collection.Add(new Point(i, b));
-            
+            try
+            {
+                InitializeComponent();
+                output.Text = "";
+                viewModel = new MyViewModel();
+                DataContext = viewModel;
+                int commodityNum = int.Parse(commodityForGraph.Text);
+                int index = comboBox.SelectedIndex;
+                output.Text += index + " " + commodityForGraph.Text;
+                IQueryable<float> a = LogicLayer.History.getCommodityHistoryOrderedByDate(commodityNum, index);
+                int pointsAmount = a.Count();
+                int modulu = 1;
+                if (pointsAmount > 50 & pointsAmount < 100)
+                    modulu = 2;
+                if (pointsAmount > 100 & pointsAmount < 300)
+                    modulu = 5;
+                if (pointsAmount > 300 & pointsAmount < 800)
+                    modulu = 10;
+                if (pointsAmount > 800 & pointsAmount < 3000)
+                    modulu = 20;
+                if (pointsAmount > 3000)
+                    modulu = 50;
+                int i = 0;
+                foreach (float b in a)
+                    if (i++ % modulu == 0)
+                        viewModel.Data.Collection.Add(new Point(i, b));
+            }
+            catch (Exception e4)
+            {
+                output.Text = e4.Message;
+            }
+
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -649,7 +651,11 @@ namespace gui
 
             }
         }
-    }
-    
-}
 
+        private void newAutoPilot_clicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+
+}

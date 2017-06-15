@@ -16,7 +16,8 @@ namespace project
 
         static void Main(string[] args)
         {
-            Pilots.tmpAutoPilot.runPilot();
+            // Pilots.tmpAutoPilot.runPilot();
+            LogicLayer.History.getCommodityHistoryOrderedByDate(8, 0);
             Console.ReadLine();
             //LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             //Console.WriteLine(Pilots.AutoPilot.act);

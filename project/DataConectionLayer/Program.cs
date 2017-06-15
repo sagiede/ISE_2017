@@ -251,18 +251,39 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
 
     public static class History
     {
-        public static IQueryable<float> getLastHourCommodityHistoryOrderedByDate(int commodity)
+        public static IQueryable<float> getCommodityHistoryOrderedByDate(int commodity, int time)
         {
+            IQueryable<float> list;
             HistoryDataContext dbContext = new HistoryDataContext();
-            IQueryable<float> list = from item in dbContext.items
-                                     where item.commodity == commodity
-                                       & item.timestamp.Day == DateTime.Today.Day
-                                       & item.timestamp.Month == DateTime.Today.Month
-                                     & item.timestamp.Hour == DateTime.Today.Hour
-                                     //& item.timestamp.Minute == DateTime.Today.Minute
-                                     orderby item.timestamp
-                                     select item.price;
-            
+
+            if (time == 0)
+            {
+                list = from item in dbContext.items
+                                         where item.commodity == commodity
+                                           & item.timestamp.Day == DateTime.Today.Day
+                                           & item.timestamp.Month == DateTime.Today.Month
+                                           & item.timestamp.Minute >= DateTime.Now.Hour - 5
+                                         orderby item.timestamp
+                                         select item.price;
+            }
+            else if(time == 1)
+            {
+                list = from item in dbContext.items
+                                         where item.commodity == commodity
+                                           & item.timestamp.Day == DateTime.Today.Day
+                                           & item.timestamp.Month == DateTime.Today.Month
+                                         orderby item.timestamp
+                                         select item.price;
+            }
+            else
+            {
+               list = from item in dbContext.items
+                                         where item.commodity == commodity
+                                           & item.timestamp.Day >= DateTime.Today.Day-3
+                                           & item.timestamp.Month == DateTime.Today.Month
+                                         orderby item.timestamp
+                                         select item.price;
+            }
             return list;
         }
 

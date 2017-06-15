@@ -15,12 +15,15 @@
             </LinearGradientBrush>
         </Grid.OpacityMask>
         <Label x:Name="label" Content="Welcome to AlgoTrading" HorizontalAlignment="Left" VerticalAlignment="Top" Height="41" Width="143" BorderBrush="Black" Margin="276,0,0,0"/>
-        <Button x:Name="auto_pilot" Content="Auto-pilot" HorizontalAlignment="Left" Height="39" Margin="727,0,0,0" VerticalAlignment="Top" Width="78" Click="autoPilotButton_Click" FontWeight="Bold">
+        <Button x:Name="newPilot" Content="Risk Pilot" HorizontalAlignment="Left" Margin="637,0,0,0" VerticalAlignment="Top" Width="79" Height="39" FontWeight="Bold" Click="newAutoPilot_clicked">
             <Button.Background>
                 <ImageBrush ImageSource="pline.jpg"/>
             </Button.Background>
         </Button>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="408" VerticalAlignment="Top" Width="413" Margin="0,30,0,0"  RenderTransformOrigin="0.49,0.539" Visibility="Visible">
+        <Button x:Name="auto_pilot" Content="Safe pilot" HorizontalAlignment="Left" Height="39" Margin="727,0,0,0" VerticalAlignment="Top" Width="78" Click="autoPilotButton_Click" FontWeight="Bold">
+            
+        </Button>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="408" VerticalAlignment="Top" Width="413" Margin="0,30,0,0"  RenderTransformOrigin="0.49,0.539" Visibility="Visible" Background="#FFD7D7D7">
             <TabItem x:Name="buy" Header="Buy" Height="25" VerticalAlignment="Top" Margin="-2,2,2,-2" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -41,7 +44,7 @@
                     <Button x:Name="buyButton" Content="Commit" Grid.Column="1" HorizontalAlignment="Left" Margin="29,190,0,0" VerticalAlignment="Top" Width="75" Click="buyButton_Click" Grid.ColumnSpan="2" Height="20"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="sell" Header="Sell" Margin="-4.667,-0.333,5,0.667" Visibility="Visible" Height="25">
+            <TabItem x:Name="sell" Header="Sell" Margin="-2.667,1.667,3,-1.333" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5">
                     <TextBox x:Name="commodityT" HorizontalAlignment="Left" Height="23" Margin="114,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.231,0.42"/>
                     <TextBox x:Name="priceT" HorizontalAlignment="Left" Height="23" Margin="114,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.725,-0.246"/>
@@ -69,7 +72,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="historyByDate" Header="buy history by date" HorizontalAlignment="Left" Width="117" Margin="-71.333,-0.333,0,0" Visibility="Visible" Height="25" VerticalAlignment="Top">
+            <TabItem x:Name="historyByDate" Header="Buying history" HorizontalAlignment="Right" Width="117" Margin="-71.667,-0.333,83.333,0" Visibility="Visible" Height="25" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5" Margin="0,0,-16.667,0.333">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="263*"/>
@@ -80,32 +83,32 @@
                     <Label x:Name="label2" Content="date start:" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label4" Content="date end:" HorizontalAlignment="Left" Margin="217,29,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
 
-                    <DataGrid x:Name="historyDateDataGrid" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top" Height="197" Width="404" Grid.ColumnSpan="2"/>
+                    <DataGrid x:Name="historyDateDataGrid" HorizontalAlignment="Left" Margin="4,142,0,0" VerticalAlignment="Top" Height="197" Width="404" Grid.ColumnSpan="2"/>
                     <Button x:Name="historyByDateB" Content="submmit" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" Width="75" Click="historyByDateB_Click"/>
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="sellHistoryByDate" Header="sell history by date" HorizontalAlignment="Left" Width="117" Margin="-84.333,-0.333,0,0" Visibility="Visible" Height="25" VerticalAlignment="Top">
+            <TabItem x:Name="sellHistoryByDate" Header="Selling history" HorizontalAlignment="Left" Width="117" Margin="-84.333,-0.333,0,0" Visibility="Visible" Height="25" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5" Margin="0,0,-16.667,0.333">
                     <DatePicker x:Name="dateStartS" HorizontalAlignment="Left" Margin="78,31,0,0" VerticalAlignment="Top"/>
                     <DatePicker x:Name="dateEndS" HorizontalAlignment="Left" Margin="281,30,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label22" Content="date start:" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label42" Content="date end:" HorizontalAlignment="Left" Margin="217,29,0,0" VerticalAlignment="Top"/>
 
-                    <DataGrid x:Name="SellhistoryDateDataGrid" HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" Height="220" Width="404"/>
+                    <DataGrid x:Name="SellhistoryDateDataGrid" HorizontalAlignment="Left" Margin="4,119,0,0" VerticalAlignment="Top" Height="220" Width="404"/>
                     <Button x:Name="SellhistoryByDateB" Content="submmit" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" Width="75" Click="SellhistoryByDateB_Click"/>
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="queries" Header="Queries" Height="25" VerticalAlignment="Top" Margin="260,1.667,-260.667,-1.333" Visibility="Visible">
+            <TabItem x:Name="queries" Header="Queries" Height="25" VerticalAlignment="Top" Margin="244,0.667,-244.333,-0.333" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="127*"/>
                         <ColumnDefinition Width="171*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton x:Name="userQRadioButton" Content="User query" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Checked="userQRadioButton_Checked"/>
-                    <RadioButton x:Name="marketQRadioButton" Content="Market status" HorizontalAlignment="Left" Margin="92,18,0,0" VerticalAlignment="Top" Checked="marketQRadioButton_Checked" Grid.ColumnSpan="2"/>
-                    <RadioButton x:Name="buySellQRadioButton" Content="Buy/Sell query" HorizontalAlignment="Left" Margin="151,43,0,0" VerticalAlignment="Top" Checked="buySellQRadioButton_Checked" Grid.ColumnSpan="2"/>
+                    <RadioButton x:Name="userQRadioButton" Content="User query" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Checked="userQRadioButton_Checked"/>
+                    <RadioButton x:Name="marketQRadioButton" Content="Market status" HorizontalAlignment="Left" Margin="102,20,0,0" VerticalAlignment="Top" Checked="marketQRadioButton_Checked" Grid.ColumnSpan="2"/>
+                    <RadioButton x:Name="buySellQRadioButton" Content="Buy/Sell query" HorizontalAlignment="Left" Margin="32.667,21,0,0" VerticalAlignment="Top" Checked="buySellQRadioButton_Checked" Grid.Column="1"/>
                     <TextBox x:Name="marketQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed" Grid.ColumnSpan="2"/>
                     <Label x:Name="labeId2" Content="commodity: " HorizontalAlignment="Left" Margin="33,63,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
                     <Button x:Name="userQButton"  Content="submit" HorizontalAlignment="Left" Margin="108,167,0,0" VerticalAlignment="Top" Width="75" Visibility="Collapsed" Click="userQButton_Click" Height="21" Grid.ColumnSpan="2"/>
@@ -113,13 +116,11 @@
                     <Button x:Name="BuySellQButton" Content="submit" HorizontalAlignment="Left" Margin="108,162,0,0" VerticalAlignment="Top" Width="75" Visibility="Collapsed" Click="BuySellQButton_Click" Grid.ColumnSpan="2"/>
                     <Label x:Name="labelId1" Content="id: " HorizontalAlignment="Left" Margin="33,63,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
                     <TextBox x:Name="buySellQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed" Grid.ColumnSpan="2"/>
-                    <RadioButton x:Name="cancelAllButton" Content="Cancel all requests" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Visibility="Visible" Checked="cancelAllButton_Checked" Grid.ColumnSpan="2"/>
-                    <Button x:Name="cancelAllCommit" Content="submmit" HorizontalAlignment="Left" Margin="108,167,0,0" VerticalAlignment="Top" Width="75" Visibility="Collapsed" Click="cancelAllCommit_Click" Grid.ColumnSpan="2"/>
                     <Button x:Name="exportB" Content="export it to PDF!" HorizontalAlignment="Left" Margin="11,261,0,0" VerticalAlignment="Top" Width="116" Height="41" Click="button_Click" Visibility="Collapsed" Background="#FFFE2E2E"/>
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SemiAutoBuy" Header="Semi Pilot-Buy" HorizontalAlignment="Left" Width="96" Margin="-78,-1.333,0,0.667" Visibility="Visible" Height="25">
+            <TabItem x:Name="SemiAutoBuy" Header="Semi Pilot-Buy" HorizontalAlignment="Left" Width="96" Margin="-63.667,-1.333,0,0.667" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0">
                     <Button x:Name="semiStartBuy" Content="Start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiPilotSubmmitBuy"/>
                     <TextBox x:Name="commoditySPTextBuy" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
@@ -131,7 +132,7 @@
                     <Button x:Name="semiStopBuy" Content="stop" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopBuy_Click" Visibility="Collapsed"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="-99,1.667,0,-1.333" Visibility="Visible" Height="25">
+            <TabItem x:Name="SemiAutoSell" Header="Semi Pilot Sell" HorizontalAlignment="Left" Width="93" Margin="-72.667,-0.333,0,0.667" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5" Margin="0,-3,-5,0.333">
                     <Button x:Name="semiStartSell" Content="Start" HorizontalAlignment="Left" Margin="96,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStartSell_Click" Visibility="Visible"/>
                     <TextBox x:Name="commoditySPTextSell" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
@@ -143,7 +144,7 @@
                     <Button x:Name="semiStopSell" Content="stop" HorizontalAlignment="Left" Margin="109,196,0,0" VerticalAlignment="Top" Width="75" Click="semiStopSell_Click" Visibility="Collapsed" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="history" Header="History" HorizontalAlignment="Right" Width="79" Margin="-94,1,94,-1" Visibility="Visible" Height="25">
+            <TabItem x:Name="history" Header="History" HorizontalAlignment="Right" Width="70" Margin="-78,-0.333,91.333,0.667" Visibility="Visible" Height="25">
                 <Grid Background="#FFE5E5E5" Margin="0,0,-14.667,-11.667">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="91*"/>
@@ -156,15 +157,25 @@
                     <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="15,80,0,0" VerticalAlignment="Top" Height="236" Width="387"  Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Chart" Header="Chart" HorizontalAlignment="Right" Width="79" Margin="-7,3,8,-3" Visibility="Visible" Height="25">
+            <TabItem x:Name="Chart" Header="Charts" HorizontalAlignment="Right" Width="68" Margin="-38.333,-0.333,42.333,0.667" Visibility="Visible" Height="25">
                 <Grid>
-                    
-                    <d3:ChartPlotter>
+
+                    <d3:ChartPlotter Margin="0,55,0.333,0.333">
                         <d3:LineGraph DataSource="{Binding Data}"></d3:LineGraph>
                     </d3:ChartPlotter>
-                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="174,10,0,0" VerticalAlignment="Top" Width="75" Click="clicked"/>
+                    <Button x:Name="submitGraph" Content="Submit" HorizontalAlignment="Left" Margin="304,15,0,0" VerticalAlignment="Top" Width="75" Click="chartClicked"/>
+                    <TextBlock x:Name="commodityBlock" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Commdoity:" VerticalAlignment="Top" Margin="10,21,0,0"/>
+                    <TextBox x:Name="commodityForGraph" HorizontalAlignment="Left" Height="23" Margin="90,15,0,0" TextWrapping="Wrap" Background="LightGray" Text="" VerticalAlignment="Top" Width="41"/>
+                    <ComboBox x:Name="comboBox" Margin="146,16,154.333,314.333" >
+                        <ComboBoxItem Content="Last hour" />
+                        <ComboBoxItem Content="Last day" />
+                        <ComboBoxItem Content="Last 3 days" />
+                    </ComboBox>
+                    <TextBlock x:Name="StockPrice" HorizontalAlignment="Left" Margin="45,66,0,0" TextWrapping="Wrap" Text="Stock Price" VerticalAlignment="Top" FontWeight="Bold" FontSize="13"/>
+                    <TextBlock x:Name="StockAmount" HorizontalAlignment="Left" Margin="269,291,0,0" TextWrapping="Wrap" Text="Transactions Amount" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Width="138" Height="16"/>
                 </Grid>
             </TabItem>
+
         </TabControl>
         <TextBox x:Name="output" HorizontalAlignment="Left" Height="352" Margin="423,86,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="382"/>
         <TextBox x:Name="time" HorizontalAlignment="Left" Height="23" Margin="5,2,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" BorderBrush="#FFD9D8D6" Background="#FFD9D8D6" SelectionBrush="#FFD9D8D6"/>
