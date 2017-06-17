@@ -227,26 +227,41 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
        public float maxPrice(int commodity)
         {
             HistoryDataContext histo = new HistoryDataContext();
-          
+            float num = float.MinValue;
             IQueryable<float> max = from item in histo.items where item.commodity == commodity select item.price ;
-            float num = max.Max();
+            for (int i = 0; i < max.Count(); i = i + 100000)
+            {
+                if (max.ElementAt<float>(i) > num) num = max.ElementAt<float>(i);
+            }
+
             return num;
         }
         public float minPrice(int commodity)
         {
             HistoryDataContext histo = new HistoryDataContext();
-
+            float num = float.MaxValue;
             IQueryable<float> min = from item in histo.items where item.commodity==commodity select item.price;
-            float num = min.Min();
+            for (int i = 0; i < min.Count(); i = i + 100000)
+            {
+                if (min.ElementAt<float>(i) < num) num = min.ElementAt<float>(i);
+            }
+          
             return num;
         }
         public float avgPrice(int commodity)
         {
             HistoryDataContext histo = new HistoryDataContext();
-
+            int count=0;
+            float sum =0;
             IQueryable<float> avg = from item in histo.items where item.commodity == commodity select item.price;
-            float num = avg.Average();
-            return num;
+            for (int i = 0;i< avg.Count(); i = i + 100000)
+            {
+                sum += avg.ElementAt<float>(i);
+                count++;
+            }
+            sum = sum / count;
+           // float num = avg.Average();
+            return sum;
         }
 
     }
