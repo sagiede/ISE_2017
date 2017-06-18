@@ -563,7 +563,7 @@ namespace gui
             }
             catch (Exception e2)
             {
-                output.Text = "please select date";
+                output.Text = e2.Message;
             }
         }
 
@@ -581,7 +581,8 @@ namespace gui
             }
             catch (Exception e2)
             {
-                output.Text = "please select date";
+                
+                output.Text += e2.Message;
             }
         }
 
