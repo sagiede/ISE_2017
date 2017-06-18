@@ -16,8 +16,8 @@ namespace project
 
         static void Main(string[] args)
         {
-            // Pilots.tmpAutoPilot.runPilot();
-            LogicLayer.History.getCommodityHistoryOrderedByDate(8, 0);
+            Pilots.NewAutoPilot.runPilot();
+            //LogicLayer.History.getCommodityHistoryOrderedByDate(8, 0);
             Console.ReadLine();
             //LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection(); // response depend the input
             //Console.WriteLine(Pilots.AutoPilot.act);
@@ -48,11 +48,7 @@ namespace project
                 // want to cancel all the request
                 else if(command==5)
                 {
-                    if(mc.cancelAllRequests()==true)
-                    {
-                        Console.WriteLine("all your asks are canceled");
-                    }
-                    
+                                      
                 }
                 else if (command == 4)
                 {

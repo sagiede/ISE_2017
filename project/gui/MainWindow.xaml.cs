@@ -50,6 +50,7 @@ namespace gui
         private static Timer timerPliot = new Timer(1053); // timer of auto pilot
         private static Timer timerSemiPliot = new Timer(1053); // timer of auto pilot
         private static Timer theTimeNow = new Timer(1000); // timer of show time
+        private static int timerNumber;
         public MyViewModel viewModel;
 
         public MainWindow()
@@ -98,6 +99,7 @@ namespace gui
 
             if (isVisible) // first click
             {
+                timerNumber = 0;
                 ((Button)sender).Background = Brushes.Red;
                 ((Button)sender).Content = "Stop";
                 isVisible = false;
@@ -121,7 +123,7 @@ namespace gui
             }
             try
             {
-                Pilots.NewAutoPilot.runPilot();
+                Pilots.AutoPilot.runPilot();
             }
             catch (Exception e2)
             {
@@ -150,8 +152,10 @@ namespace gui
         {
             Dispatcher.Invoke(() =>
             {
-
-                output.Text = Pilots.NewAutoPilot.actions;
+                if(timerNumber == 1)
+                    output.Text = Pilots.NewAutoPilot.actions;
+                else
+                    output.Text = Pilots.AutoPilot.actions;
             });
         }
 
@@ -544,21 +548,10 @@ namespace gui
         private void historyByDateB_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
-            try
-            {
-                DateTime start = DateTime.Parse(dateStart.Text);
-
-                DateTime end = DateTime.Parse(dateEnd.Text);
-
-
-                LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
-                historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start, end);
-
-            }
-            catch (Exception e2)
-            {
-                output.Text = "please select date";
-            }
+            DateTime start = DateTime.Parse(dateStart.Text);
+            DateTime end = DateTime.Parse(dateEnd.Text);
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start, end);
         }
 
         private void SellhistoryByDateB_Click(object sender, RoutedEventArgs e)
@@ -655,8 +648,49 @@ namespace gui
 
         private void newAutoPilot_clicked(object sender, RoutedEventArgs e)
         {
+            output.Text = "";
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(); //media for pilot
+            player.SoundLocation = "Money.wav";
+            player.Load();
 
+            if (isVisible) // first click
+            {
+                timerNumber = 1;
+                ((Button)sender).Background = Brushes.Red;
+                ((Button)sender).Content = "Stop";
+                isVisible = false;
+                timerPliot.Enabled = true;
+                tabControl.Visibility = System.Windows.Visibility.Hidden;
+                moneypic.Visibility = System.Windows.Visibility.Visible;
+                player.Play();
+
+            }
+            else // seconed click
+            {
+                timerPliot.Enabled = false;
+                moneypic.Visibility = System.Windows.Visibility.Hidden;
+                player.Stop();
+                isVisible = true;
+                tabControl.Visibility = System.Windows.Visibility.Visible;
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Risk-pilot";
+            }
+            try
+            {
+                Pilots.NewAutoPilot.runPilot();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message;
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                ((Button)sender).Background = brush;
+                ((Button)sender).Content = "Auto-pilot";
+                tabControl.Visibility = System.Windows.Visibility.Visible;
+                moneypic.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
     }
-
 }
