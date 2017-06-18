@@ -101,7 +101,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="queries" Header="Queries" Height="25" VerticalAlignment="Top" Margin="244,0.667,-244.333,-0.333" Visibility="Visible">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Margin="0,0,-0.667,0.333">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="127*"/>
                         <ColumnDefinition Width="171*"/>
@@ -117,6 +117,14 @@
                     <Label x:Name="labelId1" Content="id: " HorizontalAlignment="Left" Margin="33,63,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
                     <TextBox x:Name="buySellQText" HorizontalAlignment="Left" Height="23" Margin="108,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed" Grid.ColumnSpan="2"/>
                     <Button x:Name="exportB" Content="export it to PDF!" HorizontalAlignment="Left" Margin="11,261,0,0" VerticalAlignment="Top" Width="116" Height="41" Click="button_Click" Visibility="Collapsed" Background="#FFFE2E2E"/>
+                    <RadioButton x:Name="maximomP" Content="Max Price" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Checked="maximomP_Checked"/>
+                    <RadioButton x:Name="minimumP" Content="Minimum Price" HorizontalAlignment="Left" Margin="102,49,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="minimumP_Checked"/>
+                    <RadioButton x:Name="avgP" Content="Avarege Price" Grid.Column="1" HorizontalAlignment="Left" Margin="33,48,0,0" VerticalAlignment="Top" Checked="avgP_Checked"/>
+                    <Button x:Name="maxPB" Content="submmit" HorizontalAlignment="Left" Margin="153,148,0,0" VerticalAlignment="Top" Width="75" Click="maxPB_Click" Visibility="Collapsed" Grid.ColumnSpan="2"/>
+                    <Button x:Name="minPB" Content="submmit" HorizontalAlignment="Left" Margin="153,146,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="minPB_Click" Visibility="Collapsed"/>
+                    <Button x:Name="avgPB" Content="submmit" HorizontalAlignment="Left" Margin="153,148,0,0" VerticalAlignment="Top" Width="75" Click="avgPB_Click" Visibility="Collapsed" Grid.ColumnSpan="2"/>
+                    <Label x:Name="label5" Content="commodity number:" HorizontalAlignment="Left" Margin="55,89,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
+                    <TextBox x:Name="QText" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10,93,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Collapsed"/>
 
                 </Grid>
             </TabItem>

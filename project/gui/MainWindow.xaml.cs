@@ -117,7 +117,7 @@ namespace gui
                 isVisible = true;
                 tabControl.Visibility = System.Windows.Visibility.Visible;
                 var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                brush.ImageSource = new BitmapImage(new Uri("safe.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
                 ((Button)sender).Content = "Safe-pilot";
             }
@@ -129,7 +129,7 @@ namespace gui
             {
                 output.Text = e2.Message;
                 var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                brush.ImageSource = new BitmapImage(new Uri("safe.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
                 ((Button)sender).Content = "Auto-pilot";
                 tabControl.Visibility = System.Windows.Visibility.Visible;
@@ -276,6 +276,11 @@ namespace gui
             MarketQButton.Visibility = System.Windows.Visibility.Hidden;
             userQButton.Visibility = System.Windows.Visibility.Hidden;
             BuySellQButton.Visibility = System.Windows.Visibility.Hidden;
+            label5.Visibility = System.Windows.Visibility.Hidden;
+            QText.Visibility = System.Windows.Visibility.Hidden;
+            minPB.Visibility = System.Windows.Visibility.Hidden;
+            maxPB.Visibility = System.Windows.Visibility.Hidden;
+            avgPB.Visibility = System.Windows.Visibility.Hidden;
         }
         //market query  radio button
         private void MarketQButton_Click(object sender, RoutedEventArgs e)
@@ -430,6 +435,7 @@ namespace gui
             history.Visibility = System.Windows.Visibility.Hidden;
             SemiAutoSell.Visibility = System.Windows.Visibility.Hidden;
             sell.Visibility = System.Windows.Visibility.Hidden;
+            
         }
         // return items vissible
         public void returnAllForSemiBuy()
@@ -548,10 +554,21 @@ namespace gui
         private void historyByDateB_Click(object sender, RoutedEventArgs e)
         {
             output.Text = "";
-            DateTime start = DateTime.Parse(dateStart.Text);
-            DateTime end = DateTime.Parse(dateEnd.Text);
-            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
-            historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start, end);
+            try
+            {
+                DateTime start = DateTime.Parse(dateStart.Text);
+
+                DateTime end = DateTime.Parse(dateEnd.Text);
+
+
+                LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+                historyDateDataGrid.ItemsSource = mc1.getBuyHistoryByDate(start, end);
+
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message;
+            }
         }
 
         private void SellhistoryByDateB_Click(object sender, RoutedEventArgs e)
@@ -568,7 +585,8 @@ namespace gui
             }
             catch (Exception e2)
             {
-                output.Text = "please select date";
+                
+                output.Text += e2.Message;
             }
         }
 
@@ -607,7 +625,6 @@ namespace gui
                 output.Text = e4.Message;
             }
         }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -638,7 +655,7 @@ namespace gui
                 }
                 catch (Exception e1)
                 {
-                    output.Text = e1.Message;
+                    output.Text = e1.Message.ToString();
                 }
 
 
@@ -690,6 +707,87 @@ namespace gui
                 tabControl.Visibility = System.Windows.Visibility.Visible;
                 moneypic.Visibility = System.Windows.Visibility.Hidden;
             }
+        }
+
+       
+
+        private void maxPB_Click(object sender, RoutedEventArgs e)
+        {
+          
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            int commodity = -1;
+            try
+            {
+                commodity = int.Parse(QText.Text);
+                if (commodity >= 10 | commodity < 0)
+                    output.Text = "bad commodity";
+                else
+                output.Text = "maximom  price of commodity " + commodity + " is: "+ mc.maxPrice(commodity).ToString();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message.ToString();
+            }
+        }
+
+        private void minPB_Click(object sender, RoutedEventArgs e)
+        {
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            int commodity = -1;
+            try
+            {
+                commodity = int.Parse(QText.Text);
+                if (commodity >= 10 | commodity < 0)
+                    output.Text = "bad commodity";
+                else
+                    output.Text = "minimum  price of commodity " + commodity + " is: "+mc.minPrice(commodity).ToString();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message.ToString();
+            }
+        }
+
+        private void avgPB_Click(object sender, RoutedEventArgs e)
+        {
+            LogicLayer.MarketClientConnection mc = new LogicLayer.MarketClientConnection();
+            int commodity = -1;
+            try
+            {
+                commodity = int.Parse(QText.Text);
+                if (commodity >= 10 | commodity < 0)
+                    output.Text = "bad commodity";
+                else
+                    output.Text = "avarge price of commodity "+commodity+" is: "+mc.avgPrice(commodity).ToString();
+            }
+            catch (Exception e2)
+            {
+                output.Text = e2.Message.ToString();
+            }
+        }
+
+        private void minimumP_Checked(object sender, RoutedEventArgs e)
+        {
+           clearAllQueris();
+           QText.Visibility = System.Windows.Visibility.Visible;
+           minPB.Visibility = System.Windows.Visibility.Visible;
+            label5.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void avgP_Checked(object sender, RoutedEventArgs e)
+        {
+            clearAllQueris();
+            QText.Visibility = System.Windows.Visibility.Visible;
+            avgPB.Visibility = System.Windows.Visibility.Visible;
+            label5.Visibility = System.Windows.Visibility.Visible;
+        }
+        private void maximomP_Checked(object sender, RoutedEventArgs e)
+        {
+            clearAllQueris();
+            QText.Visibility = System.Windows.Visibility.Visible;
+            maxPB.Visibility = System.Windows.Visibility.Visible;
+            label5.Visibility = System.Windows.Visibility.Visible;
+
         }
     }
 }

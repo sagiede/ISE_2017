@@ -224,7 +224,35 @@ sybKv1Ahjdz9bcvIYbauBzJPjL7n1u68fGPXcaKYDzjo3w==
             }
             return true;
         }
-       
+       public float maxPrice(int commodity)
+        {
+            HistoryDataContext histo = new HistoryDataContext();
+            float num = 0;
+            IQueryable<float> max = from item in histo.items where item.commodity == commodity orderby item.timestamp descending select item.price ;
+            num = max.Take(100).Max();
+
+            return num;
+        }
+        public float minPrice(int commodity)
+        {
+            HistoryDataContext histo = new HistoryDataContext();
+            float num = 0;
+            IQueryable<float> min = from item in histo.items where item.commodity==commodity orderby item.timestamp descending select item.price;
+            num = min.Take(100).Min();
+            return num;
+        }
+        public float avgPrice(int commodity)
+        {
+            HistoryDataContext histo = new HistoryDataContext();
+           
+            float sum =0;
+            IQueryable<float> avg = from item in histo.items where item.commodity == commodity orderby item.timestamp descending select item.price ;
+            sum = avg.Take(100).Average();
+           
+            
+           // float num = avg.Average();
+            return sum;
+        }
 
     }
 

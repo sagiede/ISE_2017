@@ -46,10 +46,8 @@ namespace project
                 else if (command == 3)
                     cancelingProcces(mc);
                 // want to cancel all the request
-                else if(command==5)
-                {
-                                      
-                }
+               
+                
                 else if (command == 4)
                 {
                     Console.WriteLine("Which query would yo like to send?");
