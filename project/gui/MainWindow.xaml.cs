@@ -105,6 +105,7 @@ namespace gui
                 isVisible = false;
                 timerPliot.Enabled = true;
                 tabControl.Visibility = System.Windows.Visibility.Hidden;
+                newPilot.Visibility = System.Windows.Visibility.Hidden;
                 moneypic.Visibility = System.Windows.Visibility.Visible;
                 player.Play();
 
@@ -116,6 +117,7 @@ namespace gui
                 player.Stop();
                 isVisible = true;
                 tabControl.Visibility = System.Windows.Visibility.Visible;
+                newPilot.Visibility = System.Windows.Visibility.Visible;
                 var brush = new ImageBrush();
                 brush.ImageSource = new BitmapImage(new Uri("safe.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
@@ -134,6 +136,7 @@ namespace gui
                 ((Button)sender).Content = "Auto-pilot";
                 tabControl.Visibility = System.Windows.Visibility.Visible;
                 moneypic.Visibility = System.Windows.Visibility.Hidden;
+                newPilot.Visibility = System.Windows.Visibility.Visible;
             }
         }
         //timer of clock event
@@ -599,6 +602,8 @@ namespace gui
                 viewModel = new MyViewModel();
                 DataContext = viewModel;
                 int commodityNum = int.Parse(commodityForGraph.Text);
+                if (commodityNum < 0 || commodityNum > 9)
+                    throw new Exception("Bad commodity");
                 int index = comboBox.SelectedIndex;
                 IQueryable<float> a = LogicLayer.History.getCommodityHistoryOrderedByDate(commodityNum, index);
                 int pointsAmount = a.Count();
@@ -677,6 +682,7 @@ namespace gui
                 isVisible = false;
                 timerPliot.Enabled = true;
                 tabControl.Visibility = System.Windows.Visibility.Hidden;
+                auto_pilot.Visibility = System.Windows.Visibility.Hidden;
                 moneypic.Visibility = System.Windows.Visibility.Visible;
                 player.Play();
 
@@ -688,6 +694,7 @@ namespace gui
                 player.Stop();
                 isVisible = true;
                 tabControl.Visibility = System.Windows.Visibility.Visible;
+                auto_pilot.Visibility = System.Windows.Visibility.Visible;
                 var brush = new ImageBrush();
                 brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
@@ -705,6 +712,7 @@ namespace gui
                 ((Button)sender).Background = brush;
                 ((Button)sender).Content = "Auto-pilot";
                 tabControl.Visibility = System.Windows.Visibility.Visible;
+                auto_pilot.Visibility = System.Windows.Visibility.Visible;
                 moneypic.Visibility = System.Windows.Visibility.Hidden;
             }
         }
