@@ -119,7 +119,7 @@ namespace gui
                 var brush = new ImageBrush();
                 brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
-                ((Button)sender).Content = "Auto-pilot";
+                ((Button)sender).Content = "Safe-pilot";
             }
             try
             {
@@ -582,7 +582,6 @@ namespace gui
                 DataContext = viewModel;
                 int commodityNum = int.Parse(commodityForGraph.Text);
                 int index = comboBox.SelectedIndex;
-                output.Text += index + " " + commodityForGraph.Text;
                 IQueryable<float> a = LogicLayer.History.getCommodityHistoryOrderedByDate(commodityNum, index);
                 int pointsAmount = a.Count();
                 int modulu = 1;
@@ -594,8 +593,10 @@ namespace gui
                     modulu = 10;
                 if (pointsAmount > 800 & pointsAmount < 3000)
                     modulu = 20;
-                if (pointsAmount > 3000)
-                    modulu = 50;
+                if (pointsAmount > 3000 & pointsAmount < 10000)
+                    modulu = 100;
+                else
+                    modulu = 200;
                 int i = 0;
                 foreach (float b in a)
                     if (i++ % modulu == 0)
@@ -605,8 +606,6 @@ namespace gui
             {
                 output.Text = e4.Message;
             }
-
-
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
