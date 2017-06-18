@@ -115,7 +115,7 @@ namespace gui
                 isVisible = true;
                 tabControl.Visibility = System.Windows.Visibility.Visible;
                 var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                brush.ImageSource = new BitmapImage(new Uri("safe.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
                 ((Button)sender).Content = "Auto-pilot";
             }
@@ -127,7 +127,7 @@ namespace gui
             {
                 output.Text = e2.Message;
                 var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(new Uri("pline.jpg", UriKind.Relative));
+                brush.ImageSource = new BitmapImage(new Uri("safe.jpg", UriKind.Relative));
                 ((Button)sender).Background = brush;
                 ((Button)sender).Content = "Auto-pilot";
                 tabControl.Visibility = System.Windows.Visibility.Visible;
