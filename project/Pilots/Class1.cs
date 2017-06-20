@@ -179,7 +179,7 @@ namespace Pilots
         private static Boolean activated = false;
         public static String actions = "";
         private static int bestCommodity = 4;
-        private static float bestProfit = 0;
+        private static float bestProfit = 1;
         private static float[] profits;
         private static float[] buyingPrices;
         private static float[] sellingPrices;
