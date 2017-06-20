@@ -23,7 +23,7 @@ namespace NunitTest
         MarketClientConnection mc = new MarketClientConnection();
         int requestId;
 
-       /* [Test]
+        [Test]
         public void buyRequestTest()
         {
             requestId = mc.SendBuyRequest(1, 2, 10);            //send buy request (with low price)
@@ -49,17 +49,7 @@ namespace NunitTest
             MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreEqual(false, user.requests.Contains(requestId));      //check the request had canceled
         }
-        [Test]
-        public void cancelAllRequestTest()
-        {
-            mc.SendBuyRequest(1, 3, 10);
-            mc.SendBuyRequest(1, 4, 10);
-            mc.SendSellRequest(200, 5, 1);
-            mc.cancelAllRequests();
-            System.Threading.Thread.Sleep(2000);
-            MarketUserData user = (MarketUserData)mc.SendQueryUserRequest();
-            Assert.AreEqual(user.requests.Count, 0);        //check all requests had canceled
-        }
+
         //test that the semi pilot begins and stops when telling him to
         [Test]
         public void test1SemiPilot()
@@ -96,7 +86,7 @@ namespace NunitTest
             userData = (MarketUserData)mc.SendQueryUserRequest();
             Assert.AreNotEqual(myFunds, userData.funds);
         }
-        */
+        //test buy story by date
         [Test]
         public void testBuyHistoryByDate()
         {
@@ -107,6 +97,7 @@ namespace NunitTest
             int x = i1.Count();
             Assert.AreEqual(x, 2452);
         }
+        //test sell history by date
         [Test]
         public void testSellHistoryByDate()
         {
@@ -116,17 +107,19 @@ namespace NunitTest
             IQueryable<LogicLayer.item> i1 = mc1.getSellHistoryByDate(start, end);
             int x = i1.Count();
             Assert.AreEqual(x, 3253);
-            
+
         }
+        //test buy story
         [Test]
         public void testBuyHistory()
-        { 
+        {
             LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
             IQueryable<LogicLayer.item> i1 = mc1.getBuyHistory();
             int x = i1.Count();
             Boolean check = x > 10;
             Assert.AreEqual(true, check);
         }
+        //test sell history
         [Test]
         public void testSellBuyHistory()
         {
@@ -136,6 +129,33 @@ namespace NunitTest
             Boolean check = x > 10;
             Assert.AreEqual(true, check);
 
+        }
+        //test avarge minimon of commodity 4
+        [Test]
+        public void testMinimom()
+        {
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            float min = mc1.minPrice(4);
+            Boolean check = min > 0;
+            Assert.AreEqual(true, check);
+        }
+        //test avarge maximon price of commodity 4
+        [Test]
+        public void testAvg()
+        {
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            float avg = mc1.minPrice(4);
+            Boolean check = avg > 0;
+            Assert.AreEqual(true, check);
+        }
+        //test maximon price of commodity 4
+        [Test]
+        public void testMaximom()
+        {
+            LogicLayer.MarketClientConnection mc1 = new LogicLayer.MarketClientConnection();
+            float max = mc1.minPrice(4);
+            Boolean check = max > 0;
+            Assert.AreEqual(true, check);
         }
     }
 }

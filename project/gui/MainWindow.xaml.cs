@@ -601,10 +601,14 @@ namespace gui
                 output.Text = "";
                 viewModel = new MyViewModel();
                 DataContext = viewModel;
+                if(commodityForGraph.Text=="")
+                    throw new Exception("please insert commodity number");
                 int commodityNum = int.Parse(commodityForGraph.Text);
-                if (commodityNum < 0 || commodityNum > 9)
+                if (commodityNum < 0 | commodityNum > 9 )
                     throw new Exception("Bad commodity");
                 int index = comboBox.SelectedIndex;
+                if(index<0| index>2)
+                    throw new Exception("please insert time interval");
                 IQueryable<float> a = LogicLayer.History.getCommodityHistoryOrderedByDate(commodityNum, index);
                 int pointsAmount = a.Count();
                 int modulu = 1;
